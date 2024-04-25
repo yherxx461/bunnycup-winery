@@ -16,7 +16,7 @@ function LandingPage() {
     dispatch({ type: 'FETCH_INVENTORY' });
   }, []);
   const inventory = useSelector((store) => store.inventory.inventoryList);
-  console.log(inventory);
+  console.log('THIS IS THE INVENTORY', inventory);
 
   const onLogin = (event) => {
     history.push('/login');
