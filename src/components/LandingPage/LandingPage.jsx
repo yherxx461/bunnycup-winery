@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
+
+import {useDispatch, useSelector} from 'react-redux';
 
 // CUSTOM COMPONENTS
 import RegisterForm from '../RegisterForm/RegisterForm';
@@ -8,6 +10,13 @@ import RegisterForm from '../RegisterForm/RegisterForm';
 function LandingPage() {
   const [heading, setHeading] = useState('Welcome');
   const history = useHistory();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: 'FETCH_INVENTORY' });
+  }, []);
+  const inventory = useSelector((store) => store.inventory.inventoryList);
+  console.log(inventory);
 
   const onLogin = (event) => {
     history.push('/login');
