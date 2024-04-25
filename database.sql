@@ -28,9 +28,10 @@ CREATE TABLE "clients"(
 );
 
 CREATE TABLE "orders"(
-	"order_id" SERIAL PRIMARY KEY,
+	"id" SERIAL PRIMARY KEY,
 	"client_id" INT NOT NULL REFERENCES "clients",
 	"date" DATE,
+	"total_cost" DECIMAL,
 	"status_id" INT REFERENCES "status",
 	"checkout_discount" INT
 );
@@ -41,3 +42,4 @@ CREATE TABLE "wine_orders"(
 	"number_bottles" INT,
 	"unit_price" DECIMAL
 );
+
