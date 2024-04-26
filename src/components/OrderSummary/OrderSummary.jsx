@@ -56,29 +56,42 @@ function OrderSummary() {
           <h1>Order Summary Page</h1>
         </div>
       </div>
-      <div>
-        <p>Retailer info </p>
-        <p>Date:</p>
+      <div className="customerInfo">
+        {/*To Do: Retailer info includes Name, Address, contact info */}
+        <p className="date">Date:</p>
+        Retailer Name <br /> 
+        Address <br />
+        Phone <br />
+        Email <br />
       </div>
       <div>
         {/*To Do: set up Table with MUI */}
+        <h1>Table</h1>
         <TableContainer>
           <Table>
             <TableHead>
-               {/*To Do: Table headers needed are item, description, quantity, price, amount */}
+              {/*To Do: Table headers needed are item, description, quantity, price, amount */}
               <TableRow>
-                <TableCell>Table</TableCell>
+                <TableCell>Item</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Quantity</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell>Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Item</TableCell>
+                <TableCell>1.</TableCell>
+                <TableCell>Product Description</TableCell>
+                <TableCell>12</TableCell>
+                <TableCell>Unit Price</TableCell>
+                <TableCell>$120.00</TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
       </div>
-      <div>
+      <div className="total">
         <p>Total: $</p>
       </div>
     </>

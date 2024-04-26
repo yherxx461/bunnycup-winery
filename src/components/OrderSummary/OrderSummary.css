@@ -1,0 +1,15 @@
+.total {
+  text-align: right;
+  margin-right: 20px;
+}
+
+.customerInfo {
+  margin-left: 20px;
+  line-height: 150%;
+}
+
+.date {
+  display: inline;
+  float: right;
+  margin-right: 20px;
+}
