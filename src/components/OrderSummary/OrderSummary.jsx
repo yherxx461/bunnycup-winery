@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './OrderSummary.css';
+import Table from '@mui/material/Table';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import TableBody from '@mui/material/TableBody';
 
 function OrderSummary() {
-
   //dispatch hook
   const dispatch = useDispatch();
   const reducer = useSelector((store) => store.reducer);
-
 
   /*//Formatting Date
   const formatDate = (newDate) => {
@@ -40,8 +44,8 @@ function OrderSummary() {
     return `${replaceNewDateFormat}`;
   };*/
 
-   // Fetch orders on component mount
-   useEffect(() => {
+  // Fetch orders on component mount
+  useEffect(() => {
     dispatch({ type: 'FETCH_REDUCER' });
   }, [dispatch]);
 
@@ -57,7 +61,22 @@ function OrderSummary() {
         <p>Date:</p>
       </div>
       <div>
-        <p>Table</p>
+        {/*To Do: set up Table with MUI */}
+        <TableContainer>
+          <Table>
+            <TableHead>
+               {/*To Do: Table headers needed are item, description, quantity, price, amount */}
+              <TableRow>
+                <TableCell>Table</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell>Item</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
       <div>
         <p>Total: $</p>
