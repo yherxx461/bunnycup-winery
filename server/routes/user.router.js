@@ -20,16 +20,37 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 router.post('/register', (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
+  const client = {name: req.body.name,
+                  address: req.body.address,
+                  discount: req.body.discount,
+                  payment: req.body.payment}
 
-  const queryText = `INSERT INTO "user" ("email", "password")
-    VALUES ($1, $2) RETURNING id`;
-  pool
-    .query(queryText, [username, password])
-    .then(() => res.sendStatus(201))
-    .catch((err) => {
-      console.log('User registration failed: ', err);
-      res.sendStatus(500);
-    });
+  const userText = `INSERT INTO "user" ("email", "password", "access_level")
+    VALUES ($1, $2, $3) RETURNING id;`;
+  const clientText = `INSERT INTO "clients" ("user_id", "name", "email", "delivery_address", "discount", "payment_type")
+    VALUES ($1, $2, $3, $4, $5, $6);`;
+
+  if ("name" in req.body){
+    pool.query(userText, [username, password])
+    .then((result) => {
+      pool.query(clientText, [result.rows[0], client.name, username, client.address, client.discount, client.payment])
+      .then((result) => {res.sendStatus(201)})
+      .catch((error) => {
+        console.log('retailer table update failed: ', error)
+        res.sendStatus(500)})
+    })
+    .catch((error) => {
+      console.log('Retailer registration failed: ', error)
+      res.sendStatus(500)})
+  } else {
+    pool
+      .query(userText, [username, password, 10])
+      .then(() => res.sendStatus(201))
+      .catch((err) => {
+        console.log('User registration failed: ', err);
+        res.sendStatus(500);
+      });
+  };
 });
 
 // Handles login form authenticate/login POST
