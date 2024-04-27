@@ -52,45 +52,43 @@ function OrderSummary() {
   return (
     <>
       <div className="header">
-        <div>
-          <h1>Order Summary Page</h1>
-        </div>
+        <h1>Order #XXXXXX-1</h1>
       </div>
       <div className="customerInfo">
         {/*To Do: Retailer info includes Name, Address, contact info */}
+        <h3>Order Summary </h3>
         <p className="date">Date:</p>
-        Retailer Name <br /> 
+        Retailer Name <br />
         Address <br />
         Phone <br />
         Email <br />
       </div>
-      <div>
-        {/*To Do: set up Table with MUI */}
-        <h1>Table</h1>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              {/*To Do: Table headers needed are item, description, quantity, price, amount */}
-              <TableRow>
-                <TableCell>Item</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Quantity</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Amount</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>1.</TableCell>
-                <TableCell>Product Description</TableCell>
-                <TableCell>12</TableCell>
-                <TableCell>Unit Price</TableCell>
-                <TableCell>$120.00</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+
+      {/*To Do: set up Table with MUI */}
+      <TableContainer sx={{ margin: '0 auto', width: '80%' }}>
+        <Table>
+          <TableHead>
+            {/*To Do: Table headers needed are item, description, quantity, price, amount */}
+            <TableRow>
+              <TableCell>Item</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Amount</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>1.</TableCell>
+              <TableCell>Product Description</TableCell>
+              <TableCell>12</TableCell>
+              <TableCell>Unit Price</TableCell>
+              <TableCell>$120.00</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+
       <div className="total">
         <p>Total: $</p>
       </div>
