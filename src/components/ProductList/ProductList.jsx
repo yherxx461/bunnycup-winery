@@ -22,6 +22,9 @@ function ProductList() {
     dispatch({ type: 'FETCH_INVENTORY' });
   }, []);
 
+  // Missing quantity function
+  // Missing handleAddToCart function
+
   return (
     <div className="inventory-list" key={inventory.id}>
       <h1 className="product-list-title" align="center">
