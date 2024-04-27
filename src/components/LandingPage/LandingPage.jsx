@@ -15,7 +15,7 @@ import './LandingPage.css';
 import { useDispatch, useSelector } from 'react-redux';
 
 // CUSTOM COMPONENTS
-import LoginForm from '../LoginForm/LoginForm';
+// import LoginForm from '../LoginForm/LoginForm';
 
 function LandingPage() {
   const history = useHistory();
