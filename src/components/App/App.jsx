@@ -20,6 +20,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
 import './App.css';
+import UpdateUsers from '../UpdateUsers/UpdateUsers';
 
 function App() {
   const dispatch = useDispatch();
@@ -57,6 +58,14 @@ function App() {
             path="/info"
           >
             <InfoPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UpdateUsers Page else shows LoginPage
+            exact
+            path="/update"
+          >
+            <UpdateUsers />
           </ProtectedRoute>
 
           <Route
