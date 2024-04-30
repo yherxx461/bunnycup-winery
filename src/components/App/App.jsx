@@ -14,17 +14,18 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import UserPage from '../UserPage/UserPage';
-import InfoPage from '../InfoPage/InfoPage';
+// import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
 import './App.css';
+import UpdateUsers from '../UpdateUsers/UpdateUsers';
 
 function App() {
   const dispatch = useDispatch();
 
-  const user = useSelector(store => store.user);
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
@@ -38,13 +39,20 @@ function App() {
           {/* Visiting localhost:5173 will redirect to localhost:5173/home */}
           <Redirect exact from="/" to="/home" />
 
-
           {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:5173/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:5173/user */}
-          <ProtectedRoute
+          <Route
             // logged in shows UserPage else shows LoginPage
+            exact
+            path="/home"
+          >
+            <LandingPage />
+          </Route>
+
+          <ProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
             exact
             path="/user"
           >
@@ -52,11 +60,11 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
+            // logged in shows UpdateUsers Page else shows LoginPage
             exact
-            path="/info"
+            path="/update"
           >
-            <InfoPage />
+            <UpdateUsers />
           </ProtectedRoute>
 
           <Route
@@ -65,40 +73,35 @@ function App() {
           >
             {user.id ?
               // If the user is already logged in, 
+             
               // redirect to the /user page
-              <Redirect to="/user" />
-              :
+              <Redirect to="/home" />
+            ) : (
               // Otherwise, show the login page
               <LoginPage />
-            }
+            )}
           </Route>
 
-          <Route
-            exact
-            path="/registration"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/registration">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect them to the /user page
               <Redirect to="/user" />
-              :
+            ) : (
               // Otherwise, show the registration page
               <RegisterPage />
-            }
+            )}
           </Route>
 
-          <Route
-            exact
-            path="/home"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/home">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect them to the /user page
               <Redirect to="/user" />
-              :
+            ) : (
               // Otherwise, show the Landing page
               <LandingPage />
-            }
+            )}
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}
