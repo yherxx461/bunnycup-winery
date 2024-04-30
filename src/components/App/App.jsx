@@ -18,6 +18,8 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import AdminUserPage from '../AdminUserPage/AdminUserPage';
+import ClientInfoPage from '../ClientInfoPage/ClientInfoPage';
 
 import './App.css';
 
@@ -49,6 +51,22 @@ function App() {
             path="/user"
           >
             <UserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/admin_user"
+          >
+            <AdminUserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/client_info"
+          >
+            <ClientInfoPage />
           </ProtectedRoute>
 
           <ProtectedRoute
