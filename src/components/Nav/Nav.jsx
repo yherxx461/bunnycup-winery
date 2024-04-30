@@ -4,29 +4,34 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
 //npm install @fontsource/special-elite required
-import "@fontsource/special-elite";
+import '@fontsource/special-elite';
 
 function Nav() {
   const user = useSelector((store) => store.user);
 
   return (
     <div className="nav">
-      <Link to="/login">
+      <Link to="/home">
         <h2 className="nav-title">Bunnycup Winery</h2>
       </Link>
-      <div >
-        
-
+      <div>
+        {/* If no user is logged in, show these links */}
+        {!user.id && (
+          // If there's no user, show login/registration links
+          <Link className="navLink" to="/login">
+            Login
+          </Link>
+        )}
         {/* If a user is logged in, show these links */}
         {user.id && (
           <>
             <Link className="navLink" to="/user">
-              Home
+              User
             </Link>
 
-            <Link className="navLink" to="/info">
+            {/* <Link className="navLink" to="/info">
               Info Page
-            </Link>
+            </Link> */}
 
             <LogOutButton className="navLink" />
           </>
