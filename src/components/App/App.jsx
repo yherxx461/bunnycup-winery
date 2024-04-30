@@ -20,6 +20,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
 import './App.css';
+import UpdateUsers from '../UpdateUsers/UpdateUsers';
 
 function App() {
   const dispatch = useDispatch();
@@ -58,9 +59,21 @@ function App() {
             <UserPage />
           </ProtectedRoute>
 
-          <Route exact path="/login">
-            {user.id ? (
-              // If the user is already logged in,
+          <ProtectedRoute
+            // logged in shows UpdateUsers Page else shows LoginPage
+            exact
+            path="/update"
+          >
+            <UpdateUsers />
+          </ProtectedRoute>
+
+          <Route
+            exact
+            path="/login"
+          >
+            {user.id ?
+              // If the user is already logged in, 
+             
               // redirect to the /user page
               <Redirect to="/home" />
             ) : (
