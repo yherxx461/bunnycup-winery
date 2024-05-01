@@ -67,13 +67,10 @@ function App() {
             <UpdateUsers />
           </ProtectedRoute>
 
-          <Route
-            exact
-            path="/login"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-             
+          <Route exact path="/login">
+            {user.id ? (
+              // If the user is already logged in,
+
               // redirect to the /user page
               <Redirect to="/home" />
             ) : (
