@@ -55,3 +55,18 @@ CREATE TABLE "wines"(
 	"sku" VARCHAR(50) PRIMARY KEY,
 	"image" VARCHAR(100) NOT NULL
 	);
+
+--This query will set up the wines template information--
+INSERT INTO "wines" ("sku", "image")
+VALUES ('FBOMB', '/images/fbomb.png'),
+		('JUSTBC', '/images/justbc.png'),
+		('RBF', '/images/rbf.png'),
+		('TOTALBS', '/images/totalbs.png'),
+		('FARMRED', '/images/farmred.png'),
+		('LAKELIFE', '/images/lakelife.png'),
+		('LUCKYDAYS', '/images/luckydays.png'),
+		('SNOWRED', '/images/snowred.png'),
+		('WAITWHAT', '/images/waitwhat.png'),
+		('FARMWHITE', '/images/farmwhite.png'),
+		('SUMMERTIME', '/images/summertime.png'),
+		('SUNSHINE', '/images/sunshine.png');
