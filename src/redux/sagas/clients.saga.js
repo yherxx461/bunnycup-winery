@@ -1,21 +1,22 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
-function* fetchClients (action) {
+export function* fetchAllClients() {
     try {
-        //get the clients
-        const clientsResponse = yield axios.get(`/api/clients/`);
-        //put the clients data in its reducer
-        // console.log('THIS IS THE CLIENTS RESPONSE:', clientsResponse.data);
-        yield put({ type: 'SET_CLIENTS', payload: clientsResponse.data });
+      // Get the students:
+      const clientResponse = yield axios.get('/api/clients');
+      // Set the value of the students reducer:
+      yield put({
+        type: 'SET_CLIENTS',
+        payload: clientResponse.data,
+      });
+    } catch (error) {
+      console.log('fetchAllClients error:', error);
     }
-    catch(err) {
-        console.log('fetchClients saga error:', err);
-    }
-}
-
-function* clientsSaga() {
-    yield takeLatest('FETCH_ALL_CLIENTS', fetchClients);
   }
 
+  function* clientsSaga() {
+    yield takeLatest('FETCH_CLIENTS', fetchAllClients);
+  }
+  
   export default clientsSaga;
