@@ -75,4 +75,27 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.put('/', (req, res) => {
+  const clientInfo = req.body;
+  const password = encryptLib.encryptPassword(req.body.password);
+  const updateQuery = `WITH "ins1" AS (
+                        UPDATE "user" SET "email" = $1, "password" = $2 WHERE "id" = $3
+                        RETURNING "id"
+                        ),
+                        "ins2" AS (
+                        UPDATE "clients" SET "name" = $4 "email" = $1, "discount" = $5, "payment_type" = $6 WHERE "user_id" IN (SELECT "id" FROM "ins1")
+                        RETURNING "id")
+                      UPDATE "client_address" SET "street" = $7, "city" = $8, "state" = $9, "zip" = $10 WHERE "client_id" IN (SELECT "id" FROM "ins2");`;
+
+  pool.query(updateQuery, [clientInfo.email, password, clientInfo.id, clientInfo.retailer, clientInfo.discount, clientInfo.paymentType, clientInfo.street, clientInfo.city, clientInfo.state, clientInfo.zip])
+  .then((result) => {
+    console.log('Client updated successfully');
+    res.sendStatus(200)
+  })
+  .catch((error) => {
+    console.log('Client update failed')
+    res.sendStatus(500)
+  })
+})
+
 module.exports = router;

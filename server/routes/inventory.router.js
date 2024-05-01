@@ -7,7 +7,7 @@ const axios = require('axios');
 router.get('/', async (req, res) => {
 try {
     //get the inventory from 3rd Party Winery Management System API
-    const inventory = await axios.get('https://wms.bunnycupwinery.com/api/whole_inv?key=pac5bb1ec7319fklsdf642194mms71823');
+    const inventory = await axios.get(`https://wms.bunnycupwinery.com/api/whole_inv?key=${process.env.INVENTORY_API_KEY}`);
     //console.log('THIS IS THE INVENTORY DATA', inventory.data);
     res.send(inventory.data.products)
 }
