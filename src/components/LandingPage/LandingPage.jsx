@@ -94,7 +94,7 @@ function LandingPage() {
             <TableBody>
               {inventory.map((item) => (
                 <TableRow
-                  key={item.id}
+                  key={item.sku}
                   className="product-list"
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
