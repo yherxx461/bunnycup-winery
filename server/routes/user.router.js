@@ -32,7 +32,7 @@ router.post('/register', (req, res, next) => {
                     VALUES ($1, $2, $3) RETURNING id;`;
   const clientText = `WITH "ins1" as (
                         INSERT INTO "user" ("email", "password", "access_level")
-                        VALUES ($1, $2, 1)
+                        VALUES ($1, $2, $3)
                         RETURNING "id"),
                         "ins2" AS (
                         INSERT INTO "clients" ("user_id", "name", "email", "discount", "payment_type")
@@ -42,7 +42,7 @@ router.post('/register', (req, res, next) => {
                       SELECT "id", $7, $8, $9, $10 FROM "ins2";`;
 
   if ("name" in req.body){
-    pool.query(clientText, [username, password, client.name, username, client.discount, client.payment, client.street, client.city, client.state, client.zip])
+    pool.query(clientText, [username, password, 1, client.name, username, client.discount, client.payment, client.street, client.city, client.state, client.zip])
     .then((result) => {
       res.sendStatus(200)
     })
