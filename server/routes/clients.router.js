@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 /**
  * POST route template
  */
-router.post('/', (req, res) => {
+router.post('/register', (req, res) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
   const client = {name: req.body.name,
