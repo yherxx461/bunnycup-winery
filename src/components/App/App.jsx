@@ -102,7 +102,6 @@ function App() {
             <UpdateUsers />
           </ProtectedRoute>
 
-
           <ProtectedRoute
             // logged in shows RegisterClient Page else shows LoginPage
             exact
