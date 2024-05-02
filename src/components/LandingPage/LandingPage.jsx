@@ -58,8 +58,7 @@ function LandingPage() {
           <Table
             sx={{ maxWidth: 1350 }}
             arial-label="simple table"
-            align="center"
-          >
+            align="center">
             <TableHead>
               <TableRow>
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
@@ -89,8 +88,7 @@ function LandingPage() {
                 </TableCell>
                 <TableCell
                   align="center"
-                  sx={{ verticalAlign: 'top' }}
-                ></TableCell>
+                  sx={{ verticalAlign: 'top' }}></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -99,6 +97,7 @@ function LandingPage() {
                 <TableRow
                   key={item.sku}
                   className="product-list"
+
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell align="center">
@@ -117,8 +116,7 @@ function LandingPage() {
                   <TableCell align="center">{item.sku}</TableCell>
                   <TableCell
                     align="center"
-                    style={{ whiteSpace: 'normal', wordWrap: 'break-words' }}
-                  >
+                    style={{ whiteSpace: 'normal', wordWrap: 'break-words' }}>
                     {item.teaser}
                   </TableCell>
                   <TableCell align="center">{item.category}</TableCell>
@@ -131,7 +129,8 @@ function LandingPage() {
                       variant="contained"
                       style={{ backgroundColor: 'white', color: 'black' }}
                       type="button"
-                      // onClick={() => handleAddToCart(item.sku)}
+
+                      onClick={() => handleAddToCart(item.sku)}
                     >
                       Add to Cart
                     </Button>
