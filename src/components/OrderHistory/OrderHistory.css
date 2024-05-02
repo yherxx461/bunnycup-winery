@@ -1,0 +1,32 @@
+.header {
+  text-align: center;
+}
+
+.listItem {
+  background-color: #e0e0e0;
+  max-width: 80%;
+  text-align: center;
+  margin: 10px auto;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+
+.orderHandle {
+  margin-left: 15px;
+}
+
+.button {
+  display: inline-flex;
+  margin-top: 10px;
+}
+
+.main {
+  margin-top: 50px;
+}
+
+.dateTotal {
+  text-align: left;
+  display: inline-flex;
+  margin-bottom: 15px;
+}
