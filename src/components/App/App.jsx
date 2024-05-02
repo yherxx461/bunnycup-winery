@@ -19,8 +19,15 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
+import OrderSummary from '../OrderSummary/OrderSummary';
+import OrderHistory from '../OrderHistory/OrderHistory';
+
+import AdminUserPage from '../AdminUserPage/AdminUserPage';
+import ClientInfoPage from '../ClientInfoPage/ClientInfoPage';
+
 import './App.css';
 import UpdateUsers from '../UpdateUsers/UpdateUsers';
+import RegisterClientPage from '../RegisterClientPage/RegisterClientPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -54,9 +61,40 @@ function App() {
           <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
-            path="/user"
-          >
+            path="/user">
             <UserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/admin_user"
+          >
+            <AdminUserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/client_info"
+          >
+            <ClientInfoPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/admin_user"
+          >
+            <AdminUserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/client_info"
+          >
+            <ClientInfoPage />
           </ProtectedRoute>
 
           <ProtectedRoute
@@ -67,13 +105,31 @@ function App() {
             <UpdateUsers />
           </ProtectedRoute>
 
-          <Route
+          <ProtectedRoute
+            // logged in shows RegisterClient Page else shows LoginPage
             exact
-            path="/login"
+            path="/register-new"
           >
+            <RegisterClientPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // Order Summary page
+            exact
+            path="/orderSummary">
+            <OrderSummary />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // Order History page
+            exact
+            path="/orderHistory">
+            <OrderHistory />
+          </ProtectedRoute>
+
+          <Route exact path="/login">
             {user.id ? (
-              // If the user is already logged in, 
-             
+              // If the user is already logged in,
               // redirect to the /user page
               <Redirect to="/home" />
             ) : (
@@ -88,6 +144,7 @@ function App() {
               // redirect them to the /user page
               <Redirect to="/user" />
             ) : (
+           
               // Otherwise, show the registration page
               <RegisterPage />
             )}
