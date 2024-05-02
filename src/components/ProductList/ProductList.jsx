@@ -35,7 +35,7 @@ function ProductList() {
       {/* Will need to make sure API get request is set up in the server side route -- Nate is currently working on this */}
       {inventory.map((item) => (
         <TableContainer
-          key={item.id}
+          key={item.sku}
           component={Paper}
           align="center"
           // justifyContent="center"
@@ -77,7 +77,7 @@ function ProductList() {
             </TableHead>
             <TableBody>
               <TableRow
-                key={item.id}
+                key={item.sku}
                 className="product-list"
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
@@ -96,7 +96,7 @@ function ProductList() {
                     size="small"
                     variant=""
                     type="button"
-                    onClick={() => handleAddToCart(item.id)}
+                    onClick={() => handleAddToCart(item.sku)}
                   >
                     Add to Cart
                   </Button>
