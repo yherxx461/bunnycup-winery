@@ -97,6 +97,7 @@ function LandingPage() {
                 <TableRow
                   key={item.sku}
                   className="product-list"
+
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell align="center">
@@ -128,7 +129,8 @@ function LandingPage() {
                       variant="contained"
                       style={{ backgroundColor: 'white', color: 'black' }}
                       type="button"
-                      // onClick={() => handleAddToCart(item.sku)}
+
+                      onClick={() => handleAddToCart(item.sku)}
                     >
                       Add to Cart
                     </Button>
