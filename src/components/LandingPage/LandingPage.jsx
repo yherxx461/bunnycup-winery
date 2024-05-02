@@ -8,7 +8,7 @@ import {
   TableRow,
   Button,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
 
@@ -23,13 +23,15 @@ function LandingPage() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: 'FETCH_INVENTORY' });
+    dispatch({ type: 'FETCH_IMAGES' });
   }, []);
   const inventory = useSelector((store) => store.inventory.inventoryList);
+  const imageList = useSelector((store) => store.inventory.imageList); // Lauren suggested calling this from the reducer, however, still not working.
   console.log('THIS IS THE INVENTORY', inventory);
 
-  const handleAddToCart = (id) => {
-    console.log('Add to cart:', id);
-  };
+  // const handleAddToCart = (sku) => {
+  //   console.log('Add to cart:', sku);
+  // };
 
   const onLogin = (event) => {
     history.push('/login');
@@ -90,12 +92,25 @@ function LandingPage() {
               </TableRow>
             </TableHead>
             <TableBody>
+              {/* {inventory.map((item, index) => (  // Lauren suggested putting index */}
               {inventory.map((item) => (
                 <TableRow
                   key={item.sku}
                   className="product-list"
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell align="center">Product Image</TableCell>
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell align="center">
+                    <img
+                      // filter through the wine.sku images to match inventory.sku of the inventory table
+                      src={
+                        imageList.filter((imageItem) => {
+                          return imageItem.sku === item.sku;
+                        })[0].image
+                      }
+                      alt={item.name}
+                      style={{ width: '100px', height: 'auto' }}
+                    />
+                  </TableCell>
                   <TableCell align="center">{item.name}</TableCell>
                   <TableCell align="center">{item.sku}</TableCell>
                   <TableCell
@@ -113,7 +128,8 @@ function LandingPage() {
                       variant="contained"
                       style={{ backgroundColor: 'white', color: 'black' }}
                       type="button"
-                      onClick={() => handleAddToCart(item.id)}>
+                      // onClick={() => handleAddToCart(item.sku)}
+                    >
                       Add to Cart
                     </Button>
                   </TableCell>
