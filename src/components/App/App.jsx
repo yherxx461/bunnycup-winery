@@ -20,6 +20,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import AdminUserPage from '../AdminUserPage/AdminUserPage';
 import ClientInfoPage from '../ClientInfoPage/ClientInfoPage';
+import ProductList from '../ProductList/ProductList';
 
 import './App.css';
 import UpdateUsers from '../UpdateUsers/UpdateUsers';
@@ -53,6 +54,14 @@ function App() {
           >
             <LandingPage />
           </Route>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/products"
+          >
+            <ProductList />
+          </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
@@ -110,10 +119,7 @@ function App() {
             <RegisterClientPage />
           </ProtectedRoute>
 
-          <Route
-            exact
-            path="/login"
-          >
+          <Route exact path="/login">
             {user.id ? (
               // If the user is already logged in,
 
