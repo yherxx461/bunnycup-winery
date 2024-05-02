@@ -1,9 +1,8 @@
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import {ThemeProvider} from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { primaryTheme } from "../App/App";
-
 
 import { useHistory } from "react-router-dom";
 import RegisterFormAdmin from "../RegisterFormAdmin/RegisterFormAdmin";
@@ -17,15 +16,20 @@ function RegisterPage() {
   return (
     <div>
       <ThemeProvider theme={primaryTheme}>
-      <RegisterFormAdmin />
-      <Stack spacing={2}>
-        <center>
-          <h4>Already Registered?</h4>
-          <Button variant="contained" color="pinot" onClick={onLogin}>
-            Login
-          </Button>
-        </center>
-      </Stack>
+        <RegisterFormAdmin />
+        <Stack spacing={2} margin={4}>
+          <center>
+            <h3>Already Registered?</h3>
+            <Button
+              size="medium"
+              variant="text"
+              color="pinot"
+              onClick={onLogin}
+            >
+              Login
+            </Button>
+          </center>
+        </Stack>
       </ThemeProvider>
     </div>
   );
