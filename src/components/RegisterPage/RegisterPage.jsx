@@ -19,7 +19,7 @@ function RegisterPage() {
         <RegisterFormAdmin />
         <Stack spacing={2} margin={4}>
           <center>
-            <h3>Already Registered?</h3>
+            <p>Already Registered?</p>
             <Button
               size="medium"
               variant="text"
