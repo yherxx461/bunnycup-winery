@@ -12,7 +12,7 @@ CREATE TABLE "status"(
 
 CREATE TABLE "user"(
 	"id" SERIAL PRIMARY KEY,
-	"email" VARCHAR(200) NOT NULL,
+	"email" VARCHAR(200) UNIQUE NOT NULL,
 	"password" VARCHAR(200) NOT NULL,
 	"access_level" INT
 );

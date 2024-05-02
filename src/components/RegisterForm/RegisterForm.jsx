@@ -20,17 +20,17 @@ function RegisterForm() {
     event.preventDefault();
 
     dispatch({
-      type: "REGISTER",
+      type: "REGISTER_CLIENT",
       payload: {
         username: username,
         password: password,
-        retailer: retailer,
+        name: retailer,
         street: street,
         city: city,
         state: state,
         zip: zip,
         discount: discount,
-        paymentType: paymentType,
+        payment: paymentType,
       },
     });
     Swal.fire({
