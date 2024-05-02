@@ -27,12 +27,6 @@ function LandingPage() {
   }, []);
   const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
-  console.log('THIS IS THE INVENTORY', inventory);
-  console.log('THIS IS THE WINE LIST', imageList);
-
-  // const handleAddToCart = (sku) => {
-  //   console.log('Add to cart:', sku);
-  // };
 
   const onLogin = (event) => {
     history.push('/login');
@@ -78,20 +72,9 @@ function LandingPage() {
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Category</h3>
                 </TableCell>
-                {/* <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Inventory</h3>
-                </TableCell> */}
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Retail Price</h3>
                 </TableCell>
-                {/* <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Quantity</h3>
-                  <p>(# of Bottles)</p>
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ verticalAlign: 'top' }}
-                ></TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -122,20 +105,7 @@ function LandingPage() {
                     {item.teaser}
                   </TableCell>
                   <TableCell align="center">{item.category}</TableCell>
-                  {/* <TableCell align="center">{item.inv_level}</TableCell> */}
                   <TableCell align="center">{item.retail_price}</TableCell>
-                  {/* <TableCell align="center">{item.quantity}</TableCell> */}
-                  {/* <TableCell align="center">
-                    <Button
-                      size="small"
-                      variant="contained"
-                      style={{ backgroundColor: 'white', color: 'black' }}
-                      type="button"
-                      // onClick={() => handleAddToCart(item.sku)}
-                    >
-                      Add to Cart
-                    </Button>
-                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
