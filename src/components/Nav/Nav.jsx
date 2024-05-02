@@ -39,6 +39,14 @@ function Nav() {
               Update Retailer
             </Link>
 
+            <Link className="navLink" to="/orderSummary">
+              Order Summary
+            </Link>
+
+            <Link className="navLink" to="/orderHistory">
+              Order History
+            </Link>
+
             <LogOutButton className="navLink" />
           </>
         )}
