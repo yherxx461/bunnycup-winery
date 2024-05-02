@@ -30,6 +30,7 @@ router.post('/register', (req, res, next) => {
     .catch((err) => {
       console.log('User registration failed: ', err);
       res.sendStatus(500);
+    });
 });
 
 // Handles login form authenticate/login POST
