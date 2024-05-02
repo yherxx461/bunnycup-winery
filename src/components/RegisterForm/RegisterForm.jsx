@@ -24,13 +24,13 @@ function RegisterForm() {
       payload: {
         username: username,
         password: password,
-        retailer: retailer,
+        name: retailer,
         street: street,
         city: city,
         state: state,
         zip: zip,
         discount: discount,
-        paymentType: paymentType,
+        payment: paymentType,
       },
     });
     Swal.fire({

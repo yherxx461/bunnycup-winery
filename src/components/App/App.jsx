@@ -18,6 +18,8 @@ import UserPage from '../UserPage/UserPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import AdminUserPage from '../AdminUserPage/AdminUserPage';
+import ClientInfoPage from '../ClientInfoPage/ClientInfoPage';
 
 import './App.css';
 import UpdateUsers from '../UpdateUsers/UpdateUsers';
@@ -61,6 +63,38 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/admin_user"
+          >
+            <AdminUserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/client_info"
+          >
+            <ClientInfoPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/admin_user"
+          >
+            <AdminUserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/client_info"
+          >
+            <ClientInfoPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
             // logged in shows UpdateUsers Page else shows LoginPage
             exact
             path="/update"
@@ -81,8 +115,8 @@ function App() {
             path="/login"
           >
             {user.id ? (
-              // If the user is already logged in, 
-             
+              // If the user is already logged in,
+
               // redirect to the /user page
               <Redirect to="/home" />
             ) : (

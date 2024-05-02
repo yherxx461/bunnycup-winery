@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     console.log('GET /api/clients');
     pool
-      .query('SELECT * from "clients";')
+      .query('SELECT * from "clients" ORDER BY "name";')
       .then((result) => {
         res.send(result.rows);
       })
