@@ -21,23 +21,30 @@ router.post('/register', (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
   const client = {name: req.body.name,
-                  address: req.body.address,
+                  street: req.body.street,
+                  city: req.body.city,
+                  state: req.body.state, 
+                  zip: req.body.zip,
                   discount: req.body.discount,
                   payment: req.body.payment}
 
   const userText = `INSERT INTO "user" ("email", "password", "access_level")
-    VALUES ($1, $2, $3) RETURNING id;`;
-  const clientText = `INSERT INTO "clients" ("user_id", "name", "email", "delivery_address", "discount", "payment_type")
-    VALUES ($1, $2, $3, $4, $5, $6);`;
+                    VALUES ($1, $2, $3) RETURNING id;`;
+  const clientText = `WITH "ins1" as (
+                        INSERT INTO "user" ("email", "password", "access_level")
+                        VALUES ($1, $2, 1)
+                        RETURNING "id"),
+                        "ins2" AS (
+                        INSERT INTO "clients" ("user_id", "name", "email", "discount", "payment_type")
+                        SELECT "id", $3, $4, $5, $6 FROM "ins1"
+                        RETURNING "id")
+                      INSERT INTO "client_address" ("client_id", "street", "city", "state", "zip")
+                      SELECT "id", $7, $8, $9, $10 FROM "ins2";`;
 
   if ("name" in req.body){
-    pool.query(userText, [username, password])
+    pool.query(clientText, [username, password, client.name, username, client.discount, client.payment, client.street, client.city, client.state, client.zip])
     .then((result) => {
-      pool.query(clientText, [result.rows[0], client.name, username, client.address, client.discount, client.payment])
-      .then((result) => {res.sendStatus(201)})
-      .catch((error) => {
-        console.log('retailer table update failed: ', error)
-        res.sendStatus(500)})
+      res.sendStatus(200)
     })
     .catch((error) => {
       console.log('Retailer registration failed: ', error)
@@ -67,5 +74,28 @@ router.post('/logout', (req, res) => {
   req.logout();
   res.sendStatus(200);
 });
+
+router.put('/', (req, res) => {
+  const clientInfo = req.body;
+  const password = encryptLib.encryptPassword(req.body.password);
+  const updateQuery = `WITH "ins1" AS (
+                        UPDATE "user" SET "password" = $1 WHERE "id" = $2
+                        RETURNING "id"
+                        ),
+                        "ins2" AS (
+                        UPDATE "clients" SET "name" = $3, "discount" = $4, "payment_type" = $5 WHERE "user_id" IN (SELECT "id" FROM "ins1")
+                        RETURNING "id")
+                      UPDATE "client_address" SET "street" = $6, "city" = $7, "state" = $8, "zip" = $9 WHERE "client_id" IN (SELECT "id" FROM "ins2");`;
+
+  pool.query(updateQuery, [password, clientInfo.id, clientInfo.retailer, clientInfo.discount, clientInfo.paymentType, clientInfo.street, clientInfo.city, clientInfo.state, clientInfo.zip])
+  .then((result) => {
+    console.log('Client updated successfully');
+    res.sendStatus(200)
+  })
+  .catch((error) => {
+    console.log('Client update failed')
+    res.sendStatus(500)
+  })
+})
 
 module.exports = router;
