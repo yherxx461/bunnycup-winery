@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './OrderSummary.css';
-import Table from '@mui/material/Table';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import TableBody from '@mui/material/TableBody';
 
 function OrderSummary() {
   //dispatch hook
@@ -65,29 +59,43 @@ function OrderSummary() {
       </div>
 
       {/*To Do: set up Table with MUI */}
-      <TableContainer sx={{ margin: '0 auto', width: '80%' }}>
-        <Table>
-          <TableHead>
+      <div className="container">
+        <table className="orderTable">
+          <thead style={{ borderTop: '1px solid' }}>
             {/*To Do: Table headers needed are item, description, quantity, price, amount */}
-            <TableRow>
-              <TableCell>Item</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Quantity</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Amount</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>1.</TableCell>
-              <TableCell>Product Description</TableCell>
-              <TableCell>12</TableCell>
-              <TableCell>Unit Price</TableCell>
-              <TableCell>$120.00</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+            <tr>
+              <td style={{ borderBottom: '1px solid' }}>Item</td>
+              <td style={{ borderBottom: '1px solid' }}>Description</td>
+              <td style={{ borderBottom: '1px solid' }}>Quantity</td>
+              <td style={{ borderBottom: '1px solid' }}>Price</td>
+              <td style={{ borderBottom: '1px solid' }}>Amount</td>
+            </tr>
+          </thead>
+          <tbody style={{ borderBottom: '1px solid' }}>
+            <tr>
+              <td>1.</td>
+              <td>Product Description</td>
+              <td>12</td>
+              <td>Unit Price</td>
+              <td>$120.00</td>
+            </tr>
+            <tr>
+              <td>2.</td>
+              <td>Product Description 2</td>
+              <td>24</td>
+              <td>Unit Price</td>
+              <td>$200.00</td>
+            </tr>
+            <tr>
+              <td>3.</td>
+              <td>Product Description 3</td>
+              <td>12</td>
+              <td>Unit Price</td>
+              <td>$99.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div className="total">
         <p>Total: $</p>

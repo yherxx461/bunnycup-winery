@@ -18,3 +18,24 @@
 .header {
   text-align: center;
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orderTable {
+  width: 80%; /* Set table width */
+  border-collapse: collapse; /* Collapse table borders */
+}
+
+.orderTable th,
+.orderTable td {
+  padding: 15px; /* Add padding to table cells */
+  text-align: center; /* Center text in table cells */
+}
+
+.orderTable th {
+  border-top: none; /* Remove top border from table header */
+}
