@@ -7,7 +7,10 @@ function RegisterForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [retailer, setRetailer] = useState("");
-  const [address, setAddress] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
   const [discount, setDiscount] = useState("");
   const [paymentType, setPaymentType] = useState("");
   const errors = useSelector((store) => store.errors);
@@ -17,14 +20,17 @@ function RegisterForm() {
     event.preventDefault();
 
     dispatch({
-      type: "REGISTER",
+      type: "REGISTER_CLIENT",
       payload: {
         username: username,
         password: password,
-        retailer: retailer,
-        address: address,
+        name: retailer,
+        street: street,
+        city: city,
+        state: state,
+        zip: zip,
         discount: discount,
-        paymentType: paymentType,
+        payment: paymentType,
       },
     });
     Swal.fire({
@@ -78,14 +84,50 @@ function RegisterForm() {
         </label>
       </div>
       <div>
-        <label htmlFor="address">
-          Delivery Address:
+        <label htmlFor="street">
+          Street Address:
           <input
-            type="address"
-            name="address"
-            value={address}
+            type="street"
+            name="street"
+            value={street}
             required
-            onChange={(event) => setAddress(event.target.value)}
+            onChange={(event) => setStreet(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="city">
+          City:
+          <input
+            type="city"
+            name="city"
+            value={city}
+            required
+            onChange={(event) => setCity(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="state">
+          State:
+          <input
+            type="state"
+            name="state"
+            value={state}
+            required
+            onChange={(event) => setState(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="zip">
+          Zip Code:
+          <input
+            type="zip"
+            name="zip"
+            value={zip}
+            required
+            onChange={(event) => setZip(event.target.value)}
           />
         </label>
       </div>

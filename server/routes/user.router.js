@@ -20,44 +20,16 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 router.post('/register', (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
-  const client = {name: req.body.name,
-                  street: req.body.street,
-                  city: req.body.city,
-                  state: req.body.state, 
-                  zip: req.body.zip,
-                  discount: req.body.discount,
-                  payment: req.body.payment}
 
   const userText = `INSERT INTO "user" ("email", "password", "access_level")
                     VALUES ($1, $2, $3) RETURNING id;`;
-  const clientText = `WITH "ins1" as (
-                        INSERT INTO "user" ("email", "password", "access_level")
-                        VALUES ($1, $2, $3)
-                        RETURNING "id"),
-                        "ins2" AS (
-                        INSERT INTO "clients" ("user_id", "name", "email", "discount", "payment_type")
-                        SELECT "id", $3, $4, $5, $6 FROM "ins1"
-                        RETURNING "id")
-                      INSERT INTO "client_address" ("client_id", "street", "city", "state", "zip")
-                      SELECT "id", $7, $8, $9, $10 FROM "ins2";`;
 
-  if ("name" in req.body){
-    pool.query(clientText, [username, password, 1, client.name, username, client.discount, client.payment, client.street, client.city, client.state, client.zip])
-    .then((result) => {
-      res.sendStatus(200)
-    })
-    .catch((error) => {
-      console.log('Retailer registration failed: ', error)
-      res.sendStatus(500)})
-  } else {
-    pool
-      .query(userText, [username, password, 10])
-      .then(() => res.sendStatus(201))
-      .catch((err) => {
-        console.log('User registration failed: ', err);
-        res.sendStatus(500);
-      });
-  };
+  pool
+    .query(userText, [username, password, 10])
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.log('User registration failed: ', err);
+      res.sendStatus(500);
 });
 
 // Handles login form authenticate/login POST
@@ -96,6 +68,11 @@ router.put('/', (req, res) => {
     console.log('Client update failed')
     res.sendStatus(500)
   })
+});
+
+router.delete('/:id', (req, res) => {
+  const deleteInfo = req.params.id;
+  const deleteQuery = ``
 })
 
 module.exports = router;
