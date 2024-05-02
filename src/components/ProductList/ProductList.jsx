@@ -49,6 +49,7 @@ function LandingPage() {
         {/* Map the Product List  */}
         {/* Will need to make sure API get request is set up in the server side route */}
         <TableContainer
+          key={item.sku}
           component={Paper}
           align="center"
           style={{ font: 'Montserrat' }}
@@ -93,49 +94,32 @@ function LandingPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {inventory.map((item) => (
-                <TableRow
-                  key={item.sku}
-                  className="product-list"
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="center">
-                    <img
-                      // filter through the wine.sku images to match inventory.sku of the inventory table
-                      src={
-                        imageList.filter((imageItem) => {
-                          return imageItem.sku === item.sku;
-                        })[0].image
-                      }
-                      alt={item.name}
-                      style={{ width: '100px', height: 'auto' }}
-                    />
-                  </TableCell>
-                  <TableCell align="center">{item.name}</TableCell>
-                  <TableCell align="center">{item.sku}</TableCell>
-                  <TableCell
-                    align="center"
-                    style={{ whiteSpace: 'normal', wordWrap: 'break-words' }}
+              <TableRow
+                key={item.sku}
+                className="product-list"
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell align="center">Product Image</TableCell>
+                <TableCell align="center" sx={{}}>
+                  {item.name}
+                </TableCell>
+                <TableCell align="center">{item.sku}</TableCell>
+                <TableCell align="center">{item.teaser}</TableCell>
+                <TableCell align="center">{item.category}</TableCell>
+                <TableCell align="center">{item.inv_level}</TableCell>
+                <TableCell align="center">{item.retail_price}</TableCell>
+                <TableCell align="center">{item.quantity}</TableCell>
+                <TableCell align="center">
+                  <Button
+                    size="small"
+                    variant=""
+                    type="button"
+                    onClick={() => handleAddToCart(item.sku)}
                   >
-                    {item.teaser}
-                  </TableCell>
-                  <TableCell align="center">{item.category}</TableCell>
-                  <TableCell align="center">{item.inv_level}</TableCell>
-                  <TableCell align="center">{item.retail_price}</TableCell>
-                  <TableCell align="center">{item.quantity}</TableCell>
-                  <TableCell align="center">
-                    <Button
-                      size="small"
-                      variant="contained"
-                      style={{ backgroundColor: 'white', color: 'black' }}
-                      type="button"
-                      onClick={() => handleAddToCart(item.sku)}
-                    >
-                      Add to Cart
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    Add to Cart
+                  </Button>
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
