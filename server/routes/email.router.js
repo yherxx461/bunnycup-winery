@@ -8,15 +8,15 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 router.post('/', async (req, res) => {
     try {
         const msg = { // Define the details of the email to be sent
-            to: 'test@example.com',
-            from: 'test@example.com', // Use the email address or domain you verified above
+            to: 'nateglewwe@gmail.com',
+            from: 'nateglewwe@gmail.com', // Use the email address or domain you verified above
             subject: 'Sending with Twilio SendGrid is Fun',
             text: 'and easy to do anywhere, even with Node.js',
             html: '<strong>and easy to do anywhere, even with Node.js</strong>',
           };
           //Send the email data to the Twilio SendGrid API
           const email = await sgMail.send(msg);
-          console.log('Email sent successfully, I think?');
+          console.log('This is the email API response, I think?', email);
           res.sendStatus(200)
     }
     catch (error) {
