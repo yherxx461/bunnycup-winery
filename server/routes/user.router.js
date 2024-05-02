@@ -23,6 +23,7 @@ router.post('/register', (req, res, next) => {
 
   const userText = `INSERT INTO "user" ("email", "password", "access_level")
                     VALUES ($1, $2, $3) RETURNING id;`;
+                  
 
   pool
     .query(userText, [username, password, 10])
@@ -30,6 +31,7 @@ router.post('/register', (req, res, next) => {
     .catch((err) => {
       console.log('User registration failed: ', err);
       res.sendStatus(500);
+    })
 });
 
 // Handles login form authenticate/login POST
