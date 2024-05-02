@@ -1,68 +1,129 @@
-import React, { useState } from 'react';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 // CUSTOM COMPONENTS
-import RegisterForm from '../RegisterForm/RegisterForm';
+// import LoginForm from '../LoginForm/LoginForm';
 
 function LandingPage() {
-  const [heading, setHeading] = useState('Welcome');
   const history = useHistory();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: 'FETCH_INVENTORY' });
+  }, []);
+  const inventory = useSelector((store) => store.inventory.inventoryList);
+  console.log('THIS IS THE INVENTORY', inventory);
+
+  const handleAddToCart = (id) => {
+    console.log('Add to cart:', id);
+  };
 
   const onLogin = (event) => {
     history.push('/login');
   };
 
   return (
-    <div className="container">
-      <h2>{heading}</h2>
-
-      <div className="grid">
-        <div className="grid-col grid-col_8">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            id felis metus. Vestibulum et pulvinar tortor. Morbi pharetra lacus
-            ut ex molestie blandit. Etiam et turpis sit amet risus mollis
-            interdum. Suspendisse et justo vitae metus bibendum fringilla sed
-            sed justo. Aliquam sollicitudin dapibus lectus, vitae consequat odio
-            elementum eget. Praesent efficitur eros vitae nunc interdum, eu
-            interdum justo facilisis. Sed pulvinar nulla ac dignissim efficitur.
-            Quisque eget eros metus. Vestibulum bibendum fringilla nibh a
-            luctus. Duis a sapien metus.
-          </p>
-
-          <p>
-            Praesent consectetur orci dui, id elementum eros facilisis id. Sed
-            id dolor in augue porttitor faucibus eget sit amet ante. Nunc
-            consectetur placerat pharetra. Aenean gravida ex ut erat commodo, ut
-            finibus metus facilisis. Nullam eget lectus non urna rhoncus
-            accumsan quis id massa. Curabitur sit amet dolor nisl. Proin
-            euismod, augue at condimentum rhoncus, massa lorem semper lacus, sed
-            lobortis augue mi vel felis. Duis ultrices sapien at est convallis
-            congue.
-          </p>
-
-          <p>
-            Fusce porta diam ac tortor elementum, ut imperdiet metus volutpat.
-            Suspendisse posuere dapibus maximus. Aliquam vitae felis libero. In
-            vehicula sapien at semper ultrices. Vivamus sed feugiat libero. Sed
-            sagittis neque id diam euismod, ut egestas felis ultricies. Nullam
-            non fermentum mauris. Sed in enim ac turpis faucibus pretium in sit
-            amet nisi.
-          </p>
-        </div>
-        <div className="grid-col grid-col_4">
-          <RegisterForm />
-
-          <center>
-            <h4>Already a Member?</h4>
-            <button className="btn btn_sizeSm" onClick={onLogin}>
-              Login
-            </button>
-          </center>
-        </div>
+    // <div>
+    //       <LoginForm />
+    //     </div>
+    <>
+      <div className="inventory-list" key={inventory.id}>
+        <h1 className="product-list-title" align="center">
+          Product List
+        </h1>
+        {/* TO-DO: Create a table with the Product List */}
+        {/* Map the Product List  */}
+        {/* Will need to make sure API get request is set up in the server side route -- Nate is currently working on this */}
+        <TableContainer
+          component={Paper}
+          align="center"
+          style={{ font: 'Montserrat' }}
+          // justifyContent="center"
+        >
+          <Table
+            sx={{ maxWidth: 1350 }}
+            arial-label="simple table"
+            align="center">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                  <h3>Product Image</h3>
+                </TableCell>
+                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                  <h3>Product Name</h3>
+                </TableCell>
+                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                  <h3>SKU #</h3>
+                </TableCell>
+                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                  <h3>Teaser</h3>
+                </TableCell>
+                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                  <h3>Category</h3>
+                </TableCell>
+                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                  <h3>Inventory</h3>
+                </TableCell>
+                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                  <h3>Retail Price</h3>
+                </TableCell>
+                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                  <h3>Quantity</h3>
+                  <p>(# of Bottles)</p>
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ verticalAlign: 'top' }}></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {inventory.map((item) => (
+                <TableRow
+                  key={item.sku}
+                  className="product-list"
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell align="center">Product Image</TableCell>
+                  <TableCell align="center">{item.name}</TableCell>
+                  <TableCell align="center">{item.sku}</TableCell>
+                  <TableCell
+                    align="center"
+                    style={{ whiteSpace: 'normal', wordWrap: 'break-words' }}>
+                    {item.teaser}
+                  </TableCell>
+                  <TableCell align="center">{item.category}</TableCell>
+                  <TableCell align="center">{item.inv_level}</TableCell>
+                  <TableCell align="center">{item.retail_price}</TableCell>
+                  <TableCell align="center">{item.quantity}</TableCell>
+                  <TableCell align="center">
+                    <Button
+                      size="small"
+                      variant="contained"
+                      style={{ backgroundColor: 'white', color: 'black' }}
+                      type="button"
+                      onClick={() => handleAddToCart(item.id)}>
+                      Add to Cart
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
-    </div>
+    </>
   );
 }
 

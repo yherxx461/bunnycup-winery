@@ -22,13 +22,21 @@ CREATE TABLE "clients"(
 	"user_id" INT REFERENCES "user",
 	"name" VARCHAR(100) NOT NULL,
 	"email" VARCHAR(200) NOT NULL,
-	"delivery_address" VARCHAR(200) NOT NULL,
 	"discount" INT,
 	"payment_type" VARCHAR(30)
 );
 
-CREATE TABLE "orders"(
+CREATE TABLE "client_address"(
 	"id" SERIAL PRIMARY KEY,
+	"client_id" INT REFERENCES "clients",
+	"street" VARCHAR(150) NOT NULL,
+	"city" VARCHAR(50) NOT NULL,
+	"state" VARCHAR(20) NOT NULL,
+	"zip" INT NOT NULL
+	);
+
+CREATE TABLE "orders"(
+	"id" VARCHAR(50) PRIMARY KEY,
 	"client_id" INT NOT NULL REFERENCES "clients",
 	"date" DATE,
 	"total_cost" DECIMAL,
@@ -37,9 +45,28 @@ CREATE TABLE "orders"(
 );
 
 CREATE TABLE "wine_orders"(
-	"order_id" INT REFERENCES "orders",
+	"order_id" VARCHAR(50) REFERENCES "orders",
 	"wine_sku" VARCHAR(20),
 	"number_bottles" INT,
 	"unit_price" DECIMAL
 );
 
+CREATE TABLE "wines"(
+	"sku" VARCHAR(50) PRIMARY KEY,
+	"image" VARCHAR(100) NOT NULL
+	);
+
+--This query will set up the wines template information--
+INSERT INTO "wines" ("sku", "image")
+VALUES ('FBOMB', '/images/fbomb.png'),
+		('JUSTBC', '/images/justbc.png'),
+		('RBF', '/images/rbf.png'),
+		('TOTALBS', '/images/totalbs.png'),
+		('FARMRED', '/images/farmred.png'),
+		('LAKELIFE', '/images/lakelife.png'),
+		('LUCKYDAYS', '/images/luckydays.png'),
+		('SNOWRED', '/images/snowred.png'),
+		('WAITWHAT', '/images/waitwhat.png'),
+		('FARMWHITE', '/images/farmwhite.png'),
+		('SUMMERTIME', '/images/summertime.png'),
+		('SUNSHINE', '/images/sunshine.png');

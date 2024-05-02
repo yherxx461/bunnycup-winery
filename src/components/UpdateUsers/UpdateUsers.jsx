@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // install sweetalerts
 import Swal from "sweetalert2";
 
-function RegisterForm() {
-  const [username, setUsername] = useState("");
+function UpdateUsers() {
   const [password, setPassword] = useState("");
   const [retailer, setRetailer] = useState("");
   const [street, setStreet] = useState("");
@@ -13,16 +12,20 @@ function RegisterForm() {
   const [zip, setZip] = useState("");
   const [discount, setDiscount] = useState("");
   const [paymentType, setPaymentType] = useState("");
-  const errors = useSelector((store) => store.errors);
+  const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
 
-  const registerUser = (event) => {
+  useEffect(() => {
+    dispatch({ type: "FETCH_CLIENTS" });
+  }, []);
+  
+  const updateUser = (event) => {
     event.preventDefault();
 
     dispatch({
-      type: "REGISTER",
+      type: "UPDATE",
       payload: {
-        username: username,
+        id: user.id,
         password: password,
         retailer: retailer,
         street: street,
@@ -34,31 +37,14 @@ function RegisterForm() {
       },
     });
     Swal.fire({
-      title: "Retailer registered successfully",
+      title: "User updated successfully",
       icon: "success",
     });
-  }; // end registerUser
+  }; // end updateUser
 
   return (
-    <form className="formPanel" onSubmit={registerUser}>
-      <h2>Retailer Registration</h2>
-      {errors.registrationMessage && (
-        <h3 className="alert" role="alert">
-          {errors.registrationMessage}
-        </h3>
-      )}
-      <div>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={username}
-            required
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </label>
-      </div>
+    <form className="formPanel" onSubmit={updateUser}>
+      <h2>Update Retailer</h2>
       <div>
         <label htmlFor="password">
           Password:
@@ -155,11 +141,14 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
-      </div>
+        <input
+          className="btn"
+          type="submit"
+          name="submit"
+          value="Update User"
+        />
     </form>
   );
 }
 
-export default RegisterForm;
+export default UpdateUsers;
