@@ -20,10 +20,6 @@ function Nav() {
               Home
             </Link>
 
-            <Link className="navLink" to="/register-new">
-              Add New
-            </Link>
-
             <Link className="navLink" to="/update">
               Update Retailer
             </Link>
