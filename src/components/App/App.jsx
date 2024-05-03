@@ -70,24 +70,9 @@ function App() {
           <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
-            path="/user">
+            path="/user"
+          >
             <UserPage />
-          </ProtectedRoute>
-
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/admin_user"
-          >
-            <AdminUserPage />
-          </ProtectedRoute>
-
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/client_info"
-          >
-            <ClientInfoPage />
           </ProtectedRoute>
 
           <ProtectedRoute
@@ -122,23 +107,22 @@ function App() {
             <RegisterClientPage />
           </ProtectedRoute>
 
-<<<<<<< HEAD
-=======
           <ProtectedRoute
             // Order Summary page
             exact
-            path="/orderSummary">
+            path="/orderSummary"
+          >
             <OrderSummary />
           </ProtectedRoute>
 
           <ProtectedRoute
             // Order History page
             exact
-            path="/orderHistory">
+            path="/orderHistory"
+          >
             <OrderHistory />
           </ProtectedRoute>
 
->>>>>>> aa576f30f7532b5baf7be1b2dcd9b97057bbf5d0
           <Route exact path="/login">
             {user.id ? (
               // If the user is already logged in,
@@ -156,7 +140,6 @@ function App() {
               // redirect them to the /user page
               <Redirect to="/user" />
             ) : (
-           
               // Otherwise, show the registration page
               <RegisterPage />
             )}
