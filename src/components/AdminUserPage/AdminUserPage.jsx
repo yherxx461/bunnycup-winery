@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import bunnycup from "../../../public/images/bunnycup.png";
 
 // MUI imports
 // import * as React from 'react';
@@ -53,6 +54,7 @@ function AdminUserPage() {
         {/* <p>Your ID is: {user.id}</p> */}
         <center>
           <h2>Welcome ADMIN!</h2>
+          <img src={bunnycup} width="100" height="100" />
         </center>
         <div className="container">
           {/* {clients.map((client) => {
