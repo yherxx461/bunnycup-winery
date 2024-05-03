@@ -18,16 +18,16 @@ import UserPage from '../UserPage/UserPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-
 import OrderSummary from '../OrderSummary/OrderSummary';
 import OrderHistory from '../OrderHistory/OrderHistory';
-
 import AdminUserPage from '../AdminUserPage/AdminUserPage';
 import ClientInfoPage from '../ClientInfoPage/ClientInfoPage';
-
-import './App.css';
 import UpdateUsers from '../UpdateUsers/UpdateUsers';
 import RegisterClientPage from '../RegisterClientPage/RegisterClientPage';
+import ShoppingCart from '../ShoppingCart/ShoppingCart';
+import ProductList from '../ShoppingCart/ShoppingCart';
+
+import './App.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -61,7 +61,8 @@ function App() {
           <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
-            path="/user">
+            path="/user"
+          >
             <UserPage />
           </ProtectedRoute>
 
@@ -116,15 +117,33 @@ function App() {
           <ProtectedRoute
             // Order Summary page
             exact
-            path="/orderSummary">
+            path="/orderSummary"
+          >
             <OrderSummary />
           </ProtectedRoute>
 
           <ProtectedRoute
             // Order History page
             exact
-            path="/orderHistory">
+            path="/orderHistory"
+          >
             <OrderHistory />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // ShoppingCart Page
+            exact
+            path="/cart"
+          >
+            <ShoppingCart />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // Product Page
+            exact
+            path="/cart"
+          >
+            <ProductList />
           </ProtectedRoute>
 
           <Route exact path="/login">
@@ -144,7 +163,6 @@ function App() {
               // redirect them to the /user page
               <Redirect to="/user" />
             ) : (
-           
               // Otherwise, show the registration page
               <RegisterPage />
             )}

@@ -1,17 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import LogOutButton from "../LogOutButton/LogOutButton";
-import "./Nav.css";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import LogOutButton from '../LogOutButton/LogOutButton';
+import './Nav.css';
+import { useSelector } from 'react-redux';
 //npm install @fontsource/special-elite required
-import "@fontsource/special-elite";
+import '@fontsource/special-elite';
 
 function Nav() {
   const user = useSelector((store) => store.user);
 
   return (
     <div className="nav">
-        <h2 className="nav-title">Bunnycup Winery</h2>
+      <h2 className="nav-title">Bunnycup Winery</h2>
       <div>
         {/* If no user is logged in, show these links */}
         {!user.id && (
@@ -23,6 +23,10 @@ function Nav() {
         {/* If a user is logged in, show these links */}
         {user.id && (
           <>
+            <Link className="navLink" to="/products">
+              Products
+            </Link>
+
             <Link className="navLink" to="/user">
               User
             </Link>
@@ -41,6 +45,10 @@ function Nav() {
 
             <Link className="navLink" to="/orderHistory">
               Order History
+            </Link>
+
+            <Link className="navLink" to="/cart">
+              Cart
             </Link>
 
             <LogOutButton className="navLink" />
