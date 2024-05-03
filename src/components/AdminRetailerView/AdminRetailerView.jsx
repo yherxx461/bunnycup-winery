@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import LogOutButton from "../LogOutButton/LogOutButton";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import bunnycup from "../../../public/images/bunnycup.png";
 
 // MUI imports
@@ -35,25 +35,25 @@ const Item = styled(Paper)(({ theme }) => ({
 // export default function AccordionUsage() {
 //   return (
 
-function AdminUserPage() {
+function AdminRetailerView() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
   const clients = useSelector((store) => store.clients);
   // const orders = useSelector((store) => store.orders);
   const dispatch = useDispatch();
   const history = useHistory();
-
-  console.log("CLIENTS", clients);
+  const { id } = useParams();
+  const clientDetails = useSelector((store) => store.clientDetails);
 
   // onload makes GET call to fetch all boarding data.
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
+    dispatch({ type: "FETCH_CLIENT_DETAILS", payload: { id } });
     // dispatch({ type: 'FETCH_ALL_ORDERS' });
   }, []);
 
-  const handleClickOpenClient = (id) => {
-    history.push(`/retailer-info/${id}`);
-  };
+  console.log("CLIENTS", clients);
+  console.log("CLIENT DETAILS", clientDetails);
 
   return (
     <Container maxWidth>
@@ -78,8 +78,6 @@ function AdminUserPage() {
                   display: "flex",
                   justifyContent: "flex-end",
                   bgcolor: "#F9F7F4",
-                  display: "flex",
-                  justifyContent: "space-between",
                   m: 0,
                 }}
               >
@@ -99,43 +97,15 @@ function AdminUserPage() {
                     }}
                   >
                     <p>
-                      RETAILERS
-                      <Button
-                        variant="text"
-                        size="large"
-                        color="pinot"
-                        onClick={() => {
-                          history.push("/register-new");
-                        }}
-                      >
-                        <Box
-                          marginInlineStart={45}
-                          marginInlineEnd={30}
-                          fontSize={22}
-                        >
-                          ADD NEW
-                        </Box>
-                      </Button>
-                      <TextField
-                        size="medium"
-                        id="outlined-basic"
-                        label="SEARCH"
-                        variant="outlined"
-                      />
+                      RETAILER INFO
                     </p>
                   </Stack>
                 </Box>
               </AccordionSummary>
 
-              <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <Item>Name</Item>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Item>Email</Item>
-                  </Grid>
-                </Grid>
+              <Box sx={{ flexGrow: 1, justifyContent: "flex-end" }}>
+                <p>EDIT</p>
+                <p>{clientDetails.name}</p>
               </Box>
               <AccordionDetails
                 sx={{
@@ -143,10 +113,7 @@ function AdminUserPage() {
                   maxHeight: 400,
                 }}
               >
-                {clients.map((client) => {
-                  return (
                     <>
-                      <div className="clientItem" key={client.id}></div>
                       <Box
                         sx={{
                           display: "flex",
@@ -157,22 +124,11 @@ function AdminUserPage() {
                           borderRadius: 1,
                         }}
                       >
-                        <p>{client.name}</p>
-                        <a href={`mailto:${client.email}`}>{client.email}</a>
+                          
+                        
                         {/* <PhoneIcon/> <a href={`tel:${selectedMeetReq.phone}`}> {selectedMeetReq.phone}</a><br/><br/> */}
-                        <Button
-                          variant="text"
-                          sx={{
-                            color: "#861F41",
-                          }}
-                          onClick={() => handleClickOpenClient(client.id)}
-                        >
-                          VIEW
-                        </Button>
                       </Box>
                     </>
-                  );
-                })}
               </AccordionDetails>
             </Accordion>
             <h2>ORDERS</h2>
@@ -272,4 +228,4 @@ function AdminUserPage() {
 }
 
 // this allows us to use <App /> in index.js
-export default AdminUserPage;
+export default AdminRetailerView;

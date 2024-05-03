@@ -18,12 +18,13 @@ import UserPage from "../UserPage/UserPage";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
+import AdminUserPage from "../AdminUserPage/AdminUserPage";
+import ClientInfoPage from "../ClientInfoPage/ClientInfoPage";
+import AdminRetailerView from "../AdminRetailerView/AdminRetailerView";
 
 import OrderSummary from "../OrderSummary/OrderSummary";
 import OrderHistory from "../OrderHistory/OrderHistory";
 
-import AdminUserPage from "../AdminUserPage/AdminUserPage";
-import ClientInfoPage from "../ClientInfoPage/ClientInfoPage";
 
 import "./App.css";
 import UpdateUsers from "../UpdateUsers/UpdateUsers";
@@ -104,6 +105,13 @@ function App() {
             path="/admin_user"
           >
             <AdminUserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            path="/retailer-info"
+          >
+            <AdminRetailerView />
           </ProtectedRoute>
 
           <ProtectedRoute
