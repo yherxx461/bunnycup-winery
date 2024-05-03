@@ -19,8 +19,20 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Grid from "@mui/material/Grid";
 import { ThemeProvider } from "@mui/material/styles";
 import { primaryTheme } from "../App/App";
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'black' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.main,
+  fontSize: 15,
+}));
 
 // export default function AccordionUsage() {
 //   return (
@@ -119,6 +131,17 @@ function AdminUserPage() {
                   </Stack>
                 </Box>
               </AccordionSummary>
+
+              <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <Item>Name</Item>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Item>Email</Item>
+                  </Grid>
+                </Grid>
+              </Box>
               <AccordionDetails
                 sx={{
                   minHeight: 400,
