@@ -14,10 +14,10 @@ function Nav() {
       <div>
         
         {/* If a user is logged in, show these links */}
-        {user.id && (
+        {user.id && user.access_level === 10 && (
           <>
-            <Link className="navLink" to="/user">
-              User
+            <Link className="navLink" to="/admin_user">
+              Home
             </Link>
 
             <Link className="navLink" to="/register-new">
