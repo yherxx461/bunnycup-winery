@@ -23,7 +23,7 @@
 }
 
 .main {
-  margin-top: 50px;
+  margin-top: ;
   font-family: 'Montserrat', Helvetica, Arial, 'sans-serif';
 }
 
@@ -32,4 +32,8 @@
   display: inline-flex;
   margin-bottom: 15px;
   font-weight: bold;
+}
+
+.orders {
+  margin-top: 75px;
 }

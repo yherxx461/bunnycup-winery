@@ -34,7 +34,7 @@ function OrderHistory() {
         </div>
       </div>
       <main className="main">
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1 }} className="orders">
           <Grid container spacing={3}>
             {data.map((item, index) => (
               <Grid xs={8} key={index} className="listItem">
