@@ -1,7 +1,6 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
-const db = await pool.connect();
 
 router.get('/', (req, res) => {
     const orderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost", 
@@ -36,6 +35,7 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', async (req, res) => {
+    const db = await pool.connect();
     try{
         const orderId = req.body.order_id;  //Stores order id
         const clientId = req.body.client_id;//Stores client id
@@ -52,8 +52,10 @@ router.post('/', async (req, res) => {
 
         await db.query('BEGIN') //Start transaction
         let result = await db.query(orderText, [orderId, clientId, date, cost, 1, discount]); //Sends the query with all order info, sets order status to pending(1)
+        console.log('Order information added')
         for (wine of wineOrder) { //Loop through wine array
-            let wineResult = await db.query(wineText, [wine.sku, wine.quantity, wine.price]) //Send wine object as SQL query, store result
+            let wineResult = await db.query(wineText, [orderId, wine.sku, wine.quantity, wine.price]) //Send wine object as SQL query, store result
+            console.log('Wine added successfully')
         }
         await db.query('COMMIT'); //If everything submits successfully, complete transaction.
         res.sendStatus(200);
