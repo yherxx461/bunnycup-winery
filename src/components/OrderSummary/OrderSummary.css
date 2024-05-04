@@ -1,0 +1,63 @@
+.total {
+  text-align: right;
+  margin-right: 150px;
+  font-weight: 575;
+  font-size: large;
+}
+
+.customerInfo {
+  margin-left: 150px;
+  line-height: 150%;
+  margin-bottom: 40px;
+  margin-top: 75px;
+}
+
+.date {
+  display: inline;
+  float: right;
+  margin-right: 150px;
+}
+
+.header {
+  text-align: center;
+  color: #757575;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orderTable {
+  width: 80%; /* Set table width */
+  border-collapse: collapse; /* Collapse table borders */
+}
+
+.orderTable th,
+.orderTable td {
+  padding: 15px; /* Add padding to table cells */
+  text-align: center; /* Center text in table cells */
+}
+
+.orderTable th {
+  border-top: none; /* Remove top border from table header */
+}
+
+.main {
+  background-color: #ffffff;
+  font-family: 'Montserrat', 'Helvetica', 'Arial', 'sans-serif';
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../../public/Montserrat-VariableFont_wght.ttf')
+      format('truetype'),
+    url('../../../public/Montserrat-Italic-VariableFont_wght.ttf')
+      format('truetype');
+}
+
+.summaryHeader {
+  font-size: large;
+  font-weight: 590;
+}

@@ -3,10 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 // install sweetalerts
 import Swal from "sweetalert2";
 
+import Button from "@mui/material/Button";
+import { ThemeProvider } from "@mui/material/styles";
+import { primaryTheme } from "../App/App";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+
 function UpdateUsers() {
   const [password, setPassword] = useState("");
   const [retailer, setRetailer] = useState("");
-  const [address, setAddress] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
   const [discount, setDiscount] = useState("");
   const [paymentType, setPaymentType] = useState("");
   const user = useSelector((store) => store.user);
@@ -15,7 +24,7 @@ function UpdateUsers() {
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
   }, []);
-  
+
   const updateUser = (event) => {
     event.preventDefault();
 
@@ -24,10 +33,13 @@ function UpdateUsers() {
       payload: {
         id: user.id,
         password: password,
-        retailer: retailer,
-        address: address,
+        name: retailer,
+        street: street,
+        city: city,
+        state: state,
+        zip: zip,
         discount: discount,
-        paymentType: paymentType,
+        payment: paymentType,
       },
     });
     Swal.fire({
@@ -37,75 +49,116 @@ function UpdateUsers() {
   }; // end updateUser
 
   return (
-    <form className="formPanel" onSubmit={updateUser}>
-      <h2>Update Retailer</h2>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={password}
-            required
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="retailer">
-          Retailer Name:
-          <input
-            type="retailer"
-            name="retailer"
-            value={retailer}
-            required
-            onChange={(event) => setRetailer(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="address">
-          Delivery Address:
-          <input
-            type="address"
-            name="address"
-            value={address}
-            required
-            onChange={(event) => setAddress(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="discount">
-          Discount %:
-          <input
-            type="discount"
-            name="discount"
-            value={discount}
-            required
-            onChange={(event) => setDiscount(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="paymentType">
-          Default Payment Type:
-          <input
-            type="paymentType"
-            name="paymentType"
-            value={paymentType}
-            required
-            onChange={(event) => setPaymentType(event.target.value)}
-          />
-        </label>
-      </div>
-        <input
-          className="btn"
-          type="submit"
-          name="submit"
-          value="Update User"
-        />
-    </form>
+    <ThemeProvider theme={primaryTheme}>
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "45ch" },
+        }}
+        autoComplete="on"
+        onSubmit={updateUser}
+      >
+        <center>
+          <h2>Update Retailer</h2>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Password"
+              type="password"
+              name="password"
+              value={password}
+              required
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Retailer Name"
+              type="retailer"
+              name="retailer"
+              value={retailer}
+              required
+              onChange={(event) => setRetailer(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Street Address"
+              type="street"
+              name="street"
+              value={street}
+              required
+              onChange={(event) => setStreet(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="City"
+              type="city"
+              name="city"
+              value={city}
+              required
+              onChange={(event) => setCity(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="State"
+              type="state"
+              name="state"
+              value={state}
+              required
+              onChange={(event) => setState(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Zip Code"
+              type="zip"
+              name="zip"
+              value={zip}
+              required
+              onChange={(event) => setZip(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Discount %"
+              type="discount"
+              name="discount"
+              value={discount}
+              onChange={(event) => setDiscount(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Default Payment Type"
+              type="paymentType"
+              name="paymentType"
+              value={paymentType}
+              onChange={(event) => setPaymentType(event.target.value)}
+            />
+          </div>
+          <Button
+            variant="contained"
+            size="large"
+            color="pinot"
+            type="submit"
+            name="submit"
+            value="Update User"
+          >
+            Update
+          </Button>
+        </center>
+      </Box>
+    </ThemeProvider>
   );
 }
 

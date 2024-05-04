@@ -8,7 +8,7 @@ import {
   TableRow,
   Button,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
 
@@ -23,13 +23,10 @@ function LandingPage() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: 'FETCH_INVENTORY' });
+    dispatch({ type: 'FETCH_IMAGES' });
   }, []);
   const inventory = useSelector((store) => store.inventory.inventoryList);
-  console.log('THIS IS THE INVENTORY', inventory);
-
-  const handleAddToCart = (id) => {
-    console.log('Add to cart:', id);
-  };
+  const imageList = useSelector((store) => store.inventory.imageList);
 
   const onLogin = (event) => {
     history.push('/login');
@@ -46,7 +43,7 @@ function LandingPage() {
         </h1>
         {/* TO-DO: Create a table with the Product List */}
         {/* Map the Product List  */}
-        {/* Will need to make sure API get request is set up in the server side route -- Nate is currently working on this */}
+        {/* Will need to make sure API get request is set up in the server side route */}
         <TableContainer
           component={Paper}
           align="center"
@@ -61,7 +58,7 @@ function LandingPage() {
             <TableHead>
               <TableRow>
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Product Image</h3>
+                  <h3></h3>
                 </TableCell>
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Product Name</h3>
@@ -76,19 +73,8 @@ function LandingPage() {
                   <h3>Category</h3>
                 </TableCell>
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Inventory</h3>
-                </TableCell>
-                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Retail Price</h3>
                 </TableCell>
-                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Quantity</h3>
-                  <p>(# of Bottles)</p>
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ verticalAlign: 'top' }}
-                ></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -98,7 +84,18 @@ function LandingPage() {
                   className="product-list"
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell align="center">Product Image</TableCell>
+                  <TableCell align="center">
+                    <img
+                      // filter through the wine.sku images to match inventory.sku of the inventory table
+                      src={
+                        imageList.filter((imageItem) => {
+                          return imageItem.sku === item.sku;
+                        })[0].image
+                      }
+                      alt={item.name}
+                      style={{ width: '100px', height: 'auto' }}
+                    />
+                  </TableCell>
                   <TableCell align="center">{item.name}</TableCell>
                   <TableCell align="center">{item.sku}</TableCell>
                   <TableCell
@@ -108,20 +105,7 @@ function LandingPage() {
                     {item.teaser}
                   </TableCell>
                   <TableCell align="center">{item.category}</TableCell>
-                  <TableCell align="center">{item.inv_level}</TableCell>
                   <TableCell align="center">{item.retail_price}</TableCell>
-                  <TableCell align="center">{item.quantity}</TableCell>
-                  <TableCell align="center">
-                    <Button
-                      size="small"
-                      variant="contained"
-                      style={{ backgroundColor: 'white', color: 'black' }}
-                      type="button"
-                      onClick={() => handleAddToCart(item.id)}
-                    >
-                      Add to Cart
-                    </Button>
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
