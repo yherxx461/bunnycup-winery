@@ -41,6 +41,7 @@ function OrderHistory() {
                 <p>
                   <div className="dateTotal">
                     <Stack spacing={2}>
+                      <p>Retailer Name</p>
                       <p>Date: {item.Date}</p>
                       <p>Total: {item.Total}</p>
                     </Stack>
