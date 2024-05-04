@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 
 //This is intended to hold an array of objects. Each object will be a wine sku, how many bottles are ordered, and the unit price at time of order.
+//Format object as {sku: xxxxx, bottles: xxxxx, price: xxxxx}
 const cartWines = (state = [], action) => {
     switch (action.type){
         case 'ADD_TO_CART':
@@ -11,6 +12,7 @@ const cartWines = (state = [], action) => {
 };
 
 //This is intended to hold order#, client id, date, total, and discount at time of checkout
+//Format as {order_id: xxxxx, client_id: xxxxx, date: xxxxx, cost: xxxxx, discount: xxxxx}
 const cartInfo = (state = [], action) => {
     switch (action.type){
         case 'ORDER_INFO':
