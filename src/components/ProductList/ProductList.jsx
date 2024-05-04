@@ -24,6 +24,20 @@ function ProductList() {
 
   // Missing quantity function
   // Missing handleAddToCart function
+  const handleAddToCart = () => {
+    //Dispatch action to add product to cart
+    console.log(
+      'adding product to cart',
+      sku,
+      item.name,
+      item.price,
+      item.quantity
+    );
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: {},
+    });
+  };
 
   return (
     <div className="inventory-list" key={inventory.id}>
