@@ -30,12 +30,21 @@ function LandingPage() {
   // console.log('THIS IS THE INVENTORY', inventory);
   // console.log('THIS IS THE WINE LIST', imageList);
 
-  const handleAddToCart = (sku) => {
-    console.log('Add to cart:', sku);
-  };
-
-  const onLogin = (event) => {
-    history.push('/login');
+  // Missing quantity function
+  // Missing handleAddToCart function
+  const handleAddToCart = () => {
+    //Dispatch action to add product to cart
+    console.log(
+      'adding product to cart',
+      sku,
+      item.name,
+      item.price,
+      item.quantity
+    );
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: {},
+    });
   };
 
   return (

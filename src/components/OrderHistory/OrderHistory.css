@@ -3,13 +3,14 @@
 }
 
 .listItem {
-  background-color: #e0e0e0;
+  background-color: #861f41;
   max-width: 80%;
   text-align: center;
   margin: 10px auto;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid;
+  border: 3px solid black;
+  color: #ffffff;
 }
 
 .orderHandle {
@@ -22,11 +23,16 @@
 }
 
 .main {
-  margin-top: 50px;
+  font-family: 'Montserrat', Helvetica, Arial, 'sans-serif';
 }
 
 .dateTotal {
   text-align: left;
   display: inline-flex;
   margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.orders {
+  margin-top: 75px;
 }
