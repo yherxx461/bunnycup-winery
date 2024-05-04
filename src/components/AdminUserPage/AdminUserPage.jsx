@@ -58,7 +58,6 @@ function AdminUserPage() {
   return (
     <Container maxWidth>
       <ThemeProvider theme={primaryTheme}>
-        {/* <p>Your ID is: {user.id}</p> */}
         <center>
           <h2>Welcome ADMIN!</h2>
           <img src={bunnycup} width="100" height="100" />
@@ -159,7 +158,6 @@ function AdminUserPage() {
                       >
                         <p>{client.name}</p>
                         <a href={`mailto:${client.email}`}>{client.email}</a>
-                        {/* <PhoneIcon/> <a href={`tel:${selectedMeetReq.phone}`}> {selectedMeetReq.phone}</a><br/><br/> */}
                         <Button
                           variant="text"
                           sx={{
@@ -263,8 +261,6 @@ function AdminUserPage() {
               </AccordionDetails>
             </Accordion>
           </div>
-          {/* <br/>
-    <LogOutButton className="btn" /> */}
         </div>
       </ThemeProvider>
     </Container>
