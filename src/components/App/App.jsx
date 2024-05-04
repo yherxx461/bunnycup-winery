@@ -24,9 +24,6 @@ import ProductList from '../ProductList/ProductList';
 import UpdateUsers from '../UpdateUsers/UpdateUsers';
 import RegisterClientPage from '../RegisterClientPage/RegisterClientPage';
 import ShoppingCart from '../ShoppingCart/ShoppingCart';
-import ProductList from '../ShoppingCart/ShoppingCart';
-
-import './App.css';
 
 import './App.css';
 
@@ -54,63 +51,48 @@ function App() {
           <Route
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/home">
+            path="/home"
+          >
             <LandingPage />
           </Route>
 
           <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/products">
-            <ProductList />
-           </ProtectedRoute>
-
-          <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
-            path="/user">
+            path="/user"
+          >
             <UserPage />
           </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/admin_user">
+            path="/admin_user"
+          >
             <AdminUserPage />
           </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
-            path="/client_info">
-            <ClientInfoPage />
-          </ProtectedRoute>
-
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/admin_user">
-            <AdminUserPage />
-          </ProtectedRoute>
-
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/client_info">
+            path="/client_info"
+          >
             <ClientInfoPage />
           </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows UpdateUsers Page else shows LoginPage
             exact
-            path="/update">
+            path="/update"
+          >
             <UpdateUsers />
           </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows RegisterClient Page else shows LoginPage
             exact
-            path="/register-new">
+            path="/register-new"
+          >
             <RegisterClientPage />
           </ProtectedRoute>
 
