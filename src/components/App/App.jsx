@@ -141,7 +141,7 @@ function App() {
           <ProtectedRoute
             // Product Page
             exact
-            path="/cart"
+            path="/products"
           >
             <ProductList />
           </ProtectedRoute>
@@ -150,7 +150,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect to the /user page
-              <Redirect to="/home" />
+              <Redirect to="/products" />
             ) : (
               // Otherwise, show the login page
               <LoginPage />
