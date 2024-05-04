@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 
 function* getAdminOrders(){
     try{
@@ -7,22 +7,32 @@ function* getAdminOrders(){
         yield put ({type: 'SET_ORDERS', payload: adminOrdersResponse.data})
     } catch (error) {
         console.log('Error retrieving order data')
-    }   
+    };   
 };
 
 function* getClientOrders(action){
     try{
         const clientId = action.payload
         const clientOrdersResponse = yield axios.get(`/api/orders/${clientId}`);
-        yield 
+        yield put ({type: 'SET_CLIENT_ORDERS', payload: clientOrdersResponse.data});
     } catch (error) {
         console.log('Error fetching client order data')
-    }
-}
+    };
+}; 
+
+function* postOrder(action){
+    try{
+        const orderInfo = action.payload;
+        const postOrderResponse = yield axios.post('/api/orders', orderInfo);
+    } catch (error) {
+        console.log('Failed to submit order')
+    };
+};
 
 function* orderSaga() {
     yield takeEvery('GET_ADMIN_ORDERS', getAdminOrders);
     yield takeEvery('GET_CLIENT_ORDERS', getClientOrders);
+    yield takeEvery('POST_ORDER', postOrder);
 };
 
 export default orderSaga;
