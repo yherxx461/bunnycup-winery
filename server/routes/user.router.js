@@ -23,6 +23,7 @@ router.post('/register', (req, res, next) => {
 
   const userText = `INSERT INTO "user" ("email", "password", "access_level")
                     VALUES ($1, $2, $3) RETURNING id;`;
+                  
 
   pool
     .query(userText, [username, password, 10])
@@ -32,7 +33,6 @@ router.post('/register', (req, res, next) => {
       res.sendStatus(500);
     });
 });
-
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
@@ -60,20 +60,31 @@ router.put('/', (req, res) => {
                         RETURNING "id")
                       UPDATE "client_address" SET "street" = $6, "city" = $7, "state" = $8, "zip" = $9 WHERE "client_id" IN (SELECT "id" FROM "ins2");`;
 
-  pool.query(updateQuery, [password, clientInfo.id, clientInfo.retailer, clientInfo.discount, clientInfo.paymentType, clientInfo.street, clientInfo.city, clientInfo.state, clientInfo.zip])
-  .then((result) => {
-    console.log('Client updated successfully');
-    res.sendStatus(200)
-  })
-  .catch((error) => {
-    console.log('Client update failed')
-    res.sendStatus(500)
-  })
+  pool
+    .query(updateQuery, [
+      password,
+      clientInfo.id,
+      clientInfo.retailer,
+      clientInfo.discount,
+      clientInfo.paymentType,
+      clientInfo.street,
+      clientInfo.city,
+      clientInfo.state,
+      clientInfo.zip,
+    ])
+    .then((result) => {
+      console.log('Client updated successfully');
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log('Client update failed');
+      res.sendStatus(500);
+    });
 });
 
 router.delete('/:id', (req, res) => {
   const deleteInfo = req.params.id;
-  const deleteQuery = ``
-})
+  const deleteQuery = ``;
+});
 
 module.exports = router;
