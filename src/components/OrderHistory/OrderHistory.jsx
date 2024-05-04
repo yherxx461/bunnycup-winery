@@ -52,8 +52,8 @@ function OrderHistory() {
                       onClick={viewHandle}
                       sx={{
                         marginLeft: '500px',
-                        backgroundColor: '#757575',
                         fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
+                        backgroundColor: '#757575',
                         color: '#FFFFFF',
                         fontWeight: 'bold',
                       }}>
@@ -63,8 +63,8 @@ function OrderHistory() {
                       variant="contained"
                       sx={{
                         marginLeft: '15px',
-                        backgroundColor: '#757575',
                         fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
+                        backgroundColor: '#757575',
                         color: '#FFFFFF',
                         fontWeight: 'bold',
                       }}
