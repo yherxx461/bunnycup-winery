@@ -25,7 +25,7 @@ import ClientInfoPage from '../ClientInfoPage/ClientInfoPage';
 import UpdateUsers from '../UpdateUsers/UpdateUsers';
 import RegisterClientPage from '../RegisterClientPage/RegisterClientPage';
 import ShoppingCart from '../ShoppingCart/ShoppingCart';
-import ProductList from '../ShoppingCart/ShoppingCart';
+import ProductList from '../ProductList/ProductList';
 
 import './App.css';
 
