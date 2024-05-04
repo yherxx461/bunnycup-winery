@@ -6,8 +6,11 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useHistory } from 'react-router-dom';
 
 function OrderHistory() {
+  //Set useHistory hook
+  const history = useHistory();
   //Setting up state for sample data to list
   const data = [
     { Date: '04/30/2024', Total: '$100.50' },
@@ -20,6 +23,7 @@ function OrderHistory() {
   //Functions for view and reorder button
   const viewHandle = (event) => {
     console.log('In View Handle');
+    history.push('/orderSummary');
   };
 
   const reorderHandle = (event) => {
