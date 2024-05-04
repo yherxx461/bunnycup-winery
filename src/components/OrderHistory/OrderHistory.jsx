@@ -13,6 +13,7 @@ function OrderHistory() {
     { Date: '04/30/2024', Total: '$100.50' },
     { Date: '05/01/2024', Total: '$85.45' },
     { Date: '05/02/2024', Total: '$95.89' },
+    { Date: '05/03/2024', Total: '$105.89' },
   ];
   console.log('Data object', data);
 
