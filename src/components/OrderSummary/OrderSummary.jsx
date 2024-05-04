@@ -44,7 +44,7 @@ function OrderSummary() {
   }, [dispatch]);
 
   return (
-    <>
+    <main className="main">
       <div className="header">
         <h1>Order #XXXXXX-1</h1>
       </div>
@@ -61,17 +61,23 @@ function OrderSummary() {
       {/*To Do: set up Table with MUI */}
       <div className="container">
         <table className="orderTable">
-          <thead style={{ borderTop: '1px solid' }}>
+          <thead
+            style={{
+              borderTop: '3px solid black',
+              backgroundColor: '#861f41',
+              color: '#FFFFFF',
+              fontWeight: 'bold',
+            }}>
             {/*To Do: Table headers needed are item, description, quantity, price, amount */}
             <tr>
-              <td style={{ borderBottom: '1px solid' }}>Item</td>
-              <td style={{ borderBottom: '1px solid' }}>Description</td>
-              <td style={{ borderBottom: '1px solid' }}>Quantity</td>
-              <td style={{ borderBottom: '1px solid' }}>Price</td>
-              <td style={{ borderBottom: '1px solid' }}>Amount</td>
+              <td style={{ borderBottom: '3px solid black' }}>Item</td>
+              <td style={{ borderBottom: '3px solid black' }}>Description</td>
+              <td style={{ borderBottom: '3px solid black' }}>Quantity</td>
+              <td style={{ borderBottom: '3px solid black' }}>Price</td>
+              <td style={{ borderBottom: '3px solid black' }}>Amount</td>
             </tr>
           </thead>
-          <tbody style={{ borderBottom: '1px solid' }}>
+          <tbody style={{ borderBottom: '3px solid black', color: 'black' }}>
             <tr>
               <td>1.</td>
               <td>Product Description</td>
@@ -98,9 +104,9 @@ function OrderSummary() {
       </div>
 
       <div className="total">
-        <p>Total: $</p>
+        <b>Total: $539.00</b>
       </div>
-    </>
+    </main>
   );
 }
 

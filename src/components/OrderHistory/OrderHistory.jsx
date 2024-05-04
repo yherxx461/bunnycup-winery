@@ -6,8 +6,11 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useHistory } from 'react-router-dom';
 
 function OrderHistory() {
+  //Set useHistory hook
+  const history = useHistory();
   //Setting up state for sample data to list
   const data = [
     { Date: '04/30/2024', Total: '$100.50' },
@@ -20,6 +23,7 @@ function OrderHistory() {
   //Functions for view and reorder button
   const viewHandle = (event) => {
     console.log('In View Handle');
+    history.push('/orderSummary');
   };
 
   const reorderHandle = (event) => {
@@ -34,13 +38,14 @@ function OrderHistory() {
         </div>
       </div>
       <main className="main">
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1 }} className="orders">
           <Grid container spacing={3}>
             {data.map((item, index) => (
               <Grid xs={8} key={index} className="listItem">
                 <p>
                   <div className="dateTotal">
                     <Stack spacing={2}>
+                      <p>Retailer Name</p>
                       <p>Date: {item.Date}</p>
                       <p>Total: {item.Total}</p>
                     </Stack>
@@ -49,12 +54,24 @@ function OrderHistory() {
                     <Button
                       variant="contained"
                       onClick={viewHandle}
-                      sx={{ marginLeft: '500px' }}>
+                      sx={{
+                        marginLeft: '500px',
+                        fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
+                        backgroundColor: '#757575',
+                        color: '#FFFFFF',
+                        fontWeight: 'bold',
+                      }}>
                       View
                     </Button>
                     <Button
                       variant="contained"
-                      sx={{ marginLeft: '15px' }}
+                      sx={{
+                        marginLeft: '15px',
+                        fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
+                        backgroundColor: '#757575',
+                        color: '#FFFFFF',
+                        fontWeight: 'bold',
+                      }}
                       onClick={reorderHandle}>
                       Reorder
                     </Button>

@@ -60,11 +60,11 @@ function AdminUserPage() {
             aria-controls="panel1-content"
             id="panel1-header"
             sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              bgcolor: '#F9F7F4',
               // display: 'flex',
-              // justifyContent: 'space-between',
+              // justifyContent: 'flex-end',
+              bgcolor: '#F9F7F4',
+              display: 'flex',
+              justifyContent: 'space-between',
               m: 0,
             }}
           >
