@@ -26,12 +26,7 @@ function LandingPage() {
     dispatch({ type: 'FETCH_IMAGES' });
   }, []);
   const inventory = useSelector((store) => store.inventory.inventoryList);
-  const imageList = useSelector((store) => store.inventory.imageList); // Lauren suggested calling this from the reducer, however, still not working.
-  console.log('THIS IS THE INVENTORY', inventory);
-
-  // const handleAddToCart = (sku) => {
-  //   console.log('Add to cart:', sku);
-  // };
+  const imageList = useSelector((store) => store.inventory.imageList);
 
   const onLogin = (event) => {
     history.push('/login');
@@ -48,7 +43,7 @@ function LandingPage() {
         </h1>
         {/* TO-DO: Create a table with the Product List */}
         {/* Map the Product List  */}
-        {/* Will need to make sure API get request is set up in the server side route -- Nate is currently working on this */}
+        {/* Will need to make sure API get request is set up in the server side route */}
         <TableContainer
           component={Paper}
           align="center"
@@ -63,7 +58,7 @@ function LandingPage() {
             <TableHead>
               <TableRow>
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Product Image</h3>
+                  <h3></h3>
                 </TableCell>
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Product Name</h3>
@@ -77,24 +72,12 @@ function LandingPage() {
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Category</h3>
                 </TableCell>
-                {/* <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Inventory</h3>
-                </TableCell> */}
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Retail Price</h3>
                 </TableCell>
-                {/* <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Quantity</h3>
-                  <p>(# of Bottles)</p>
-                </TableCell> */}
-                <TableCell
-                  align="center"
-                  sx={{ verticalAlign: 'top' }}
-                ></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* {inventory.map((item, index) => (  // Lauren suggested putting index */}
               {inventory.map((item) => (
                 <TableRow
                   key={item.sku}
@@ -122,20 +105,7 @@ function LandingPage() {
                     {item.teaser}
                   </TableCell>
                   <TableCell align="center">{item.category}</TableCell>
-                  {/* <TableCell align="center">{item.inv_level}</TableCell> */}
                   <TableCell align="center">{item.retail_price}</TableCell>
-                  {/* <TableCell align="center">{item.quantity}</TableCell> */}
-                  {/* <TableCell align="center">
-                    <Button
-                      size="small"
-                      variant="contained"
-                      style={{ backgroundColor: 'white', color: 'black' }}
-                      type="button"
-                      onClick={() => handleAddToCart(item.sku)}
-                    >
-                      Add to Cart
-                    </Button>
-                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
