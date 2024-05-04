@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
         await db.query('BEGIN') //Start transaction
         let result = await db.query(orderText, [orderId, clientId, date, cost, 1, discount]); //Sends the query with all order info, sets order status to pending(1)
         for (wine of wineOrder) { //Loop through wine array
-            let wineResult = await db.query(wineText, [wine.sku, wine.bottles, wine.price]) //Send wine object as SQL query, store result
+            let wineResult = await db.query(wineText, [wine.sku, wine.quantity, wine.price]) //Send wine object as SQL query, store result
         }
         await db.query('COMMIT'); //If everything submits successfully, complete transaction.
         res.sendStatus(200);
