@@ -4,7 +4,6 @@ import '../OrderHistory/OrderHistory.css';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useHistory } from 'react-router-dom';
 
@@ -38,48 +37,55 @@ function OrderHistory() {
         </div>
       </div>
       <main className="main">
-        <Box sx={{ flexGrow: 1 }} className="orders">
-          <Grid container spacing={3}>
-            {data.map((item, index) => (
-              <Grid xs={8} key={index} className="listItem">
-                <p>
-                  <div className="dateTotal">
-                    <Stack spacing={2}>
+        <Box sx={{ flexGrow: 4 }} className="orders">
+          <div className="boxItems">
+            <Grid container spacing={8}>
+              {data.map((item, index) => (
+                <Grid xs={8} key={index} className="listItem">
+                  <Grid item xs={2} md={4} lg={8} className="dateTotal">
+                    <Stack
+                      spacing={2}
+                      sx={{
+                        textAlign: 'left',
+                      }}>
                       <p>Retailer Name</p>
                       <p>Date: {item.Date}</p>
                       <p>Total: {item.Total}</p>
                     </Stack>
+                  </Grid>
+                  <div className="buttons">
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        onClick={viewHandle}
+                        sx={{
+                          fontFamily: 'Montserrat',
+                          backgroundColor: '#757575',
+                          color: '#FFFFFF',
+                          fontWeight: '575',
+                          marginRight: '-50px',
+                        }}>
+                        View
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          fontFamily: 'Montserrat',
+                          backgroundColor: '#757575',
+                          color: '#FFFFFF',
+                          fontWeight: '575',
+                        }}
+                        onClick={reorderHandle}>
+                        Reorder
+                      </Button>
+                    </Grid>
                   </div>
-                  <div className="button">
-                    <Button
-                      variant="contained"
-                      onClick={viewHandle}
-                      sx={{
-                        marginLeft: '500px',
-                        fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
-                        backgroundColor: '#757575',
-                        color: '#FFFFFF',
-                        fontWeight: 'bold',
-                      }}>
-                      View
-                    </Button>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        marginLeft: '15px',
-                        fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
-                        backgroundColor: '#757575',
-                        color: '#FFFFFF',
-                        fontWeight: 'bold',
-                      }}
-                      onClick={reorderHandle}>
-                      Reorder
-                    </Button>
-                  </div>
-                </p>
-              </Grid>
-            ))}
-          </Grid>
+                </Grid>
+              ))}
+            </Grid>
+          </div>
         </Box>
       </main>
     </>
