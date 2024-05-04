@@ -104,7 +104,7 @@ function OrderSummary() {
       </div>
 
       <div className="total">
-        <p>Total: $</p>
+        <b>Total: $539.00</b>
       </div>
     </main>
   );
