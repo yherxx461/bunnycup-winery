@@ -65,7 +65,7 @@ function OrderSummary() {
             style={{
               borderTop: '3px solid black',
               backgroundColor: '#861f41',
-              color: 'black',
+              color: '#FFFFFF',
               fontWeight: 'bold',
             }}>
             {/*To Do: Table headers needed are item, description, quantity, price, amount */}
@@ -77,7 +77,7 @@ function OrderSummary() {
               <td style={{ borderBottom: '3px solid black' }}>Amount</td>
             </tr>
           </thead>
-          <tbody style={{ borderBottom: '3px solid black', color: '#757575' }}>
+          <tbody style={{ borderBottom: '3px solid black', color: 'black' }}>
             <tr>
               <td>1.</td>
               <td>Product Description</td>
