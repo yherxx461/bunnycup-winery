@@ -50,7 +50,7 @@ function OrderSummary() {
       </div>
       <div className="customerInfo">
         {/*To Do: Retailer info includes Name, Address, contact info */}
-        <h3>Order Summary </h3>
+        <p className="summaryHeader">Order Summary </p>
         <p className="date">Date:</p>
         Retailer Name <br />
         Address <br />
@@ -66,7 +66,7 @@ function OrderSummary() {
               borderTop: '3px solid black',
               backgroundColor: '#861f41',
               color: '#FFFFFF',
-              fontWeight: 'bold',
+              fontWeight: '575'
             }}>
             {/*To Do: Table headers needed are item, description, quantity, price, amount */}
             <tr>
@@ -104,7 +104,7 @@ function OrderSummary() {
       </div>
 
       <div className="total">
-        <b>Total: $539.00</b>
+        <p>Total: $539.00</p>
       </div>
     </main>
   );

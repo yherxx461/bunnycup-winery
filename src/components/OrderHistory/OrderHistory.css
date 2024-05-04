@@ -14,25 +14,33 @@
 }
 
 .orderHandle {
-  margin-left: 15px;
+  /* margin-left: 15px; */
 }
 
-.button {
+.buttons {
+  float: right;
   display: inline-flex;
-  margin-top: 10px;
 }
 
 .main {
-  font-family: 'Montserrat', Helvetica, Arial, 'sans-serif';
+  font-family: 'Montserrat';
 }
 
 .dateTotal {
-  text-align: left;
+  /* text-align: left;
   display: inline-flex;
-  margin-bottom: 15px;
-  font-weight: bold;
+  margin-bottom: 15px; */
+  font-weight: 575;
+  display: inline-flex;
+  float: left;
+  margin-left: 25px;
 }
 
 .orders {
   margin-top: 75px;
+}
+
+.boxItems {
+  display: flex;
+  justify-content: center;
 }
