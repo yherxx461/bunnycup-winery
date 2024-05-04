@@ -68,4 +68,13 @@ router.post('/', async (req, res) => {
     };
 });
 
+router.put('/', (req, res) => {
+    const orderId = req.body.order_id;
+    const status = req.body.status;
+    const statusText = `UPDATE "orders" SET "status_id" = $1 WHERE "id" = $2;`;
+    pool.query(statusText, [status, orderId])
+    .then((result) => {res.sendStatus(200)})
+    .catch((error) => {res.sendStatus(500)})
+})
+
 module.exports = router;
