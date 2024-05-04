@@ -58,7 +58,8 @@ function LandingPage() {
           <Table
             sx={{ maxWidth: 1350 }}
             arial-label="simple table"
-            align="center">
+            align="center"
+          >
             <TableHead>
               <TableRow>
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
@@ -76,19 +77,20 @@ function LandingPage() {
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Category</h3>
                 </TableCell>
-                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                {/* <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Inventory</h3>
-                </TableCell>
+                </TableCell> */}
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Retail Price</h3>
                 </TableCell>
-                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                {/* <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   <h3>Quantity</h3>
                   <p>(# of Bottles)</p>
-                </TableCell>
+                </TableCell> */}
                 <TableCell
                   align="center"
-                  sx={{ verticalAlign: 'top' }}></TableCell>
+                  sx={{ verticalAlign: 'top' }}
+                ></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -97,7 +99,6 @@ function LandingPage() {
                 <TableRow
                   key={item.sku}
                   className="product-list"
-
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell align="center">
@@ -116,25 +117,25 @@ function LandingPage() {
                   <TableCell align="center">{item.sku}</TableCell>
                   <TableCell
                     align="center"
-                    style={{ whiteSpace: 'normal', wordWrap: 'break-words' }}>
+                    style={{ whiteSpace: 'normal', wordWrap: 'break-words' }}
+                  >
                     {item.teaser}
                   </TableCell>
                   <TableCell align="center">{item.category}</TableCell>
-                  <TableCell align="center">{item.inv_level}</TableCell>
+                  {/* <TableCell align="center">{item.inv_level}</TableCell> */}
                   <TableCell align="center">{item.retail_price}</TableCell>
-                  <TableCell align="center">{item.quantity}</TableCell>
-                  <TableCell align="center">
+                  {/* <TableCell align="center">{item.quantity}</TableCell> */}
+                  {/* <TableCell align="center">
                     <Button
                       size="small"
                       variant="contained"
                       style={{ backgroundColor: 'white', color: 'black' }}
                       type="button"
-
                       onClick={() => handleAddToCart(item.sku)}
                     >
                       Add to Cart
                     </Button>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

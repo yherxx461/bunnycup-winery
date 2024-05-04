@@ -30,7 +30,7 @@ router.post('/register', (req, res, next) => {
     .catch((err) => {
       console.log('User registration failed: ', err);
       res.sendStatus(500);
-  });
+    });
 });
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
@@ -59,20 +59,31 @@ router.put('/', (req, res) => {
                         RETURNING "id")
                       UPDATE "client_address" SET "street" = $6, "city" = $7, "state" = $8, "zip" = $9 WHERE "client_id" IN (SELECT "id" FROM "ins2");`;
 
-  pool.query(updateQuery, [password, clientInfo.id, clientInfo.retailer, clientInfo.discount, clientInfo.paymentType, clientInfo.street, clientInfo.city, clientInfo.state, clientInfo.zip])
-  .then((result) => {
-    console.log('Client updated successfully');
-    res.sendStatus(200)
-  })
-  .catch((error) => {
-    console.log('Client update failed')
-    res.sendStatus(500)
-  })
+  pool
+    .query(updateQuery, [
+      password,
+      clientInfo.id,
+      clientInfo.retailer,
+      clientInfo.discount,
+      clientInfo.paymentType,
+      clientInfo.street,
+      clientInfo.city,
+      clientInfo.state,
+      clientInfo.zip,
+    ])
+    .then((result) => {
+      console.log('Client updated successfully');
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log('Client update failed');
+      res.sendStatus(500);
+    });
 });
 
 router.delete('/:id', (req, res) => {
   const deleteInfo = req.params.id;
-  const deleteQuery = ``
-})
+  const deleteQuery = ``;
+});
 
 module.exports = router;
