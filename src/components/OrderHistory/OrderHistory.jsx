@@ -50,12 +50,24 @@ function OrderHistory() {
                     <Button
                       variant="contained"
                       onClick={viewHandle}
-                      sx={{ marginLeft: '500px', backgroundColor: '#757575' }}>
+                      sx={{
+                        marginLeft: '500px',
+                        backgroundColor: '#757575',
+                        fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
+                        color: '#FFFFFF',
+                        fontWeight: 'bold',
+                      }}>
                       View
                     </Button>
                     <Button
                       variant="contained"
-                      sx={{ marginLeft: '15px', backgroundColor: '#757575' }}
+                      sx={{
+                        marginLeft: '15px',
+                        backgroundColor: '#757575',
+                        fontFamily: 'Montserrat, Helvetica, Arial, sans-serif',
+                        color: '#FFFFFF',
+                        fontWeight: 'bold',
+                      }}
                       onClick={reorderHandle}>
                       Reorder
                     </Button>
