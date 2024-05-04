@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
+import ShoppingCartIconPage from '../ShoppingCartIcon/ShoppingCartIcon';
 import './Nav.css';
 import { useSelector } from 'react-redux';
 //npm install @fontsource/special-elite required
@@ -48,7 +49,7 @@ function Nav() {
             </Link>
 
             <Link className="navLink" to="/cart">
-              Cart
+              <ShoppingCartIconPage />
             </Link>
 
             <LogOutButton className="navLink" />
