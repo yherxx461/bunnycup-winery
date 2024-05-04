@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './OrderSummary.css';
 
+
 function OrderSummary() {
   //dispatch hook
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ function OrderSummary() {
   }, [dispatch]);
 
   return (
-    <>
+    <main className="main">
       <div className="header">
         <h1>Order #XXXXXX-1</h1>
       </div>
@@ -100,7 +101,7 @@ function OrderSummary() {
       <div className="total">
         <p>Total: $</p>
       </div>
-    </>
+    </main>
   );
 }
 

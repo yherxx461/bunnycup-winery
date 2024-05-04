@@ -17,6 +17,7 @@
 
 .header {
   text-align: center;
+  color: #757575;
 }
 
 .container {
@@ -38,4 +39,9 @@
 
 .orderTable th {
   border-top: none; /* Remove top border from table header */
+}
+
+.main {
+  background-color: #ffffff;
+  font-family: 'Montserrat', Helvetica, Arial, 'sans-serif';
 }
