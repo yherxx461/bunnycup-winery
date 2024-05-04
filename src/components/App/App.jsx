@@ -23,6 +23,8 @@ import OrderSummary from "../OrderSummary/OrderSummary";
 import OrderHistory from "../OrderHistory/OrderHistory";
 import UpdateUsers from "../UpdateUsers/UpdateUsers";
 import RegisterClientPage from "../RegisterClientPage/RegisterClientPage";
+import ShoppingCart from "../ShoppingCart/ShoppingCart";
+import ProductList from "../ProductList/ProductList";
 import "./App.css";
 
 import { createTheme, alpha, getContrastRatio } from "@mui/material/styles";

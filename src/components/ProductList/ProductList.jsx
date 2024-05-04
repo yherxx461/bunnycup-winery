@@ -116,7 +116,7 @@ function LandingPage() {
                       src={
                         imageList.filter((imageItem) => {
                           return imageItem.sku === item.sku;
-                        })[0].image
+                        })[0]?.image
                       }
                       alt={item.name}
                       style={{ width: '100px', height: 'auto' }}
