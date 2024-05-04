@@ -1,31 +1,45 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
   HashRouter as Router,
   Redirect,
   Route,
   Switch,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
-import Nav from '../Nav/Nav';
-import Footer from '../Footer/Footer';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import UserPage from '../UserPage/UserPage';
+import Nav from "../Nav/Nav";
+import Footer from "../Footer/Footer";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import UserPage from "../UserPage/UserPage";
 // import InfoPage from '../InfoPage/InfoPage';
-import LandingPage from '../LandingPage/LandingPage';
-import LoginPage from '../LoginPage/LoginPage';
-import RegisterPage from '../RegisterPage/RegisterPage';
-import OrderSummary from '../OrderSummary/OrderSummary';
-import OrderHistory from '../OrderHistory/OrderHistory';
-import AdminUserPage from '../AdminUserPage/AdminUserPage';
-import ClientInfoPage from '../ClientInfoPage/ClientInfoPage';
-import ProductList from '../ProductList/ProductList';
-import UpdateUsers from '../UpdateUsers/UpdateUsers';
-import RegisterClientPage from '../RegisterClientPage/RegisterClientPage';
-import ShoppingCart from '../ShoppingCart/ShoppingCart';
+import LandingPage from "../LandingPage/LandingPage";
+import LoginPage from "../LoginPage/LoginPage";
+import RegisterPage from "../RegisterPage/RegisterPage";
+import AdminUserPage from "../AdminUserPage/AdminUserPage";
+import ClientInfoPage from "../ClientInfoPage/ClientInfoPage";
+import AdminRetailerView from "../AdminRetailerView/AdminRetailerView";
+import OrderSummary from "../OrderSummary/OrderSummary";
+import OrderHistory from "../OrderHistory/OrderHistory";
+import UpdateUsers from "../UpdateUsers/UpdateUsers";
+import RegisterClientPage from "../RegisterClientPage/RegisterClientPage";
+import "./App.css";
 
-import './App.css';
+import { createTheme, alpha, getContrastRatio } from "@mui/material/styles";
+
+const pinotMain = "#861F41";
+const pinotBase = alpha(pinotMain, 0.7);
+
+export const primaryTheme = createTheme({
+  palette: {
+    pinot: {
+      main: pinotMain,
+      light: alpha(pinotBase, 0.5),
+      dark: alpha(pinotBase, 0.9),
+      contrastText: getContrastRatio(pinotMain, "#fff") > 4.5 ? "#fff" : "#111",
+    },
+  },
+});
 
 function App() {
   const dispatch = useDispatch();
@@ -33,7 +47,7 @@ function App() {
   const user = useSelector((store) => store.user);
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_USER' });
+    dispatch({ type: "FETCH_USER" });
   }, [dispatch]);
 
   return (
@@ -67,13 +81,26 @@ function App() {
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/admin_user"
-          >
+            path="/client_info">
+            <ClientInfoPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/admin_user">
             <AdminUserPage />
           </ProtectedRoute>
 
           <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
+            // logged in shows UserPage else shows LoginPage
+            path="/retailer-info"
+          >
+            <AdminRetailerView />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
             exact
             path="/client_info"
           >

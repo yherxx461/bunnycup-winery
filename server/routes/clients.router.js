@@ -19,6 +19,25 @@ router.get('/', (req, res) => {
       });
   });
 
+  router.get('/:id', async (req, res) => {
+    const query = `
+      SELECT * FROM "clients"
+        WHERE "id" = $1;
+    `;
+    const clientId = req.params.id;
+
+
+    try {
+        const clientResult = await pool.query(query, [clientId]);
+        const clientDetails = clientResult.rows[0];
+        // JS WORKS HERE    
+        res.send(clientDetails);
+      } catch (err) {
+        console.log('ERROR: Get client details', err);
+        res.sendStatus(500);
+      }
+    });
+
 /**
  * POST route template
  */
