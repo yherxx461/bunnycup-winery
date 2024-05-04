@@ -10,25 +10,21 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
-
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-
 import UserPage from '../UserPage/UserPage';
 // import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-
 import OrderSummary from '../OrderSummary/OrderSummary';
 import OrderHistory from '../OrderHistory/OrderHistory';
-
 import AdminUserPage from '../AdminUserPage/AdminUserPage';
 import ClientInfoPage from '../ClientInfoPage/ClientInfoPage';
 import ProductList from '../ProductList/ProductList';
-
-import './App.css';
 import UpdateUsers from '../UpdateUsers/UpdateUsers';
 import RegisterClientPage from '../RegisterClientPage/RegisterClientPage';
+
+import './App.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -127,7 +123,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect to the /user page
-              <Redirect to="/home" />
+              <Redirect to="/products" />
             ) : (
               // Otherwise, show the login page
               <LoginPage />
@@ -138,7 +134,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/products" />
             ) : (
               // Otherwise, show the registration page
               <RegisterPage />
@@ -149,7 +145,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/products" />
             ) : (
               // Otherwise, show the Landing page
               <LandingPage />
