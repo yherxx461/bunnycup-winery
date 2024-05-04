@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 
-const cart = (state = [], action) => {
+//This is intended to hold an array of objects. Each object will be a wine sku, how many bottles are ordered, and the unit price at time of order.
+const cartWines = (state = [], action) => {
     switch (action.type){
         case 'ADD_TO_CART':
             return [...state, action.payload];
@@ -9,6 +10,17 @@ const cart = (state = [], action) => {
     };
 };
 
+//This is intended to hold order#, client id, date, total, and discount at time of checkout
+const cartInfo = (state = [], action) => {
+    switch (action.type){
+        case 'ORDER_INFO':
+            return action.payload;
+        default:
+            return state;
+    };
+};
+
+//This is to be an array of all client orders, for use by admin
 const orders = (state = [], action) => {
     switch (action.type){
         case 'SET_ORDERS':
@@ -18,6 +30,7 @@ const orders = (state = [], action) => {
     };
 };
 
+//This is to be an array of orders, for the retailer or wholesaler cuttently logged in (if any)
 const clientOrders = (state = [], action) => {
     switch (action.type){
         case 'SET_CLIENT_ORDERS':
@@ -28,7 +41,8 @@ const clientOrders = (state = [], action) => {
 }
 
 export default combineReducers({
-    cart, //This is the storage for our cart
-    orders, //This is intended to hold order data for an admin
+    cartWines, //This is the storage for our wines
+    cartInfo,  //This is the storage for the order number, date, etc.
+    orders,    //This is intended to hold order data for an admin
     clientOrders, //This will hold all of the orders for a logged in client
 })
