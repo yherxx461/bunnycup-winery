@@ -23,6 +23,7 @@ router.post('/register', (req, res, next) => {
 
   const userText = `INSERT INTO "user" ("email", "password", "access_level")
                     VALUES ($1, $2, $3) RETURNING id;`;
+                  
 
   pool
     .query(userText, [username, password, 10])
@@ -32,7 +33,6 @@ router.post('/register', (req, res, next) => {
       res.sendStatus(500);
     });
 });
-
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
