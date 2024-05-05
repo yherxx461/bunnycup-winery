@@ -121,7 +121,7 @@ function App() {
             // logged in shows RegisterClient Page else shows LoginPage
             exact
             path="/register-new"
-          >
+          >             
             <RegisterClientPage />
           </ProtectedRoute>
 
