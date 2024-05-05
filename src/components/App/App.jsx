@@ -23,8 +23,9 @@ import OrderSummary from "../OrderSummary/OrderSummary";
 import OrderHistory from "../OrderHistory/OrderHistory";
 import UpdateUsers from "../UpdateUsers/UpdateUsers";
 import RegisterClientPage from "../RegisterClientPage/RegisterClientPage";
-import ShoppingCart from "../ShoppingCart/ShoppingCart";
-import ProductList from "../ProductList/ProductList";
+import ShoppingCart from "../ShoppingCart/ShoppingCart"
+import ProductList from "../ProductList/ProductList"
+
 import "./App.css";
 
 import { createTheme, alpha, getContrastRatio } from "@mui/material/styles";
@@ -161,7 +162,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect to the /user page
-              <Redirect to="/products" />
+              <Redirect to="/user" />
             ) : (
               // Otherwise, show the login page
               <LoginPage />
@@ -172,7 +173,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/products" />
+              <Redirect to="/user" />
             ) : (
               // Otherwise, show the registration page
               <RegisterPage />
@@ -183,7 +184,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/products" />
+              <Redirect to="/user" />
             ) : (
               // Otherwise, show the Landing page
               <LandingPage />
