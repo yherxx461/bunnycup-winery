@@ -1,5 +1,5 @@
 .view-cart {
-  position: absolute;
+  position: fixed;
   bottom: 2rem;
   right: 5%;
   z-index: 1000;
