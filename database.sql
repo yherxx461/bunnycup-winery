@@ -70,3 +70,9 @@ VALUES ('FBOMB', '/images/fbomb.png'),
 		('FARMWHITE', '/images/farmwhite.png'),
 		('SUMMERTIME', '/images/summertime.png'),
 		('SUNSHINE', '/images/sunshine.png');
+
+--This query will set up the status table with the different status codes--
+INSERT INTO "status" ("id", "name")
+VALUES (1, 'Pending'),
+	   (2, 'Complete'),
+	   (3, 'Cancelled')
