@@ -5,7 +5,14 @@ import './OrderSummary.css';
 function OrderSummary() {
   //dispatch hook
   const dispatch = useDispatch();
-  const reducer = useSelector((store) => store.reducer);
+  const orders = useSelector((store) => store.orders);
+  const clientDetails = useSelector((store) => store.clientDetails);
+  const client = useSelector((store) => store.clients);
+  console.log('clientOrders data', orders);
+  console.log('clientDetails data', clientDetails);
+  console.log('clients data', client);
+  const clientID = client && Number(client.map((clientItem) => clientItem.id));
+  console.log('clientID', clientID);
 
   /*//Formatting Date
   const formatDate = (newDate) => {
@@ -40,8 +47,12 @@ function OrderSummary() {
 
   // Fetch orders on component mount
   useEffect(() => {
-    dispatch({ type: 'FETCH_REDUCER' });
-  }, [dispatch]);
+    {
+      dispatch({ type: 'FETCH_CLIENTS' });
+      dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
+      dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientID });
+    }
+  }, [dispatch, clientID]);
 
   return (
     <main className="main">
@@ -66,7 +77,7 @@ function OrderSummary() {
               borderTop: '3px solid black',
               backgroundColor: '#861f41',
               color: '#FFFFFF',
-              fontWeight: '575'
+              fontWeight: '575',
             }}>
             {/*To Do: Table headers needed are item, description, quantity, price, amount */}
             <tr>
