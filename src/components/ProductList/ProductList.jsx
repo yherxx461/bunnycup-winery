@@ -51,14 +51,22 @@ function ProductList() {
     const quantity = quantities[item.sku]; // Retrieve quantity from state
     console.log(
       'adding item to cart',
+      item.image,
+      item.name,
       item.sku,
       item.retail_price,
       item.retail_price,
       quantity
     );
 
+    // Find corresponding image URL from imageList
+    const image = imageList.find(
+      (imageItem) => imageItem.sku === item.sku
+    )?.image;
+
     // Send data to backend
     const orderData = {
+      image: image,
       product_name: item.name,
       wine_sku: item.sku,
       unit_price: item.retail_price,
