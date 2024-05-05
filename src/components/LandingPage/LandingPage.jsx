@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { WidthWide } from '@mui/icons-material';
 
 // CUSTOM COMPONENTS
 // import LoginForm from '../LoginForm/LoginForm';
@@ -39,78 +40,84 @@ function LandingPage() {
     <>
       <div className="inventory-list" key={inventory.id}>
         <h1 className="product-list-title" align="center">
-          Product List
+          Product Inventory
         </h1>
         {/* TO-DO: Create a table with the Product List */}
         {/* Map the Product List  */}
         {/* Will need to make sure API get request is set up in the server side route */}
-        <TableContainer
+        {/* <TableContainer
           component={Paper}
           align="center"
-          style={{ font: 'Montserrat' }}
+          style={{ fontFamily: 'Montserrat' }}
           // justifyContent="center"
+        > */}
+        <Table
+          sx={{ maxWidth: 1350 }}
+          arial-label="simple table"
+          align="center"
+          fontFamily="Montserrat"
         >
-          <Table
-            sx={{ maxWidth: 1350 }}
-            arial-label="simple table"
-            align="center"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3></h3>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                <h3></h3>
+              </TableCell>
+              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                <h3>Product Name</h3>
+              </TableCell>
+              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                <h3>SKU #</h3>
+              </TableCell>
+              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                <h3>Teaser</h3>
+              </TableCell>
+              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                <h3>Category</h3>
+              </TableCell>
+              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+                <h3>Retail Price</h3>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {inventory.map((item) => (
+              <TableRow
+                key={item.sku}
+                className="product-list"
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell align="center">
+                  <img
+                    // filter through the wine.sku images to match inventory.sku of the inventory table
+                    src={
+                      imageList.filter((imageItem) => {
+                        return imageItem.sku === item.sku;
+                      })[0].image
+                    }
+                    alt={item.name}
+                    style={{ width: '100px', height: 'auto' }}
+                  />
                 </TableCell>
-                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Product Name</h3>
-                </TableCell>
-                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>SKU #</h3>
-                </TableCell>
-                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Teaser</h3>
-                </TableCell>
-                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Category</h3>
-                </TableCell>
-                <TableCell align="center" sx={{ verticalAlign: 'top' }}>
-                  <h3>Retail Price</h3>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {inventory.map((item) => (
-                <TableRow
-                  key={item.sku}
-                  className="product-list"
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                <TableCell align="center">{item.name}</TableCell>
+                <TableCell align="center">{item.sku}</TableCell>
+                <TableCell
+                  align="left"
+                  style={{
+                    verticalAlign: 'middle',
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-words',
+                    maxWidth: '275px',
+                  }}
                 >
-                  <TableCell align="center">
-                    <img
-                      // filter through the wine.sku images to match inventory.sku of the inventory table
-                      src={
-                        imageList.filter((imageItem) => {
-                          return imageItem.sku === item.sku;
-                        })[0].image
-                      }
-                      alt={item.name}
-                      style={{ width: '100px', height: 'auto' }}
-                    />
-                  </TableCell>
-                  <TableCell align="center">{item.name}</TableCell>
-                  <TableCell align="center">{item.sku}</TableCell>
-                  <TableCell
-                    align="center"
-                    style={{ whiteSpace: 'normal', wordWrap: 'break-words' }}
-                  >
-                    {item.teaser}
-                  </TableCell>
-                  <TableCell align="center">{item.category}</TableCell>
-                  <TableCell align="center">{item.retail_price}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                  {item.teaser}
+                </TableCell>
+                <TableCell align="center">{item.category}</TableCell>
+                <TableCell align="center">{item.retail_price}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        {/* </TableContainer> */}
       </div>
     </>
   );

@@ -164,7 +164,6 @@ function ProductList() {
                   align="left"
                   style={{
                     verticalAlign: 'middle',
-
                     whiteSpace: 'normal',
                     wordWrap: 'break-words',
                     maxWidth: '300px',
