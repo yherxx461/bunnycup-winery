@@ -10,27 +10,43 @@ import {
 } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import './ShoppingCart.css';
 
 function ShoppingCart() {
   const dispatch = useDispatch();
-  const inventory = useSelector((store) => store.inventory.inventoryList);
-  console.log('THIS IS THE INVENTORY', inventory);
+  const cart = useSelector((store) => store.cart);
+  // const client = useSelector((store) => store.clients);
+  const clientInfo = useSelector((store) => store.clientDetails);
+
+  console.log('THIS IS THE CART', cart);
+  console.log('THIS IS THE CLIENT INFO', clientInfo);
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_INVENTORY' });
-  }, []);
+    dispatch({ type: 'FETCH_CART' });
+    dispatch({ type: 'FETCH_CLIENT_DETAILS' });
+    // dispatch({ type: 'FETCH_CLIENTS' });
+  }, [dispatch]);
+
+  // Place Order function
+  const placeOrder = () => {
+    console.log('Placing an order:,');
+    dispatch({ type: 'PLACE_ORDER', payload: { cart, clientInfo } });
+  };
 
   return (
-    // <div className="cart-list" key={cart.id}>
     <div>
       <h1 className="cart-list-title" align="center">
         Shopping Cart
       </h1>
+      {/* {client && ( */}
       <div className="retailer-address">
-        <h3>Retailer Name</h3>
-        <p>1234 Street</p>
-        <p>City, State Zip</p>
+        <h3>{clientInfo.name}</h3>
+        <p>{clientInfo.street}</p>
+        <p>
+          {clientInfo.city}, {clientInfo.state} {clientInfo.zip}
+        </p>
       </div>
+      {/* )} */}
       <div className="default-payment">
         <h3>Payment Method</h3>
         <p>Default Payment</p>
@@ -39,7 +55,8 @@ function ShoppingCart() {
         size="small"
         variant="outlined"
         type="button"
-        onClick={() => handleAddToCart(item.sku)}
+        onClick={() => placeOrder(item.sku)}
+        style={{ marginRight: '3rem' }}
       >
         Place Order
       </Button>
@@ -54,7 +71,7 @@ function ShoppingCart() {
           <TableHead>
             <TableRow>
               <TableCell align="center">
-                {/* <h3>Product Image</h3> */}
+                <h3>Product Image</h3>
               </TableCell>
               <TableCell align="center">
                 <h3>Product Name</h3>
@@ -75,30 +92,28 @@ function ShoppingCart() {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow
-              // key={item.sku}
-              className="product-list"
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell align="center"></TableCell>
-              <TableCell align="center" sx={{}}>
-                {/* {item.name} */}
-                item.name
-              </TableCell>
-              <TableCell align="center">item.sku</TableCell>
-              <TableCell align="center">item.retail_price</TableCell>
-              <TableCell align="center">item.quantity</TableCell>
-              <TableCell align="center">Subtotal</TableCell>
-              <TableCell align="center">
-                <Button variant="outlined" size="small">
-                  Remove
-                </Button>
-              </TableCell>
-            </TableRow>
+            {cart &&
+              cart.map((item) => (
+                <TableRow
+                  className="product-list"
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell align="center"></TableCell>
+                  <TableCell align="center">{item.name}</TableCell>
+                  <TableCell align="center">{item.sku}</TableCell>
+                  <TableCell align="center">{item.retail_price}</TableCell>
+                  <TableCell align="center">{item.quantity}</TableCell>
+                  <TableCell align="center">Subtotal</TableCell>
+                  <TableCell align="center">
+                    <Button variant="outlined" size="small">
+                      Remove
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
-      {/* )} */}
     </div>
   );
 }
