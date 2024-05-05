@@ -25,6 +25,7 @@ import UpdateUsers from "../UpdateUsers/UpdateUsers";
 import RegisterClientPage from "../RegisterClientPage/RegisterClientPage";
 import ShoppingCart from "../ShoppingCart/ShoppingCart"
 import ProductList from "../ProductList/ProductList"
+
 import "./App.css";
 
 import { createTheme, alpha, getContrastRatio } from "@mui/material/styles";
@@ -121,7 +122,7 @@ function App() {
             // logged in shows RegisterClient Page else shows LoginPage
             exact
             path="/register-new"
-          >
+          >             
             <RegisterClientPage />
           </ProtectedRoute>
 
