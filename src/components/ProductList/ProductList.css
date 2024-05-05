@@ -1,3 +1,11 @@
-/* TableCell {
-  size-adjust: auto;
-} */
+.view-cart {
+  position: absolute;
+  bottom: 2rem;
+  right: 5%;
+  z-index: 1000;
+  /* margin: 1em; */
+}
+
+.product-list-title {
+  margin-top: 5%;
+}
