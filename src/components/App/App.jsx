@@ -1,20 +1,12 @@
 import React, { useEffect } from 'react';
-import React, { useEffect } from 'react';
 import {
   HashRouter as Router,
   Redirect,
   Route,
   Switch,
 } from 'react-router-dom';
-} from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useDispatch, useSelector } from 'react-redux';
-
-import Nav from '../Nav/Nav';
-import Footer from '../Footer/Footer';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import UserPage from '../UserPage/UserPage';
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
@@ -37,7 +29,7 @@ import './App.css';
 
 import { createTheme, alpha, getContrastRatio } from '@mui/material/styles';
 
-const pinotMain = "#861F41";
+const pinotMain = '#861F41';
 
 const pinotBase = alpha(pinotMain, 0.7);
 
