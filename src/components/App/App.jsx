@@ -31,6 +31,7 @@ import './App.css';
 import { createTheme, alpha, getContrastRatio } from '@mui/material/styles';
 
 const pinotMain = '#861F41';
+
 const pinotBase = alpha(pinotMain, 0.7);
 
 export const primaryTheme = createTheme({
@@ -39,6 +40,7 @@ export const primaryTheme = createTheme({
       main: pinotMain,
       light: alpha(pinotBase, 0.5),
       dark: alpha(pinotBase, 0.9),
+      contrastText: getContrastRatio(pinotMain, '#fff') > 4.5 ? '#fff' : '#111',
       contrastText: getContrastRatio(pinotMain, '#fff') > 4.5 ? '#fff' : '#111',
     },
   },
@@ -50,6 +52,7 @@ function App() {
   const user = useSelector((store) => store.user);
 
   useEffect(() => {
+    dispatch({ type: 'FETCH_USER' });
     dispatch({ type: 'FETCH_USER' });
   }, [dispatch]);
 
@@ -86,6 +89,7 @@ function App() {
             exact
             path="/client_info"
           >
+            path="/client_info" >
             <ClientInfoPage />
           </ProtectedRoute>
 
@@ -94,6 +98,7 @@ function App() {
             exact
             path="/admin_user"
           >
+            path="/admin_user" >
             <AdminUserPage />
           </ProtectedRoute>
 
