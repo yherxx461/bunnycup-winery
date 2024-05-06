@@ -7,7 +7,8 @@ const router = express.Router();
 router.get('/', (req, res) => {
     console.log('GET /api/clients');
     pool
-      .query('SELECT * from "clients" ORDER BY "name";')
+      .query(`SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
+      JOIN "client_address" ON "clients"."id" = "client_address"."client_id" ORDER BY "clients"."name";`)
       .then((result) => {
         res.send(result.rows);
       })
@@ -18,10 +19,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const query = `
-    SELECT * FROM "clients"
-      WHERE "id" = $1;
-  `;
+  const query = `SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
+  JOIN "client_address" ON "clients"."id" = "client_address"."client_id" 
+  WHERE "clients"."id" = $1
+  ORDER BY "clients"."name";`
   const clientId = req.params.id;
 
   try {

@@ -134,9 +134,9 @@ router.post('/', async (req, res) => {
 // });
 
 //PUT route that allows for updating order status. This can be to either mark completion or cancellation
-router.put('/', (req, res) => {
-    const orderId = req.body.order_id;
-    const status = req.body.status;
+router.put('/:order_id/:status_id', (req, res) => {
+    const orderId = req.params.order_id;
+    const status = req.params.status;
     const statusText = `UPDATE "orders" SET "status_id" = $1 WHERE "id" = $2;`;
     pool.query(statusText, [status, orderId])
     .then((result) => {res.sendStatus(200)})
