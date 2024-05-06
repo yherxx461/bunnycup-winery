@@ -51,9 +51,9 @@
 
 @font-face {
   font-family: 'Montserrat';
-  src: url('../../../public/Montserrat-VariableFont_wght.ttf')
+  src: url('../../../Montserrat-VariableFont_wght.ttf')
       format('truetype'),
-    url('../../../public/Montserrat-Italic-VariableFont_wght.ttf')
+    url('../../../Montserrat-Italic-VariableFont_wght.ttf')
       format('truetype');
 }
 

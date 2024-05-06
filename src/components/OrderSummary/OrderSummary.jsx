@@ -6,10 +6,29 @@ function OrderSummary() {
   //dispatch hook
   const dispatch = useDispatch();
   const orders = useSelector((store) => store.orders);
-  const clientDetails = useSelector((store) => store.clientDetails);
-  const client = useSelector((store) => store.clients);
   console.log('clientOrders data', orders);
+  const client = useSelector((store) => store.clients);
+  //getting client details information
+  const clientDetails = useSelector((store) => store.clientDetails);
   console.log('clientDetails data', clientDetails);
+  const deliveryAddress = clientDetails && clientDetails.delivery_address;
+  console.log('deliveryAddress', deliveryAddress);
+  //Formatting Delivery Address
+  const addressParts = deliveryAddress ? deliveryAddress.split(',') : '';
+  const streetAddress = deliveryAddress ? addressParts[0] : '';
+  const cityStateZip = deliveryAddress
+    ? addressParts.slice(1).join(',').trim()
+    : '';
+  console.log('street address', streetAddress);
+  console.log('cityStateZip', cityStateZip);
+  //Getting Client Name
+  const clientName = clientDetails && clientDetails.name;
+  //Getting Client Email
+  const clientEmail = clientDetails && clientDetails.email;
+  //Extracting discount
+  const clientDiscount = clientDetails && clientDetails.discount;
+  console.log('clientDiscount', clientDiscount);
+
   console.log('clients data', client);
   const clientID = client && Number(client.map((clientItem) => clientItem.id));
   console.log('clientID', clientID);
@@ -63,10 +82,10 @@ function OrderSummary() {
         {/*To Do: Retailer info includes Name, Address, contact info */}
         <p className="summaryHeader">Order Summary </p>
         <p className="date">Date:</p>
-        Retailer Name <br />
-        Address <br />
-        Phone <br />
-        Email <br />
+        {clientName} <br />
+        {streetAddress} <br />
+        {cityStateZip} <br />
+        {clientEmail} <br />
       </div>
 
       {/*To Do: set up Table with MUI */}
