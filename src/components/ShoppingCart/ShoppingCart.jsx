@@ -9,9 +9,11 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import './ShoppingCart.css';
 
 function ShoppingCart() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
@@ -48,13 +50,23 @@ function ShoppingCart() {
     dispatch({
       type: 'PLACE_ORDER',
       payload: {
-        cart: {
-          payload: {},
+        orders: {
+          client_id: clientInfo.id,
+          date: new Date().toISOString(),
+          cost: totalPrice,
+          discount: client.discount,
+          wines: cart.map((item) => ({
+            wine_sku: item.win_sku,
+            number_bottles: quantities[item.wine_sku] || item.number_bottles,
+            unit_price: item.unit_price,
+          })),
         },
-        clientInfo,
-        client,
       },
     });
+    // Clears cart once order is placed
+    dispatch({ type: 'CLEAR_CART' });
+    // Navigates to Order Summery Page
+    history.push('/orderSummary');
   };
 
   // Remove Item from Cart
