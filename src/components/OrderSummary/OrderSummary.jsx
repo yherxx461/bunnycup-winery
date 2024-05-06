@@ -6,7 +6,25 @@ function OrderSummary() {
   //dispatch hook
   const dispatch = useDispatch();
   const orders = useSelector((store) => store.orders);
-  console.log('clientOrders data', orders);
+  console.log('orders data', orders);
+  //setting up clientOrders data
+  const clientOrders = orders.clientOrders;
+  console.log('clientOrders', clientOrders);
+  //Extracting Date from clientOrders
+  console.log('client order first array', clientOrders[0]);
+  let orderDate = null;
+  if (clientOrders && clientOrders.length > 0) {
+    const firstOrder = clientOrders[0];
+    orderDate = new Date(firstOrder.date);
+    // formatting the orderDate into "Month XX, XXXX" format
+    const options = { month: 'long', day: '2-digit', year: 'numeric' };
+    orderDate = orderDate.toLocaleDateString('en-US', options);
+  }
+  console.log('Order Date:', orderDate);
+
+  // const date = clientOrders ? clientOrders[0].date : '';
+  // console.log('date', date);
+
   const client = useSelector((store) => store.clients);
   //getting client details information
   const clientDetails = useSelector((store) => store.clientDetails);
@@ -33,37 +51,6 @@ function OrderSummary() {
   const clientID = client && Number(client.map((clientItem) => clientItem.id));
   console.log('clientID', clientID);
 
-  /*//Formatting Date
-  const formatDate = (newDate) => {
-    // //This splits string into substrings/array
-    // const splitDate = newDate.split('T');
-    // // console.log('new date object', splitDate);
-    // return splitDate[0];
-
-    //new date formatting
-    const date = new Date(newDate);
-    // console.log(date);
-    const formattedDate = date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'numeric',
-      day: 'numeric',
-      year: 'numeric',
-    });
-    // console.log(formattedDate);
-    const splitDate = formattedDate.split(',');
-    // console.log(splitDate);
-    // const weekday = splitDate[0];
-    const monthDay = splitDate[1];
-    const splitMonthDay = monthDay.split(' ');
-    // console.log('splitMonthDay', splitMonthDay);
-    const newDateFormat = splitMonthDay[1];
-    // console.log('newDateFormat', newDateFormat);
-    const replaceNewDateFormat = newDateFormat.replace(/\//g, '-');
-    // console.log('replaceNewDateFormat', replaceNewDateFormat);
-
-    return `${replaceNewDateFormat}`;
-  };*/
-
   // Fetch orders on component mount
   useEffect(() => {
     {
@@ -81,7 +68,7 @@ function OrderSummary() {
       <div className="customerInfo">
         {/*To Do: Retailer info includes Name, Address, contact info */}
         <p className="summaryHeader">Order Summary </p>
-        <p className="date">Date:</p>
+        <p className="date">Date: {orderDate}</p>
         {clientName} <br />
         {streetAddress} <br />
         {cityStateZip} <br />
