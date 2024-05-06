@@ -44,11 +44,21 @@ function ShoppingCart() {
     dispatch({ type: 'FETCH_CLIENT_DETAILS' });
   }, [dispatch]);
 
+  useEffect(
+    () => {
+      console.log('cart data', cart);
+      console.log('client data:', client);
+      console.log('clientInfo data:', clientInfo);
+    },
+    [client],
+    [clientInfo]
+  );
+
   // Place Order function
   const placeOrder = () => {
     console.log('Placing an order:', cart, clientInfo, client);
     dispatch({
-      type: 'PLACE_ORDER',
+      type: 'ORDER_INFO',
       payload: {
         orders: {
           client_id: clientInfo.id,
@@ -64,9 +74,9 @@ function ShoppingCart() {
       },
     });
     // Clears cart once order is placed
-    dispatch({ type: 'CLEAR_CART' });
-    // Navigates to Order Summery Page
     history.push('/orderSummary');
+    // dispatch({ type: 'CLEAR_CART' });
+    // Navigates to Order Summery Page
   };
 
   // Remove Item from Cart
