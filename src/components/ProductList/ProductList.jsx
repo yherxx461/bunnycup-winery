@@ -55,7 +55,6 @@ function ProductList() {
       item.name,
       item.sku,
       item.retail_price,
-      item.retail_price,
       quantity
     );
 

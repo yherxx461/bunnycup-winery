@@ -1,104 +1,243 @@
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Button,
+  TextField,
 } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import './ShoppingCart.css';
 
 function ShoppingCart() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const inventory = useSelector((store) => store.inventory.inventoryList);
-  console.log('THIS IS THE INVENTORY', inventory);
+  const imageList = useSelector((store) => store.inventory.imageList);
+  const cart = useSelector((store) => store.orders.cartWines);
+  const client = useSelector((store) => store.clients);
+  const clientInfo = useSelector((store) => store.clientDetails);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [quantities, setQuantities] = useState({});
+
+  // console.log('THIS IS THE ITEMS ADDED TO CART', cart);
+  // console.log('THIS IS THE CLIENT INFO', clientInfo);
+  // console.log('THIS IS THE CLIENT', client);
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_INVENTORY' });
-  }, []);
+    console.log(
+      'Cart Items:',
+      cart.map((item) => ({
+        name: item.product_name,
+        quantity: parseInt(item.number_bottles),
+        retail_price: item.unit_price,
+      }))
+    );
+  }, [cart]);
+
+  useEffect(() => {
+    dispatch({ type: 'FETCH_IMAGES' });
+    dispatch({ type: 'FETCH_CLIENTS' });
+    dispatch({ type: 'FETCH_CLIENT_DETAILS' });
+  }, [dispatch]);
+
+  useEffect(
+    () => {
+      console.log('cart data', cart);
+      console.log('client data:', client);
+      console.log('clientInfo data:', clientInfo);
+    },
+    [client],
+    [clientInfo]
+  );
+
+  // Place Order function
+  const placeOrder = () => {
+    console.log('Placing an order:', cart, clientInfo, client);
+    dispatch({
+      type: 'ORDER_INFO',
+      payload: {
+        orders: {
+          client_id: clientInfo.id,
+          date: new Date().toISOString(),
+          cost: totalPrice,
+          discount: client.discount,
+          wines: cart.map((item) => ({
+            wine_sku: item.win_sku,
+            number_bottles: quantities[item.wine_sku] || item.number_bottles,
+            unit_price: item.unit_price,
+          })),
+        },
+      },
+    });
+    // Clears cart once order is placed
+    history.push('/orderSummary');
+    // dispatch({ type: 'CLEAR_CART' });
+    // Navigates to Order Summery Page
+  };
+
+  // Remove Item from Cart
+  const handleRemoveItem = (skuToRemove) => {
+    console.log('Removing item from Cart:', skuToRemove);
+    dispatch({ type: 'REMOVE_ITEM_FROM_CART', payload: skuToRemove });
+  };
+
+  // Calculation Total Price
+  useEffect(() => {
+    if (cart.length > 0) {
+      const totalPrice = cart.reduce((acc, item) => {
+        return acc + item.unit_price * item.number_bottles;
+      }, 0);
+      setTotalPrice(totalPrice);
+    }
+  }, [cart]);
+
+  // Update quantity in the local state
+  const handleQuantityChange = (sku, quantity) => {
+    dispatch({
+      type: 'UPDATE_CART_QUANTITY',
+      payload: {
+        sku: sku,
+        quantity: quantity >= 0 ? quantity : 0,
+      },
+    });
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [sku]: quantity >= 0 ? quantity : 0,
+    }));
+  };
 
   return (
-    // <div className="cart-list" key={cart.id}>
     <div>
       <h1 className="cart-list-title" align="center">
         Shopping Cart
       </h1>
-      <div className="retailer-address">
-        <h3>Retailer Name</h3>
-        <p>1234 Street</p>
-        <p>City, State Zip</p>
-      </div>
+      {client && ( // If there is a client, show the information below
+        <div className="retailer-info-address">
+          <h3>Retailer Information</h3>
+          <p>{client.name}</p>
+          <p>{clientInfo.street}</p>
+          <p>
+            {clientInfo.city}, {clientInfo.state} {clientInfo.zip}
+          </p>
+        </div>
+      )}
       <div className="default-payment">
         <h3>Payment Method</h3>
-        <p>Default Payment</p>
+        <p>{client.payment_type}</p>
       </div>
-      <Button
-        size="small"
-        variant="outlined"
-        type="button"
-        onClick={() => handleAddToCart(item.sku)}
-      >
-        Place Order
-      </Button>
-      {/* {(item) => ( */}
-      <TableContainer
-        // key={item.sku}
-        component={Paper}
-        align="center"
-        // justifyContent="center"
-      >
-        <Table sx={{ maxWidth: 900 }} arial-label="simple table" align="center">
-          <TableHead>
+      <div className="total">
+        <p>Retail Total: ${Number(totalPrice).toFixed(2)}</p>
+        <p>Your Discount: {Number(client.discount)} </p>
+        <h4>Your Total: ${Number(totalPrice) * (client.discount / 100)}</h4>
+        <Button
+          size="small"
+          variant="outlined"
+          type="button"
+          onClick={placeOrder}
+          style={{ marginRight: '3rem' }}
+        >
+          Place Order
+        </Button>
+      </div>
+      <Table sx={{ maxWidth: 900 }} arial-label="simple table" align="center">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">
+              <h3>Product Image</h3>
+            </TableCell>
+            <TableCell align="center">
+              <h3>Product Name</h3>
+            </TableCell>
+            <TableCell align="center">
+              <h3>SKU #</h3>
+            </TableCell>
+            <TableCell align="center">
+              <h3>Retail Price</h3>
+            </TableCell>
+            <TableCell align="center">
+              <h3>Quantity</h3>
+              {/* <p>(# of Bottles)</p> */}
+            </TableCell>
+            <TableCell align="center">
+              <h3>Subtotal</h3>
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {/* Conditional rendering: If there's no items in the cart, show the 'Your cart is empty' message */}
+          {cart.length === 0 ? (
             <TableRow>
-              <TableCell align="center">
-                {/* <h3>Product Image</h3> */}
-              </TableCell>
-              <TableCell align="center">
-                <h3>Product Name</h3>
-              </TableCell>
-              <TableCell align="center">
-                <h3>SKU #</h3>
-              </TableCell>
-              <TableCell align="center">
-                <h3>Retail Price</h3>
-              </TableCell>
-              <TableCell align="center">
-                <h3>Quantity</h3>
-                {/* <p>(# of Bottles)</p> */}
-              </TableCell>
-              <TableCell align="center">
-                <h3>Subtotal</h3>
+              <TableCell colSpan={7} align="center">
+                Your cart is empty
               </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow
-              // key={item.sku}
-              className="product-list"
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell align="center"></TableCell>
-              <TableCell align="center" sx={{}}>
-                {/* {item.name} */}
-                item.name
-              </TableCell>
-              <TableCell align="center">item.sku</TableCell>
-              <TableCell align="center">item.retail_price</TableCell>
-              <TableCell align="center">item.quantity</TableCell>
-              <TableCell align="center">Subtotal</TableCell>
-              <TableCell align="center">
-                <Button variant="outlined" size="small">
-                  Remove
-                </Button>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {/* )} */}
+          ) : (
+            cart.map((item) => (
+              // console.log('typeof bottles', typeof item.number_bottles),
+              // console.log('typeof price', typeof Number(item.unit_price)), // Although this makes the string a number, it's still showing that this is a string as it has the $ sign. This will continue returning a 'NaN'.
+              <TableRow
+                className="product-list"
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell align="center">
+                  <img
+                    // filter through the wine.sku images to match inventory.sku of the inventory table
+                    src={
+                      imageList.filter((item) => {
+                        return item.sku === item.sku;
+                      })[0]?.image
+                    }
+                    alt={item.name}
+                    style={{ width: '100px', height: 'auto' }}
+                  />
+                </TableCell>
+                <TableCell align="center">{item.product_name}</TableCell>
+                <TableCell align="center">{item.wine_sku}</TableCell>
+                <TableCell align="center">{item.unit_price}</TableCell>
+                {/* <TableCell align="center">{item.number_bottles}</TableCell>
+                 */}
+                <TableCell align="center">
+                  <TextField
+                    type="number"
+                    InputProps={{
+                      inputProps: { min: 0, max: inventory.inv_level },
+                      style: { fontSize: '0.9rem' },
+                    }}
+                    value={quantities[item.wine_sku] || item.number_bottles}
+                    onChange={(event) =>
+                      handleQuantityChange(
+                        item.wine_sku,
+                        parseInt(event.target.value, 10)
+                      )
+                    }
+                    variant="outlined"
+                    size="small"
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  {/* unit_price is a string. It's not letting me multiply a string with a number. */}
+                  {item.number_bottles * Number(item.unit_price)}
+                </TableCell>
+                <TableCell align="center">
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => handleRemoveItem(item.wine_sku)}
+                  >
+                    Remove
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+      {/* </TableContainer> */}
     </div>
   );
 }
