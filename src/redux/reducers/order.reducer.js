@@ -14,6 +14,8 @@ const cartWines = (state = [], action) => {
     case 'REMOVE_ITEM_FROM_CART':
       const skuToRemove = action.payload;
       return state.filter((item) => item.wine_sku !== skuToRemove);
+    case 'CLEAR_CART':
+      return [];
     default:
       return state;
   }
