@@ -1,61 +1,92 @@
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
-  // TableContainer,
   TableHead,
   TableRow,
   Button,
+  TextField,
 } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './ShoppingCart.css';
 
 function ShoppingCart() {
   const dispatch = useDispatch();
+  const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
   const cart = useSelector((store) => store.orders.cartWines);
   const client = useSelector((store) => store.clients);
-  const clientInfo = useSelector((store) => store.orders.cartInfo);
+  const clientInfo = useSelector((store) => store.clientDetails);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [quantities, setQuantities] = useState({});
 
-  console.log('THIS IS THE ITEMS ADDED TO CART', cart);
-  console.log('THIS IS THE CLIENT INFO', clientInfo);
-  console.log('THIS IS THE CLIENT', client);
+  // console.log('THIS IS THE ITEMS ADDED TO CART', cart);
+  // console.log('THIS IS THE CLIENT INFO', clientInfo);
+  // console.log('THIS IS THE CLIENT', client);
 
   useEffect(() => {
     console.log(
       'Cart Items:',
       cart.map((item) => ({
-        name: item.name,
-        quantity: item.quantity,
-        retail_price: item.retail_price,
-        quantityType: typeof item.quantity,
-        priceType: typeof item.retail_price,
+        name: item.product_name,
+        quantity: parseInt(item.number_bottles),
+        retail_price: item.unit_price,
       }))
     );
   }, [cart]);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_IMAGES' });
-    dispatch({ type: 'GET_CLIENT_ORDERS' });
-    dispatch({ type: 'FETCH_CLIENT_DETAILS' });
     dispatch({ type: 'FETCH_CLIENTS' });
+    dispatch({ type: 'FETCH_CLIENT_DETAILS' });
   }, [dispatch]);
 
   // Place Order function
   const placeOrder = () => {
     console.log('Placing an order:', cart, clientInfo, client);
-    dispatch({ type: 'PLACE_ORDER', payload: { cart, clientInfo, client } });
+    dispatch({
+      type: 'PLACE_ORDER',
+      payload: {
+        cart: {
+          payload: {},
+        },
+        clientInfo,
+        client,
+      },
+    });
   };
 
   // Remove Item from Cart
-  const handleRemoveItem = (sku) => {
-    console.log('Removing item from Cart:', sku);
-    dispatch({ type: 'REMOVE_ITEM_FROM_CART', payload: sku });
+  const handleRemoveItem = (skuToRemove) => {
+    console.log('Removing item from Cart:', skuToRemove);
+    dispatch({ type: 'REMOVE_ITEM_FROM_CART', payload: skuToRemove });
   };
 
-  // Calculation subtotal
+  // Calculation Total Price
+  useEffect(() => {
+    if (cart.length > 0) {
+      const totalPrice = cart.reduce((acc, item) => {
+        return acc + item.unit_price * item.number_bottles;
+      }, 0);
+      setTotalPrice(totalPrice);
+    }
+  }, [cart]);
+
+  // Update quantity in the local state
+  const handleQuantityChange = (sku, quantity) => {
+    dispatch({
+      type: 'UPDATE_CART_QUANTITY',
+      payload: {
+        sku: sku,
+        quantity: quantity >= 0 ? quantity : 0,
+      },
+    });
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [sku]: quantity >= 0 ? quantity : 0,
+    }));
+  };
 
   return (
     <div>
@@ -64,7 +95,8 @@ function ShoppingCart() {
       </h1>
       {client && ( // If there is a client, show the information below
         <div className="retailer-info-address">
-          <h3>{clientInfo.name}</h3>
+          <h3>Retailer Information</h3>
+          <p>{client.name}</p>
           <p>{clientInfo.street}</p>
           <p>
             {clientInfo.city}, {clientInfo.state} {clientInfo.zip}
@@ -73,17 +105,22 @@ function ShoppingCart() {
       )}
       <div className="default-payment">
         <h3>Payment Method</h3>
-        <p>{client?.payment_type || 'Default Payment'}</p>
+        <p>{client.payment_type}</p>
       </div>
-      <Button
-        size="small"
-        variant="outlined"
-        type="button"
-        onClick={placeOrder}
-        style={{ marginRight: '3rem' }}
-      >
-        Place Order
-      </Button>
+      <div className="total">
+        <p>Retail Total: ${Number(totalPrice).toFixed(2)}</p>
+        <p>Your Discount: {Number(client.discount)} </p>
+        <h4>Your Total: ${Number(totalPrice) * (client.discount / 100)}</h4>
+        <Button
+          size="small"
+          variant="outlined"
+          type="button"
+          onClick={placeOrder}
+          style={{ marginRight: '3rem' }}
+        >
+          Place Order
+        </Button>
+      </div>
       <Table sx={{ maxWidth: 900 }} arial-label="simple table" align="center">
         <TableHead>
           <TableRow>
@@ -119,6 +156,8 @@ function ShoppingCart() {
             </TableRow>
           ) : (
             cart.map((item) => (
+              // console.log('typeof bottles', typeof item.number_bottles),
+              // console.log('typeof price', typeof Number(item.unit_price)), // Although this makes the string a number, it's still showing that this is a string as it has the $ sign. This will continue returning a 'NaN'.
               <TableRow
                 className="product-list"
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -138,15 +177,35 @@ function ShoppingCart() {
                 <TableCell align="center">{item.product_name}</TableCell>
                 <TableCell align="center">{item.wine_sku}</TableCell>
                 <TableCell align="center">{item.unit_price}</TableCell>
-                <TableCell align="center">{item.number_bottles}</TableCell>
+                {/* <TableCell align="center">{item.number_bottles}</TableCell>
+                 */}
                 <TableCell align="center">
-                  {(item.number_bottles * item.unit_price).toFixed(2)}
+                  <TextField
+                    type="number"
+                    InputProps={{
+                      inputProps: { min: 0, max: inventory.inv_level },
+                      style: { fontSize: '0.9rem' },
+                    }}
+                    value={quantities[item.wine_sku] || item.number_bottles}
+                    onChange={(event) =>
+                      handleQuantityChange(
+                        item.wine_sku,
+                        parseInt(event.target.value, 10)
+                      )
+                    }
+                    variant="outlined"
+                    size="small"
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  {/* unit_price is a string. It's not letting me multiply a string with a number. */}
+                  {item.number_bottles * Number(item.unit_price)}
                 </TableCell>
                 <TableCell align="center">
                   <Button
                     variant="outlined"
                     size="small"
-                    onClick={() => handleRemoveItem(item.sku)}
+                    onClick={() => handleRemoveItem(item.wine_sku)}
                   >
                     Remove
                   </Button>
