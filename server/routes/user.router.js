@@ -48,6 +48,7 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+//User account update
 router.put('/', (req, res) => {
   const clientInfo = req.body;
   const password = encryptLib.encryptPassword(req.body.password);
@@ -82,9 +83,21 @@ router.put('/', (req, res) => {
     });
 });
 
+// This enables specific user account deletion.
+// Deleting a user account will not delete client information, so that order history is preserved.
 router.delete('/:id', (req, res) => {
   const deleteInfo = req.params.id;
-  const deleteQuery = ``;
+  const deleteQuery = `DELETE * FROM "user" WHERE "id" = $1`;
+
+  pool.query(deleteQuery, [deleteInfo])
+  .then((result) => {
+    console.log('Account deletion successful')
+    res.sendStatus(200);
+  })
+  .catch((error) => {
+    console.log('Account deletion failed')
+    res.sendStatus(500)
+  })
 });
 
 module.exports = router;
