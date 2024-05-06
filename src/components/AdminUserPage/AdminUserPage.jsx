@@ -86,6 +86,7 @@ function AdminUserPage() {
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
+                    width: 800,
                   }}
                 >
                   <Stack
@@ -108,8 +109,8 @@ function AdminUserPage() {
                         }}
                       >
                         <Box
-                          marginInlineStart={45}
-                          marginInlineEnd={30}
+                          marginInlineStart={20}
+                          marginInlineEnd={15}
                           fontSize={22}
                         >
                           ADD NEW

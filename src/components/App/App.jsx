@@ -97,7 +97,7 @@ function App() {
 
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
-            path="/retailer-info"
+            path="/retailer-info/:id"
           >
             <AdminRetailerView />
           </ProtectedRoute>

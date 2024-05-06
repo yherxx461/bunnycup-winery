@@ -21,9 +21,11 @@ router.get('/', (req, res) => {
 
   router.get('/:id', async (req, res) => {
     const query = `
-      SELECT * FROM "clients"
-        WHERE "id" = $1;
+    SELECT clients.*, "client_address"."street","client_address"."city","client_address"."state","client_address"."zip" FROM "clients"
+      JOIN "client_address" ON "clients"."id" = "client_address"."client_id"
+        WHERE "clients"."id" = $1;
     `;
+    
     const clientId = req.params.id;
 
 
