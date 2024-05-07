@@ -25,6 +25,12 @@ function OrderSummary() {
   // const date = clientOrders ? clientOrders[0].date : '';
   // console.log('date', date);
 
+  //Calculating the total cost of clientOrders
+  const totalCost =
+    clientOrders &&
+    clientOrders.reduce((total, order) => total + Number(order.total_cost), 0);
+  console.log('total cost', totalCost);
+
   const client = useSelector((store) => store.clients);
   //getting client details information
   const clientDetails = useSelector((store) => store.clientDetails);
@@ -95,33 +101,22 @@ function OrderSummary() {
             </tr>
           </thead>
           <tbody style={{ borderBottom: '3px solid black', color: 'black' }}>
-            <tr>
-              <td>1.</td>
-              <td>Product Description</td>
-              <td>12</td>
-              <td>Unit Price</td>
-              <td>$120.00</td>
-            </tr>
-            <tr>
-              <td>2.</td>
-              <td>Product Description 2</td>
-              <td>24</td>
-              <td>Unit Price</td>
-              <td>$200.00</td>
-            </tr>
-            <tr>
-              <td>3.</td>
-              <td>Product Description 3</td>
-              <td>12</td>
-              <td>Unit Price</td>
-              <td>$99.00</td>
-            </tr>
+            {clientOrders &&
+              clientOrders.map((order, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{order.wine_sku}</td>
+                  <td>{order.number_bottles}</td>
+                  <td>{order.unit_price}</td>
+                  <td>{order.total_cost}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
 
       <div className="total">
-        <p>Total: $539.00</p>
+        <p>Total: ${totalCost}</p>
       </div>
     </main>
   );
