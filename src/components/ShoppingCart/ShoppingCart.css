@@ -1,4 +1,15 @@
+.cart-list-title {
+  margin-top: 5%;
+}
+
 .retailer-info-address,
 .default-payment {
-  margin-left: 3rem;
+  margin-left: 10rem;
+}
+
+.total-container {
+  position: absolute;
+  top: 23%;
+  right: 10%;
+  text-align: left;
 }
