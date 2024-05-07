@@ -56,7 +56,7 @@ function AdminUserPage() {
   };
 
   return (
-    <Container maxWidth>
+    <Container >
       <ThemeProvider theme={primaryTheme}>
         <center>
           <h2>Welcome ADMIN!</h2>
