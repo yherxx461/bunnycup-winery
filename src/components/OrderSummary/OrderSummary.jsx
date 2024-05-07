@@ -22,8 +22,25 @@ function OrderSummary() {
   }
   console.log('Order Date:', orderDate);
 
-  // const date = clientOrders ? clientOrders[0].date : '';
-  // console.log('date', date);
+  //making a customized order number
+  let orderNumber = null;
+  if (clientOrders && clientOrders.length > 0) {
+    const firstOrder = clientOrders[0];
+    const orderDate = new Date(firstOrder.date);
+
+    // Extract date components
+    const month = ('0' + (orderDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + orderDate.getDate()).slice(-2);
+    const year = orderDate.getFullYear().toString().slice(-2);
+
+    // Calculate the order number for the day
+    const orderDailyNumber = clientOrders.length;
+
+    // Construct order number
+    orderNumber = `${month}${day}${year}-${orderDailyNumber}`;
+  }
+
+  console.log('Order Number:', orderNumber);
 
   //Calculating the total cost of clientOrders
   const totalCost =
@@ -69,7 +86,7 @@ function OrderSummary() {
   return (
     <main className="main">
       <div className="header">
-        <h1>Order #XXXXXX-1</h1>
+        <h1>Order #{orderNumber}</h1>
       </div>
       <div className="customerInfo">
         {/*To Do: Retailer info includes Name, Address, contact info */}
