@@ -52,16 +52,22 @@ function OrderSummary() {
   //getting client details information
   const clientDetails = useSelector((store) => store.clientDetails);
   console.log('clientDetails data', clientDetails);
-  const deliveryAddress = clientDetails && clientDetails.delivery_address;
-  console.log('deliveryAddress', deliveryAddress);
+  // const deliveryAddress = clientDetails && clientDetails.delivery_address;
+  // console.log('deliveryAddress', deliveryAddress);
   //Formatting Delivery Address
-  const addressParts = deliveryAddress ? deliveryAddress.split(',') : '';
-  const streetAddress = deliveryAddress ? addressParts[0] : '';
-  const cityStateZip = deliveryAddress
-    ? addressParts.slice(1).join(',').trim()
-    : '';
-  console.log('street address', streetAddress);
-  console.log('cityStateZip', cityStateZip);
+  // const addressParts = deliveryAddress ? deliveryAddress.split(',') : '';
+  // const streetAddress = deliveryAddress ? addressParts[0] : '';
+  // const cityStateZip = deliveryAddress
+  //   ? addressParts.slice(1).join(',').trim()
+  //   : '';
+  // console.log('street address', streetAddress);
+  // console.log('cityStateZip', cityStateZip);
+  //address information changed so need to adjust mapping
+  const street = clientDetails && clientDetails.street;
+  const city = clientDetails && clientDetails.city;
+  const state = clientDetails && clientDetails.state;
+  const zip = clientDetails && clientDetails.zip;
+
   //Getting Client Name
   const clientName = clientDetails && clientDetails.name;
   //Getting Client Email
@@ -93,8 +99,8 @@ function OrderSummary() {
         <p className="summaryHeader">Order Summary </p>
         <p className="date">Date: {orderDate}</p>
         {clientName} <br />
-        {streetAddress} <br />
-        {cityStateZip} <br />
+        {street} <br />
+        {city}, {state}, {zip} <br />
         {clientEmail} <br />
       </div>
 
