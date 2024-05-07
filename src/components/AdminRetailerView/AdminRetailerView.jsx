@@ -104,7 +104,6 @@ function AdminRetailerView() {
                   </Stack>
                 </Box>
               </AccordionSummary>
-
               <Box
                 sx={{
                   flexGrow: 1,
