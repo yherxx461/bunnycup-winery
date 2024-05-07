@@ -9,23 +9,25 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import './ShoppingCart.css';
 
 function ShoppingCart() {
   const history = useHistory();
   const dispatch = useDispatch();
+  // const { id } = useParams();
   const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
   const cart = useSelector((store) => store.orders.cartWines);
   const client = useSelector((store) => store.clients);
-  const clientInfo = useSelector((store) => store.clientDetails);
+  // const clientInfo = useSelector((store) => store.clientDetails);
+  const user = useSelector((store) => store.user);
   const [totalPrice, setTotalPrice] = useState(0);
   const [quantities, setQuantities] = useState({});
 
   // console.log('THIS IS THE ITEMS ADDED TO CART', cart);
   // console.log('THIS IS THE CLIENT INFO', clientInfo);
-  // console.log('THIS IS THE CLIENT', client);
+  console.log('THIS IS THE CLIENT', client);
 
   useEffect(() => {
     console.log(
@@ -41,33 +43,23 @@ function ShoppingCart() {
   useEffect(() => {
     dispatch({ type: 'FETCH_IMAGES' });
     dispatch({ type: 'FETCH_CLIENTS' });
-    dispatch({ type: 'FETCH_CLIENT_DETAILS' });
+    // dispatch({ type: 'FETCH_CLIENT_DETAILS' });
   }, [dispatch]);
-
-  useEffect(
-    () => {
-      console.log('cart data', cart);
-      console.log('client data:', client);
-      console.log('clientInfo data:', clientInfo);
-    },
-    [client],
-    [clientInfo]
-  );
 
   // Place Order function
   const placeOrder = () => {
-    console.log('Placing an order:', cart, clientInfo, client);
+    console.log('Placing an order:', cart, client);
     dispatch({
       type: 'ORDER_INFO',
       payload: {
         orders: {
-          client_id: clientInfo.id,
+          client_id: client[0]?.id,
           date: new Date().toISOString(),
           cost: totalPrice,
-          discount: client.discount,
+          discount: client[0]?.discount,
           wines: cart.map((item) => ({
-            wine_sku: item.win_sku,
-            number_bottles: quantities[item.wine_sku] || item.number_bottles,
+            wine_sku: item.wine_sku,
+            number_bottles: quantities[item.sku] || item.number_bottles,
             unit_price: item.unit_price,
           })),
         },
@@ -75,7 +67,7 @@ function ShoppingCart() {
     });
     // Clears cart once order is placed
     history.push('/orderSummary');
-    // dispatch({ type: 'CLEAR_CART' });
+    dispatch({ type: 'CLEAR_CART' });
     // Navigates to Order Summery Page
   };
 
@@ -88,11 +80,17 @@ function ShoppingCart() {
   // Calculation Total Price
   useEffect(() => {
     if (cart.length > 0) {
-      const totalPrice = cart.reduce((acc, item) => {
-        return acc + item.unit_price * item.number_bottles;
-      }, 0);
+      console.log('cart in reduce function', cart);
+      const totalPrice = cart.reduce(
+        (acc, item) =>
+          acc + Number(item.unit_price.slice(1)) * item.number_bottles,
+        0
+      );
+      // return acc + item.unit_price * item.number_bottles;
+      // }, 0);
       setTotalPrice(totalPrice);
     }
+    console.log('totalPrice', totalPrice);
   }, [cart]);
 
   // Update quantity in the local state
@@ -110,40 +108,58 @@ function ShoppingCart() {
     }));
   };
 
+  // const currentClient = client.find((item) => {
+  //   return item.user_id === user.id;
+  // });
+  // console.log('currentClient', currentClient);
+
   return (
     <div>
       <h1 className="cart-list-title" align="center">
         Shopping Cart
       </h1>
-      {client && ( // If there is a client, show the information below
-        <div className="retailer-info-address">
-          <h3>Retailer Information</h3>
-          <p>{client.name}</p>
-          <p>{clientInfo.street}</p>
-          <p>
-            {clientInfo.city}, {clientInfo.state} {clientInfo.zip}
-          </p>
-        </div>
-      )}
+      {/* {client && ( // If there is a client, show the information below */}
+      <div className="retailer-info-address">
+        <h3>{client[0]?.name}</h3>
+        {/* <p>{client[0].name}</p> */}
+        <p>{client[0]?.street}</p>
+        <p>
+          {client[0]?.city}, {client[0]?.state} {client[0]?.zip}
+        </p>
+      </div>
+      {/* // )} */}
       <div className="default-payment">
         <h3>Payment Method</h3>
-        <p>{client.payment_type}</p>
+        <p>{client[0]?.payment_type}</p>
       </div>
-      <div className="total">
-        <p>Retail Total: ${Number(totalPrice).toFixed(2)}</p>
-        <p>Your Discount: {Number(client.discount)} </p>
-        <h4>Your Total: ${Number(totalPrice) * (client.discount / 100)}</h4>
+      <div className="total-container">
+        <p>Retail Total: ${totalPrice.toFixed(2)}</p>
+        <p>Your Discount: {client[0]?.discount}% </p>
+        <h4>
+          Your Total: $
+          {((Number(totalPrice) * (100 - client[0]?.discount)) / 100).toFixed(
+            2
+          )}
+        </h4>
         <Button
           size="small"
           variant="outlined"
           type="button"
           onClick={placeOrder}
-          style={{ marginRight: '3rem' }}
+          style={{
+            marginRight: '1rem',
+            backgroundColor: 'white',
+            color: 'black',
+          }}
+          sx={{
+            fontFamily: 'Montserrat',
+            fontWeight: '575',
+          }}
         >
           Place Order
         </Button>
       </div>
-      <Table sx={{ maxWidth: 900 }} arial-label="simple table" align="center">
+      <Table sx={{ maxWidth: 1000 }} arial-label="simple table" align="center">
         <TableHead>
           <TableRow>
             <TableCell align="center">
@@ -221,7 +237,10 @@ function ShoppingCart() {
                 </TableCell>
                 <TableCell align="center">
                   {/* unit_price is a string. It's not letting me multiply a string with a number. */}
-                  {item.number_bottles * Number(item.unit_price)}
+                  $
+                  {(
+                    item.number_bottles * Number(item.unit_price.slice(1))
+                  ).toFixed(2)}
                 </TableCell>
                 <TableCell align="center">
                   <Button
