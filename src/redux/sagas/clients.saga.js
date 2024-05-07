@@ -29,9 +29,21 @@ export function* fetchAllClients() {
     }
   }
 
+function* updateClient(action) {
+  console.log('In update user', action.payload.id);
+  try {
+    yield axios.put(`/api/clients/update/${action.payload.id}`, action.payload);
+    yield put ({type: 'SET_CLIENTS'});
+  } catch (error) {
+    console.log('Error with user update:', error);
+    yield put({ type: 'UPDATE_FAILED' });
+  }
+}
+
   function* clientsSaga() {
     yield takeLatest('FETCH_CLIENTS', fetchAllClients);
     yield takeEvery('FETCH_CLIENT_DETAILS', fetchClientDetails);
+    yield takeLatest('UPDATE', updateClient);
   }
   
   export default clientsSaga;

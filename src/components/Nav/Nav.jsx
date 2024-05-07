@@ -18,10 +18,6 @@ function Nav() {
               Home
             </Link>
 
-            <Link className="navLink" to="/update">
-              Update Retailer
-            </Link>
-
             <Link className="navLink" to="/orderSummary">
               Order Summary
             </Link>

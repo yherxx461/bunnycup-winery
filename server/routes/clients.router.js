@@ -74,4 +74,64 @@ router.post('/register', (req, res) => {
       res.sendStatus(500)})
 });
 
+// router.put('/update/:id', (req, res, next) => {
+//     let clientId = req.params.id;
+//     let clientEmail = req.body.email;
+//     const client = {
+//         password: encryptLib.encryptPassword(req.body.password),
+//         name: req.body.name,
+//         street: req.body.street,
+//         city: req.body.city,
+//         state: req.body.state, 
+//         zip: req.body.zip,
+//         discount: req.body.discount,
+//         payment: req.body.payment,
+//     };
+//     console.log('id', clientId);
+//     console.log(req.body);
+
+//     const queryUser = 
+//     `UPDATE "user" 
+//     SET "password" = ($1) WHERE "email" = ($2);`;
+
+//     const queryClient = 
+//     `UPDATE "clients" 
+//     SET "name" = ($1), "discount" = ($2), "payment_type" = ($3)  WHERE "id" = ($4);`;
+
+//     const queryAddress = 
+//    `UPDATE "client_address" 
+//     SET "street" = ($1), "city" = ($2), "state" = ($3), "zip" = ($4) WHERE "client_id" = ($5);`;
+
+//   pool
+//   .query(queryUser, [client.password, clientEmail])
+//    .then((response) => {
+//     console.log('Response 1:', response)
+//    })
+//     .catch((err) => {
+//         console.log('User update failed: ', err);
+//         res.sendStatus(500);
+    //   })
+
+//  pool
+//  .query(queryClient, [client.name, client.discount, client.payment, clientId])
+//   .then((response) => {
+//    console.log('Response 2:', response)
+//   })
+//    .catch((err) => {
+//        console.log('Client update failed: ', err);
+//        res.sendStatus(500);
+//      })
+
+// pool
+// .query(queryAddress, [client.street, client.city, client.state, client.zip, clientId])
+// .then((response) => {
+//   console.log('Response 3:', response)
+// })
+//   .catch((err) => {
+//       console.log('Address update failed: ', err);
+//       res.sendStatus(500);
+//     })
+
+// });
+
 module.exports = router;

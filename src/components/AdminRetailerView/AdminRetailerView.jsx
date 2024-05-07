@@ -52,6 +52,10 @@ function AdminRetailerView() {
     // dispatch({ type: 'FETCH_ALL_ORDERS' });
   }, []);
 
+  const handleClickEditClient = (id) => {
+    history.push(`/update/${id}`);
+  };
+
   console.log("CLIENTS", clients);
   console.log("CLIENT DETAILS", clientDetails);
 
@@ -128,7 +132,7 @@ function AdminRetailerView() {
                   size="large"
                   color="pinot"
                   fullWidth
-                  onClick={() => handleClickEditClient(client.id)}
+                  onClick={() => handleClickEditClient(clientDetails.id)}
                 >
                   EDIT
                 </Button>

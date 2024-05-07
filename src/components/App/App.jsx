@@ -113,7 +113,7 @@ function App() {
           <ProtectedRoute
             // logged in shows UpdateUsers Page else shows LoginPage
             exact
-            path="/update"
+            path="/update/:id"
           >
             <UpdateUsers />
           </ProtectedRoute>
