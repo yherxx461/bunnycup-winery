@@ -65,7 +65,7 @@ function AdminUserPage() {
   }
 
   return (
-    <Container maxWidth>
+    <Container >
       <ThemeProvider theme={primaryTheme}>
         <center>
           <h2>Welcome ADMIN!</h2>
@@ -93,6 +93,7 @@ function AdminUserPage() {
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
+                    width: 800,
                   }}
                 >
                   <Stack

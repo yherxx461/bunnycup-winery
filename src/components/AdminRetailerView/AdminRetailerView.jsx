@@ -52,6 +52,10 @@ function AdminRetailerView() {
     // dispatch({ type: 'FETCH_ALL_ORDERS' });
   }, []);
 
+  const handleClickEditClient = (id) => {
+    history.push(`/update/${id}`);
+  };
+
   console.log("CLIENTS", clients);
   console.log("CLIENT DETAILS", clientDetails);
 
@@ -96,41 +100,48 @@ function AdminRetailerView() {
                       fontSize: "22px",
                     }}
                   >
-                    <p>
-                      RETAILER INFO
-                    </p>
+                    <p>RETAILER INFO</p>
                   </Stack>
                 </Box>
               </AccordionSummary>
-
-              <Box sx={{ flexGrow: 1, justifyContent: "flex-end" }}>
-                <p>EDIT</p>
-                {JSON.stringify(clientDetails)}
-                <p>{clientDetails.name}</p>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  height: 2,
+                  flexDirection: "column",
+                  paddingLeft: 3,
+                  paddingRight: 3,
+                  paddingTop: 3,
+                  fontFamily: "George Sans Serif",
+                  fontSize: "20px",
+                  width: 800,
+                  
+                }}
+              >
+                <p>Name: {clientDetails.name}</p>
+                <p>Email Address: {clientDetails.email}</p>
+                <p>
+                  Address: {clientDetails.street} {clientDetails.city},{" "}
+                  {clientDetails.state} {clientDetails.zip}
+                </p>
+                <p>Discount: {clientDetails.discount}%</p>
+                <p>Payment Type: {clientDetails.payment_type}</p>
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="pinot"
+                  fullWidth
+                  onClick={() => handleClickEditClient(clientDetails.id)}
+                >
+                  EDIT
+                </Button>
               </Box>
               <AccordionDetails
                 sx={{
                   minHeight: 400,
                   maxHeight: 400,
                 }}
-              >
-                    <>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          p: 0,
-                          m: 1,
-                          bgcolor: "background.paper",
-                          borderRadius: 1,
-                        }}
-                      >
-                          
-                        
-                        {/* <PhoneIcon/> <a href={`tel:${selectedMeetReq.phone}`}> {selectedMeetReq.phone}</a><br/><br/> */}
-                      </Box>
-                    </>
-              </AccordionDetails>
+              ></AccordionDetails>
             </Accordion>
             <h2>ORDERS</h2>
             <Accordion>
