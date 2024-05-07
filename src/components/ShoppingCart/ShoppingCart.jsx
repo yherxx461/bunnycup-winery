@@ -15,6 +15,7 @@ import './ShoppingCart.css';
 function ShoppingCart() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector((store) => store.user.id)
   const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
   const cart = useSelector((store) => store.orders.cartWines);
@@ -33,7 +34,7 @@ function ShoppingCart() {
       cart.map((item) => ({
         name: item.product_name,
         quantity: parseInt(item.number_bottles),
-        retail_price: item.unit_price,
+        retail_price: item.unit_price.replace('$', ''),
       }))
     );
   }, [cart]);
@@ -41,7 +42,7 @@ function ShoppingCart() {
   useEffect(() => {
     dispatch({ type: 'FETCH_IMAGES' });
     dispatch({ type: 'FETCH_CLIENTS' });
-    dispatch({ type: 'FETCH_CLIENT_DETAILS' });
+    dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: user });
   }, [dispatch]);
 
   useEffect(
@@ -66,9 +67,9 @@ function ShoppingCart() {
           cost: totalPrice,
           discount: client.discount,
           wines: cart.map((item) => ({
-            wine_sku: item.win_sku,
-            number_bottles: quantities[item.wine_sku] || item.number_bottles,
-            unit_price: item.unit_price,
+            sku: item.wine_sku,
+            quantity: quantities[item.wine_sku] || item.number_bottles,
+            price: item.unit_price,
           })),
         },
       },

@@ -68,7 +68,7 @@ function ProductList() {
       image: image,
       product_name: item.name,
       wine_sku: item.sku,
-      unit_price: item.retail_price,
+      unit_price: item.retail_price.replace('$', ''),
       number_bottles: quantity,
     };
 
@@ -172,7 +172,7 @@ function ProductList() {
                 </TableCell>
                 <TableCell align="center">{item.category}</TableCell>
                 <TableCell align="center">{item.inv_level}</TableCell>
-                <TableCell align="center">{item.retail_price}</TableCell>
+                <TableCell align="center">${item.retail_price}</TableCell>
                 <TableCell align="center">
                   <TextField
                     type="number"
