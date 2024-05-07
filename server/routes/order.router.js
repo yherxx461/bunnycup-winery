@@ -2,6 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+//GET route to pull ALL orders in history
 router.get('/', (req, res) => {
   const orderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost", 
                         "orders"."checkout_discount", "status"."name", "wine_orders"."wine_sku",
@@ -18,6 +19,7 @@ router.get('/', (req, res) => {
     });
 });
 
+//GET route to pull orders for specific client id. This is intended for use in client order history view
 router.get('/:id', (req, res) => {
   const clientId = req.params.id;
   const clientOrderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost", 
@@ -36,6 +38,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
+//POST route to allow storage of orders
 router.post('/', async (req, res) => {
   const db = await pool.connect();
   try {
@@ -129,5 +132,15 @@ router.post('/', async (req, res) => {
 //       res.sendStatus(500);
 //     });
 // });
+
+//PUT route that allows for updating order status. This can be to either mark completion or cancellation
+router.put('/:order_id/:status_id', (req, res) => {
+    const orderId = req.params.order_id;
+    const status = req.params.status;
+    const statusText = `UPDATE "orders" SET "status_id" = $1 WHERE "id" = $2;`;
+    pool.query(statusText, [status, orderId])
+    .then((result) => {res.sendStatus(200)})
+    .catch((error) => {res.sendStatus(500)})
+})
 
 module.exports = router;
