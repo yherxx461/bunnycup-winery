@@ -22,6 +22,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { ThemeProvider } from "@mui/material/styles";
 import { primaryTheme } from "../App/App";
+import Typography from "@mui/material/Typography"
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "black" ? "#1A2027" : "#fff",
@@ -39,16 +40,14 @@ function AdminUserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
   const clients = useSelector((store) => store.clients);
-  // const orders = useSelector((store) => store.orders);
+  const orders = useSelector((store) => store.orders.orders);
   const dispatch = useDispatch();
   const history = useHistory();
-
-  console.log("CLIENTS", clients);
 
   // onload makes GET call to fetch all boarding data.
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
-    // dispatch({ type: 'FETCH_ALL_ORDERS' });
+    dispatch({ type: 'GET_ADMIN_ORDERS' });
   }, []);
 
   const handleClickOpenClient = (id) => {
@@ -74,8 +73,6 @@ function AdminUserPage() {
                 aria-controls="panel1-content"
                 id="panel1-header"
                 sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
                   bgcolor: "#F9F7F4",
                   display: "flex",
                   justifyContent: "space-between",
@@ -108,8 +105,8 @@ function AdminUserPage() {
                         }}
                       >
                         <Box
-                          marginInlineStart={45}
-                          marginInlineEnd={30}
+                          marginInlineStart={15}
+                          marginInlineEnd={15}
                           fontSize={22}
                         >
                           ADD NEW
@@ -140,6 +137,7 @@ function AdminUserPage() {
                 sx={{
                   minHeight: 400,
                   maxHeight: 400,
+                  overflowY: "scroll",
                 }}
               >
                 {clients.map((client) => {
@@ -183,20 +181,19 @@ function AdminUserPage() {
                   bgcolor: "#F9F7F4",
                 }}
               >
-                NEW
-                <div>
-                  {/* {orders.length} */}
-                  (orders.length) NEW ORDERS
-                </div>
+                <Typography sx={{ width: '45%', flexShrink: 0 }}>NEW</Typography>
+                <Typography color="pinot" sx={{ fontWeight: 'bold'}}>
+                  {orders.length} NEW ORDERS
+                </Typography>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
                   minHeight: 400,
                   maxHeight: 400,
+                  overflowY: "scroll",
                 }}
               >
-                DISPLAY NEW ORDERS HERE
-                {/* {orders.map((order) => {
+                {orders.map((order) => {
               return (
                 <>
                 <Box
@@ -210,12 +207,12 @@ function AdminUserPage() {
                   }}
                 >
                   <p>{order.date}</p>
-                  <p>{order.client_id}</p>
-                  <p>{order.total_cost}</p>
+                  <p>{order.name}</p>
+                  <p>$ {order.total_cost}</p>
                   <p type="button" onClick={() => handleClickOpenClient(client)}>VIEW</p>
                 </Box>
                 </>
-            )})} */}
+            )})}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -233,6 +230,7 @@ function AdminUserPage() {
                 sx={{
                   minHeight: 400,
                   maxHeight: 400,
+                  overflowY: "scroll",
                 }}
               >
                 FUNCTION completedOrders() to .map and filter for completed
@@ -254,6 +252,7 @@ function AdminUserPage() {
                 sx={{
                   minHeight: 400,
                   maxHeight: 400,
+                  overflowY: "scroll",
                 }}
               >
                 FUNCTION canceledOrders() to .map and filter for cancelled

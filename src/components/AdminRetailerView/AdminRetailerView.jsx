@@ -105,6 +105,7 @@ function AdminRetailerView() {
 
               <Box sx={{ flexGrow: 1, justifyContent: "flex-end" }}>
                 <p>EDIT</p>
+                {JSON.stringify(clientDetails)}
                 <p>{clientDetails.name}</p>
               </Box>
               <AccordionDetails
