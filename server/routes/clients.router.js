@@ -3,13 +3,12 @@ const encryptLib = require('../modules/encryption');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+//GET route to find all clients and sort alphabetically by name
 router.get('/', (req, res) => {
     console.log('GET /api/clients');
     pool
-      .query('SELECT * from "clients" ORDER BY "name";')
+      .query(`SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
+      JOIN "client_address" ON "clients"."id" = "client_address"."client_id" ORDER BY "clients"."name";`)
       .then((result) => {
         res.send(result.rows);
       })
@@ -17,6 +16,7 @@ router.get('/', (req, res) => {
         console.log('Error GET /api/clients', error);
         res.sendStatus(500);
       });
+
   });
 
   router.get('/:id', async (req, res) => {
@@ -28,21 +28,25 @@ router.get('/', (req, res) => {
     
     const clientId = req.params.id;
 
+router.get('/:id', async (req, res) => {
+  const query = `SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
+  JOIN "client_address" ON "clients"."id" = "client_address"."client_id" 
+  WHERE "clients"."id" = $1
+  ORDER BY "clients"."name";`
+  const clientId = req.params.id;
 
-    try {
-        const clientResult = await pool.query(query, [clientId]);
-        const clientDetails = clientResult.rows[0];
-        // JS WORKS HERE    
-        res.send(clientDetails);
-      } catch (err) {
-        console.log('ERROR: Get client details', err);
-        res.sendStatus(500);
-      }
-    });
+  try {
+      const clientResult = await pool.query(query, [clientId]);
+      const clientDetails = clientResult.rows[0];
+      // JS WORKS HERE    
+      res.send(clientDetails);
+    } catch (err) {
+      console.log('ERROR: Get client details', err);
+      res.sendStatus(500);
+    }
+});
 
-/**
- * POST route template
- */
+//POST route template
 router.post('/register', (req, res) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
@@ -53,7 +57,7 @@ router.post('/register', (req, res) => {
                   zip: req.body.zip,
                   discount: req.body.discount,
                   payment: req.body.payment};
-
+    //In the above variables, we're storing all of the client data taken in from the registration form.
   const clientText = `WITH "ins1" as (
     INSERT INTO "user" ("email", "password", "access_level")
     VALUES ($1, $2, $3)
@@ -64,6 +68,7 @@ router.post('/register', (req, res) => {
     RETURNING "id")
   INSERT INTO "client_address" ("client_id", "street", "city", "state", "zip")
   SELECT "id", $8, $9, $10, $11 FROM "ins2";`;
+  //This query will input an email and password into the user table, then use that generated ID to fill in the clients and client_address tables
 
   pool.query(clientText, [username, password, 1, client.name, username, client.discount, client.payment, client.street, client.city, client.state, client.zip])
     .then((result) => {
