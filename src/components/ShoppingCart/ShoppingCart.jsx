@@ -26,7 +26,7 @@ function ShoppingCart() {
 
   // console.log('THIS IS THE ITEMS ADDED TO CART', cart);
   // console.log('THIS IS THE CLIENT INFO', clientInfo);
-  console.log('THIS IS THE CLIENT', client);
+  // console.log('THIS IS THE CLIENT', client);
 
   useEffect(() => {
     console.log(
@@ -34,7 +34,7 @@ function ShoppingCart() {
       cart.map((item) => ({
         name: item.product_name,
         quantity: parseInt(item.number_bottles),
-        retail_price: item.unit_price,
+        retail_price: item.unit_price.replace('$', ''),
       }))
     );
   }, [cart]);
@@ -45,17 +45,27 @@ function ShoppingCart() {
     dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: user });
   }, [dispatch]);
 
+  useEffect(
+    () => {
+      console.log('cart data', cart);
+      console.log('client data:', client);
+      console.log('clientInfo data:', clientInfo);
+    },
+    [client],
+    [clientInfo]
+  );
+
   // Place Order function
   const placeOrder = () => {
-    console.log('Placing an order:', cart, client);
+    console.log('Placing an order:', cart, clientInfo, client);
     dispatch({
       type: 'ORDER_INFO',
       payload: {
         orders: {
-          client_id: client[0]?.id,
+          client_id: clientInfo.id,
           date: new Date().toISOString(),
           cost: totalPrice,
-          discount: client[0]?.discount,
+          discount: client.discount,
           wines: cart.map((item) => ({
             sku: item.wine_sku,
             quantity: quantities[item.wine_sku] || item.number_bottles,
@@ -80,13 +90,9 @@ function ShoppingCart() {
   useEffect(() => {
     if (cart.length > 0) {
       console.log('cart in reduce function', cart);
-      const totalPrice = cart.reduce(
-        (acc, item) =>
-          acc + Number(item.unit_price.slice(1)) * item.number_bottles,
-        0
-      );
-      // return acc + item.unit_price * item.number_bottles;
-      // }, 0);
+      const totalPrice = cart.reduce((acc, item) => {
+        return acc + item.unit_price * item.number_bottles;
+      }, 0);
       setTotalPrice(totalPrice);
     }
     console.log('totalPrice', totalPrice);
@@ -119,11 +125,11 @@ function ShoppingCart() {
       </h1>
       {/* {client && ( // If there is a client, show the information below */}
       <div className="retailer-info-address">
-        <h3>{client[0]?.name}</h3>
+        <h3>{clientInfo.name}</h3>
         {/* <p>{client[0].name}</p> */}
-        <p>{client[0]?.street}</p>
+        <p>{clientInfo.street}</p>
         <p>
-          {client[0]?.city}, {client[0]?.state} {client[0]?.zip}
+          {clientInfo.city}, {clientInfo.state} {clientInfo.zip}
         </p>
       </div>
       {/* // )} */}
