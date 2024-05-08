@@ -49,6 +49,7 @@ function OrderSummary() {
   console.log('total cost', totalCost);
 
   const client = useSelector((store) => store.clients);
+  console.log('client data', client);
   //getting client details information
   const clientDetails = useSelector((store) => store.clientDetails);
   console.log('clientDetails data', clientDetails);
