@@ -34,8 +34,9 @@ const Item = styled(Paper)(({ theme }) => ({
   fontSize: 15,
 }));
 
-// export default function AccordionUsage() {
-//   return (
+// return the CURRENT YEAR
+const currentYear = new Date().getFullYear()
+console.log('YEAR is:', currentYear)
 
 function AdminUserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -96,17 +97,16 @@ function AdminUserPage() {
                     width: 800,
                   }}
                 >
-                  <Stack
-                    spacing={3}
-                    margin={1}
+                    <Typography
+                    fontSize={22}
                     sx={{
-                      direction: "row",
-                      justifyContent: "end",
-                      fontSize: "22px",
+                      marginTop: 2,
+                      marginLeft: 1,
+                      width: '20%'
                     }}
-                  >
-                    <p>
+                    >
                       RETAILERS
+                      </Typography>
                       <Button
                         variant="text"
                         size="large"
@@ -116,8 +116,9 @@ function AdminUserPage() {
                         }}
                       >
                         <Box
-                          marginInlineStart={15}
-                          marginInlineEnd={15}
+                          // marginInlineStart={15}
+                          // marginInlineEnd={15}
+                          sx={{width: '%'}}
                           fontSize={22}
                         >
                           ADD NEW
@@ -132,8 +133,6 @@ function AdminUserPage() {
                         label="SEARCH"
                         variant="outlined"
                       />
-                    </p>
-                  </Stack>
                 </Box>
               </AccordionSummary>
 
@@ -149,8 +148,8 @@ function AdminUserPage() {
               </Box>
               <AccordionDetails
                 sx={{
-                  minHeight: 350,
-                  maxHeight: 350,
+                  minHeight: 300,
+                  maxHeight: 300,
                   overflowY: "scroll",
                 }}
               >
@@ -211,8 +210,8 @@ function AdminUserPage() {
               </AccordionSummary>
               <AccordionDetails
                 sx={{
-                  minHeight: 350,
-                  maxHeight: 350,
+                  minHeight: 300,
+                  maxHeight: 300,
                   overflowY: "scroll",
                 }}
               >
@@ -262,8 +261,8 @@ function AdminUserPage() {
               </AccordionSummary>
               <AccordionDetails
                 sx={{
-                  minHeight: 350,
-                  maxHeight: 350,
+                  minHeight: 300,
+                  maxHeight: 300,
                   overflowY: "scroll",
                 }}
               >
@@ -313,8 +312,8 @@ function AdminUserPage() {
               </AccordionSummary>
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 300,
+                  maxHeight: 300,
                   overflowY: "scroll",
                 }}
               >
