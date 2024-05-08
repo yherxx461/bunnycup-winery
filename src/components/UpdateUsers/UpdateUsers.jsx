@@ -39,7 +39,7 @@ function UpdateUsers() {
     dispatch({
       type: "UPDATE",
       payload: {
-        id: user.id,
+        id: id,
         password: password,
         name: retailer,
         street: street,
