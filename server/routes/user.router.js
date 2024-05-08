@@ -53,21 +53,21 @@ router.put('/', (req, res) => {
   const clientInfo = req.body;
   const password = encryptLib.encryptPassword(req.body.password);
   const updateQuery = `WITH "ins1" AS (
-                        UPDATE "clients" SET "name" = $3, "discount" = $4, "payment_type" = $5 WHERE "client_id" = $2
+                        UPDATE "clients" SET "name" = $1, "discount" = $2, "payment_type" = $3 WHERE "id" = $4
                         RETURNING "user_id"),
                         "ins2" AS (
-                        UPDATE "user" SET "password" = $1 WHERE "id" IN (SELECT "user_id" FROM "ins1")
+                        UPDATE "user" SET "password" = $5 WHERE "id" IN (SELECT "user_id" FROM "ins1")
                         RETURNING "id"
                         )
-                      UPDATE "client_address" SET "street" = $6, "city" = $7, "state" = $8, "zip" = $9 WHERE "client_id" = $1;`;
+                      UPDATE "client_address" SET "street" = $6, "city" = $7, "state" = $8, "zip" = $9 WHERE "client_id" = $4;`;
 
   pool
     .query(updateQuery, [
-      password,
-      clientInfo.id,
       clientInfo.retailer,
       clientInfo.discount,
       clientInfo.paymentType,
+      clientInfo.id,
+      password,
       clientInfo.street,
       clientInfo.city,
       clientInfo.state,
