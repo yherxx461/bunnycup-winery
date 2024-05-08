@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import LogOutButton from "../LogOutButton/LogOutButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import bunnycup from "../../../public/images/bunnycup.png";
+import bunnycup from "/images/bunnycup.png";
 
 // MUI imports
 // import * as React from 'react';
@@ -22,6 +22,8 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { ThemeProvider } from "@mui/material/styles";
 import { primaryTheme } from "../App/App";
+import Typography from "@mui/material/Typography"
+import Link from "@mui/material/Link";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "black" ? "#1A2027" : "#fff",
@@ -39,24 +41,31 @@ function AdminUserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
   const clients = useSelector((store) => store.clients);
-  // const orders = useSelector((store) => store.orders);
+  const orders = useSelector((store) => store.orders.orders);
   const dispatch = useDispatch();
   const history = useHistory();
-
-  console.log("CLIENTS", clients);
 
   // onload makes GET call to fetch all boarding data.
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
-    // dispatch({ type: 'FETCH_ALL_ORDERS' });
+    dispatch({ type: 'GET_ADMIN_ORDERS' });
   }, []);
 
   const handleClickOpenClient = (id) => {
     history.push(`/retailer-info/${id}`);
   };
 
+  // tracking counts for NEW ORDERS
+  let newOrders = [];
+  function checkNewOrders() {
+    for (let order of orders)
+      if (order.status === 'PENDING') {
+        newOrders.push(order);
+      } return newOrders.length
+  }
+
   return (
-    <Container maxWidth>
+    <Container >
       <ThemeProvider theme={primaryTheme}>
         <center>
           <h2>Welcome ADMIN!</h2>
@@ -74,8 +83,6 @@ function AdminUserPage() {
                 aria-controls="panel1-content"
                 id="panel1-header"
                 sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
                   bgcolor: "#F9F7F4",
                   display: "flex",
                   justifyContent: "space-between",
@@ -86,6 +93,7 @@ function AdminUserPage() {
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
+                    width: 800,
                   }}
                 >
                   <Stack
@@ -108,8 +116,8 @@ function AdminUserPage() {
                         }}
                       >
                         <Box
-                          marginInlineStart={45}
-                          marginInlineEnd={30}
+                          marginInlineStart={15}
+                          marginInlineEnd={15}
                           fontSize={22}
                         >
                           ADD NEW
@@ -140,6 +148,7 @@ function AdminUserPage() {
                 sx={{
                   minHeight: 400,
                   maxHeight: 400,
+                  overflowY: "scroll",
                 }}
               >
                 {clients.map((client) => {
@@ -156,8 +165,17 @@ function AdminUserPage() {
                           borderRadius: 1,
                         }}
                       >
-                        <p>{client.name}</p>
-                        <a href={`mailto:${client.email}`}>{client.email}</a>
+                      <Typography sx={{ width: '35%' }}>
+                        {client.name}
+                      </Typography>
+                      <Link
+                        sx={{ width: '35%' }}
+                        href={`mailto:${client.email}`}
+                      >
+                        {client.email}
+                      </Link>
+                        {/* <p>{client.name}</p>
+                        <a href={`mailto:${client.email}`}>{client.email}</a> */}
                         <Button
                           variant="text"
                           sx={{
@@ -183,20 +201,20 @@ function AdminUserPage() {
                   bgcolor: "#F9F7F4",
                 }}
               >
-                NEW
-                <div>
-                  {/* {orders.length} */}
-                  (orders.length) NEW ORDERS
-                </div>
+                <Typography sx={{ width: '40%', flexShrink: 0 }}>NEW</Typography>
+                <Typography color="pinot" sx={{ fontWeight: 'bold', width: '35%'}}>
+                  {checkNewOrders()} NEW ORDERS
+                </Typography>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
                   minHeight: 400,
                   maxHeight: 400,
+                  overflowY: "scroll",
                 }}
               >
-                DISPLAY NEW ORDERS HERE
-                {/* {orders.map((order) => {
+                {orders.map((order) => {
+                  if (order.status === 'PENDING') {
               return (
                 <>
                 <Box
@@ -209,13 +227,23 @@ function AdminUserPage() {
                     borderRadius: 1,
                   }}
                 >
-                  <p>{order.date}</p>
-                  <p>{order.client_id}</p>
-                  <p>{order.total_cost}</p>
-                  <p type="button" onClick={() => handleClickOpenClient(client)}>VIEW</p>
+                <Typography sx={{ width: '40%' }}>{order.date}</Typography>
+                <Typography sx={{ width: '35%' }}>{order.name}</Typography>
+                <Typography sx={{ width: '25%' }}>$ {order.total_cost}</Typography>
+                <Button
+                          variant="text"
+                          sx={{
+                            color: "#861F41",
+                          }}
+                          // onClick={() => handleClickOpenClient(client.id)}
+                        >
+                          VIEW
+                        </Button>
                 </Box>
                 </>
-            )})} */}
+              )
+                }
+              })}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -233,10 +261,40 @@ function AdminUserPage() {
                 sx={{
                   minHeight: 400,
                   maxHeight: 400,
+                  overflowY: "scroll",
                 }}
               >
-                FUNCTION completedOrders() to .map and filter for completed
-                orders.
+                {orders.map((order) => {
+                  if (order.status === 'COMPLETE') {
+              return (
+                <>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    p: 0,
+                    m: 1,
+                    bgcolor: 'background.paper',
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: '40%' }}>{order.date}</Typography>
+                <Typography sx={{ width: '35%' }}>{order.name}</Typography>
+                <Typography sx={{ width: '25%' }}>$ {order.total_cost}</Typography>
+                <Button
+                          variant="text"
+                          sx={{
+                            color: "#861F41",
+                          }}
+                          // onClick={() => handleClickOpenClient(client.id)}
+                        >
+                          VIEW
+                        </Button>
+                </Box>
+                </>
+              )
+                }
+              })}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -254,10 +312,40 @@ function AdminUserPage() {
                 sx={{
                   minHeight: 400,
                   maxHeight: 400,
+                  overflowY: "scroll",
                 }}
               >
-                FUNCTION canceledOrders() to .map and filter for cancelled
-                orders.
+                {orders.map((order) => {
+                  if (order.status === 'CANCELED') {
+              return (
+                <>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    p: 0,
+                    m: 1,
+                    bgcolor: 'background.paper',
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: '40%' }}>{order.date}</Typography>
+                <Typography sx={{ width: '35%' }}>{order.name}</Typography>
+                <Typography sx={{ width: '25%' }}>$ {order.total_cost}</Typography>
+                <Button
+                          variant="text"
+                          sx={{
+                            color: "#861F41",
+                          }}
+                          // onClick={() => handleClickOpenClient(client.id)}
+                        >
+                          VIEW
+                        </Button>
+                </Box>
+                </>
+              )
+                }
+              })}
               </AccordionDetails>
             </Accordion>
           </div>

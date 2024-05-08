@@ -15,13 +15,12 @@ import './ShoppingCart.css';
 function ShoppingCart() {
   const history = useHistory();
   const dispatch = useDispatch();
-  // const { id } = useParams();
+  const user = useSelector((store) => store.user.id);
   const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
   const cart = useSelector((store) => store.orders.cartWines);
   const client = useSelector((store) => store.clients);
-  // const clientInfo = useSelector((store) => store.clientDetails);
-  const user = useSelector((store) => store.user);
+  const clientInfo = useSelector((store) => store.clientDetails);
   const [totalPrice, setTotalPrice] = useState(0);
   const [quantities, setQuantities] = useState({});
 
@@ -43,7 +42,7 @@ function ShoppingCart() {
   useEffect(() => {
     dispatch({ type: 'FETCH_IMAGES' });
     dispatch({ type: 'FETCH_CLIENTS' });
-    // dispatch({ type: 'FETCH_CLIENT_DETAILS' });
+    dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: user });
   }, [dispatch]);
 
   // Place Order function
@@ -58,9 +57,9 @@ function ShoppingCart() {
           cost: totalPrice,
           discount: client[0]?.discount,
           wines: cart.map((item) => ({
-            wine_sku: item.wine_sku,
-            number_bottles: quantities[item.sku] || item.number_bottles,
-            unit_price: item.unit_price,
+            sku: item.wine_sku,
+            quantity: quantities[item.wine_sku] || item.number_bottles,
+            price: item.unit_price,
           })),
         },
       },
@@ -130,16 +129,17 @@ function ShoppingCart() {
       {/* // )} */}
       <div className="default-payment">
         <h3>Payment Method</h3>
-        <p>{client[0]?.payment_type}</p>
+        <p>{clientInfo.payment_type}</p>
       </div>
-      <div className="total-container">
-        <p>Retail Total: ${totalPrice.toFixed(2)}</p>
-        <p>Your Discount: {client[0]?.discount}% </p>
+      <div className="total">
+        <p>Retail Total: ${Number(totalPrice).toFixed(2)}</p>
+        <p>Your Discount: {Number(clientInfo.discount)}% </p>
         <h4>
           Your Total: $
-          {((Number(totalPrice) * (100 - client[0]?.discount)) / 100).toFixed(
-            2
-          )}
+          {(
+            Number(totalPrice) -
+            Number(totalPrice) * (clientInfo.discount / 100)
+          ).toFixed(2)}
         </h4>
         <Button
           size="small"
@@ -214,7 +214,7 @@ function ShoppingCart() {
                 </TableCell>
                 <TableCell align="center">{item.product_name}</TableCell>
                 <TableCell align="center">{item.wine_sku}</TableCell>
-                <TableCell align="center">{item.unit_price}</TableCell>
+                <TableCell align="center">${item.unit_price}</TableCell>
                 {/* <TableCell align="center">{item.number_bottles}</TableCell>
                  */}
                 <TableCell align="center">
@@ -237,10 +237,7 @@ function ShoppingCart() {
                 </TableCell>
                 <TableCell align="center">
                   {/* unit_price is a string. It's not letting me multiply a string with a number. */}
-                  $
-                  {(
-                    item.number_bottles * Number(item.unit_price.slice(1))
-                  ).toFixed(2)}
+                  ${(item.number_bottles * Number(item.unit_price)).toFixed(2)}
                 </TableCell>
                 <TableCell align="center">
                   <Button
