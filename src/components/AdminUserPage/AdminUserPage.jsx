@@ -77,7 +77,7 @@ function AdminUserPage() {
             <p>{client.name}</p>
           )})} */}
           <div>
-            <Accordion>
+            <Accordion defaultExpanded>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
@@ -124,6 +124,9 @@ function AdminUserPage() {
                         </Box>
                       </Button>
                       <TextField
+                      // sx={{
+                      //   marginLeft: auto,
+                      // }}
                         size="medium"
                         id="outlined-basic"
                         label="SEARCH"
@@ -146,8 +149,8 @@ function AdminUserPage() {
               </Box>
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 350,
+                  maxHeight: 350,
                   overflowY: "scroll",
                 }}
               >
@@ -208,8 +211,8 @@ function AdminUserPage() {
               </AccordionSummary>
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 350,
+                  maxHeight: 350,
                   overflowY: "scroll",
                 }}
               >
@@ -259,8 +262,8 @@ function AdminUserPage() {
               </AccordionSummary>
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 350,
+                  maxHeight: 350,
                   overflowY: "scroll",
                 }}
               >
