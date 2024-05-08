@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import LogOutButton from "../LogOutButton/LogOutButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import bunnycup from "../../../public/images/bunnycup.png";
+import bunnycup from "/images/bunnycup.png";
 
 // MUI imports
 // import * as React from 'react';
