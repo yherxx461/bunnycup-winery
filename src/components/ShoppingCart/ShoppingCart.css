@@ -13,3 +13,8 @@
   right: 10%;
   text-align: left;
 }
+
+main {
+  background-color: #ffffff;
+  font-family: 'Montserrat', 'Helvetica', 'Arial', 'sans-serif';
+}
