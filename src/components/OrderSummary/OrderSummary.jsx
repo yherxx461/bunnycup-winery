@@ -42,10 +42,13 @@ function OrderSummary() {
 
   console.log('Order Number:', orderNumber);
 
-  //Calculating the total cost of clientOrders
-  const totalCost =
-    clientOrders &&
-    clientOrders.reduce((total, order) => total + Number(order.total_cost), 0);
+  // Calculating the total cost of clientOrders
+  const totalCost = clientOrders
+    ? clientOrders.reduce(
+        (total, order) => total + order.number_bottles * order.unit_price,
+        0
+      )
+    : 0;
   console.log('total cost', totalCost);
 
   const client = useSelector((store) => store.clients);
@@ -132,7 +135,9 @@ function OrderSummary() {
                   <td>{order.wine_sku}</td>
                   <td>{order.number_bottles}</td>
                   <td>{order.unit_price}</td>
-                  <td>{order.total_cost}</td>
+                  <td>
+                    $ {(order.number_bottles * order.unit_price).toFixed(2)}
+                  </td>
                 </tr>
               ))}
           </tbody>
@@ -140,7 +145,7 @@ function OrderSummary() {
       </div>
 
       <div className="total">
-        <p>Total: ${totalCost}</p>
+        <p>Total: ${totalCost.toFixed(2)}</p>
       </div>
     </main>
   );
