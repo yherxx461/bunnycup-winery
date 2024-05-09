@@ -15,7 +15,7 @@ import './ShoppingCart.css';
 function ShoppingCart() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const user = useSelector((store) => store.user.id)
+  const user = useSelector((store) => store.user)
   const orderCount = useSelector((store) => store.orders.orderCount);
   const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
