@@ -124,9 +124,10 @@ function AdminUserPage() {
                       fontSize: "22px",
                     }}
                   >
-                    <p>
+                    <p className="formControl">
                       RETAILERS
                       <Button
+                        sx={{ alignItems: "flex-end" }}
                         variant="text"
                         size="large"
                         color="pinot"
@@ -135,45 +136,51 @@ function AdminUserPage() {
                         }}
                       >
                         <Box
-                          marginInlineStart={15}
-                          marginInlineEnd={15}
+                          marginInlineStart={10}
+                          marginInlineEnd={10}
                           fontSize={22}
                         >
                           ADD NEW
                         </Box>
                       </Button>
-                      <Stack>
-                        <Box
-                          component="form"
-                          sx={{
-                            "& .MuiTextField-root": { m: 2, width: "25ch" },
-                          }}
-                          autoComplete="off"
+                      <Box
+                        component="form"
+                        sx={{
+                          "& .MuiTextField-root": {
+                            m: 1,
+                            width: "50ch",
+                            height: "1px",
+                          },
+                        }}
+                        autoComplete="off"
+                        onSubmit={onSubmitSearch}
+                      >
+                        <TextField
+                          type="text"
+                          name="name"
+                          placeholder="Search Retailers"
+                          size="medium"
+                          id="outlined-basic"
+                          variant="outlined"
+                          value={name}
+                          onChange={(event) => setName(event.target.value)}
+                          className="formControl"
+                        />
+                        <Button
+                          type="submit"
+                          className="btn btn-search"
+                          color="pinot"
+                          variant="outlined"
+                          size="large"
                           onSubmit={onSubmitSearch}
+                          sx={{
+                            width: "15ch",
+                            marginTop: 2,
+                          }}
                         >
-                          <TextField
-                            type="text"
-                            name="name"
-                            placeholder="Search Retailers"
-                            size="medium"
-                            id="outlined-basic"
-                            variant="outlined"
-                            value={name}
-                            onChange={(event) => setName(event.target.value)}
-                            className="form-control"
-                          />
-                          <Button
-                            type="submit"
-                            className="btn btn-search"
-                            color="pinot"
-                            variant="contained"
-                            size="small"
-                            onSubmit={onSubmitSearch}
-                          >
-                            Search
-                          </Button>
-                        </Box>
-                      </Stack>
+                          Search
+                        </Button>
+                      </Box>
                     </p>
                   </Stack>
                 </Box>
@@ -186,46 +193,44 @@ function AdminUserPage() {
                     overflowY: "scroll",
                   }}
                 >
-                        {users.map((client) => {
-                          return (
-                            <>
-                              <div className="clientItem" key={client.id}></div>
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  p: 0,
-                                  m: 1,
-                                  bgcolor: "background.paper",
-                                  borderRadius: 1,
-                                }}
-                              >
-                                <Typography sx={{ width: "35%" }}>
-                                  {client.name}
-                                </Typography>
-                                <Link
-                                  sx={{ width: "35%" }}
-                                  href={`mailto:${client.email}`}
-                                >
-                                  {client.email}
-                                </Link>
-                                {/* <p>{client.name}</p>
+                  {users.map((client) => {
+                    return (
+                      <>
+                        <div className="clientItem" key={client.id}></div>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            p: 0,
+                            m: 1,
+                            bgcolor: "background.paper",
+                            borderRadius: 1,
+                          }}
+                        >
+                          <Typography sx={{ width: "35%" }}>
+                            {client.name}
+                          </Typography>
+                          <Link
+                            sx={{ width: "35%" }}
+                            href={`mailto:${client.email}`}
+                          >
+                            {client.email}
+                          </Link>
+                          {/* <p>{client.name}</p>
                         <a href={`mailto:${client.email}`}>{client.email}</a> */}
-                                <Button
-                                  variant="text"
-                                  sx={{
-                                    color: "#861F41",
-                                  }}
-                                  onClick={() =>
-                                    handleClickOpenClient(client.id)
-                                  }
-                                >
-                                  VIEW
-                                </Button>
-                              </Box>
-                            </>
-                          );
-                        })}
+                          <Button
+                            variant="text"
+                            sx={{
+                              color: "#861F41",
+                            }}
+                            onClick={() => handleClickOpenClient(client.id)}
+                          >
+                            VIEW
+                          </Button>
+                        </Box>
+                      </>
+                    );
+                  })}
                 </AccordionDetails>
               )}
 
