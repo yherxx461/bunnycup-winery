@@ -49,14 +49,14 @@ function ProductList() {
   // Add to Cart function
   const handleAddToCart = (item) => {
     const quantity = quantities[item.sku]; // Retrieve quantity from state
-    console.log(
-      'adding item to cart',
-      item.image,
-      item.name,
-      item.sku,
-      item.retail_price,
-      quantity
-    );
+    // console.log(
+    //   'adding item to cart',
+    //   item.image,
+    //   item.name,
+    //   item.sku,
+    //   item.retail_price,
+    //   quantity
+    // );
 
     // Find corresponding image URL from imageList
     const image = imageList.find(

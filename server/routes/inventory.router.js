@@ -31,4 +31,16 @@ router.get('/images', (req, res) => {
     });
 });
 
+//This is a route to get a count of orders for the day
+router.post('/', (req, res) => {
+  const date = req.body;
+  const query = `SELECT COUNT("id") FROM "orders" WHERE "date" = $1;`
+  //console.log('Inside count route date:', date)
+    pool.query(query, [date])
+    .then((result) => {
+      //console.log('Its working')
+      res.send(result.rows[0].count)})
+    .catch((error) => {res.sendStatus(500)});
+})
+
 module.exports = router;
