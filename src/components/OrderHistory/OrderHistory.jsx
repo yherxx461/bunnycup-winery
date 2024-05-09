@@ -35,6 +35,25 @@ function OrderHistory() {
   // ];
   // console.log('Data object', data);
 
+  //Extracting discount
+  const clientDiscount = clientDetails && clientDetails.discount;
+  console.log('clientDiscount', clientDiscount);
+
+  // Convert discount to decimal
+  const discountPercentage = clientDiscount / 100;
+
+  // Calculate the total cost with discount
+  let totalCost = 0;
+  if (clientOrders) {
+    totalCost = clientOrders.reduce((acc, order) => {
+      const orderTotal = order.number_bottles * order.unit_price;
+      return acc + orderTotal;
+    }, 0);
+    totalCost *= 1 - discountPercentage;
+    totalCost = totalCost.toFixed(2); // Round to two decimal places
+  }
+  console.log('Total Cost with Discount:', totalCost);
+
   //Functions for view and reorder button
   const viewHandle = (event) => {
     console.log('In View Handle');
@@ -51,7 +70,6 @@ function OrderHistory() {
       dispatch({ type: 'FETCH_CLIENTS' });
       dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
       dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientID });
-      dispatch({ type: 'GET_ADMIN_ORDERS' });
     }
   }, [dispatch, clientID]);
 
@@ -67,50 +85,64 @@ function OrderHistory() {
           <div className="boxItems">
             <Grid container spacing={8}>
               {clientOrders &&
-                clientOrders.map((order, index) => (
-                  <Grid xs={8} key={index} className="listItem">
-                    <Grid item xs={2} md={4} lg={8} className="dateTotal">
-                      <Stack
-                        spacing={2}
-                        sx={{
-                          textAlign: 'left',
-                        }}>
-                        <p>{clientName}</p>
-                        <p>Date: {new Date(order.date).toLocaleDateString()}</p>
-                        <p>Total: ${order.total_cost}</p>
-                      </Stack>
-                    </Grid>
-                    <div className="buttons">
-                      <Grid item>
-                        <Button
-                          variant="contained"
-                          onClick={viewHandle}
+                clientOrders
+                  .reduce((uniqueOrders, order) => {
+                    if (
+                      !uniqueOrders.find(
+                        (uniqueOrder) => uniqueOrder.id === order.id
+                      )
+                    ) {
+                      uniqueOrders.push(order);
+                    }
+                    return uniqueOrders;
+                  }, [])
+                  .map((uniqueOrder, index) => (
+                    <Grid xs={8} key={index} className="listItem">
+                      <Grid item xs={2} md={4} lg={8} className="dateTotal">
+                        <Stack
+                          spacing={2}
                           sx={{
-                            fontFamily: 'Montserrat',
-                            backgroundColor: '#757575',
-                            color: '#FFFFFF',
-                            fontWeight: '575',
-                            marginRight: '-50px',
+                            textAlign: 'left',
                           }}>
-                          View
-                        </Button>
+                          <p>{clientName}</p>
+                          <p>
+                            Date:{' '}
+                            {new Date(uniqueOrder.date).toLocaleDateString()}
+                          </p>
+                          <p>Total: ${uniqueOrder.total_cost}</p>
+                        </Stack>
                       </Grid>
-                      <Grid item>
-                        <Button
-                          variant="contained"
-                          sx={{
-                            fontFamily: 'Montserrat',
-                            backgroundColor: '#757575',
-                            color: '#FFFFFF',
-                            fontWeight: '575',
-                          }}
-                          onClick={reorderHandle}>
-                          Reorder
-                        </Button>
-                      </Grid>
-                    </div>
-                  </Grid>
-                ))}
+                      <div className="buttons">
+                        <Grid item>
+                          <Button
+                            variant="contained"
+                            onClick={viewHandle}
+                            sx={{
+                              fontFamily: 'Montserrat',
+                              backgroundColor: '#757575',
+                              color: '#FFFFFF',
+                              fontWeight: '575',
+                              marginRight: '-50px',
+                            }}>
+                            View
+                          </Button>
+                        </Grid>
+                        <Grid item>
+                          <Button
+                            variant="contained"
+                            sx={{
+                              fontFamily: 'Montserrat',
+                              backgroundColor: '#757575',
+                              color: '#FFFFFF',
+                              fontWeight: '575',
+                            }}
+                            onClick={reorderHandle}>
+                            Reorder
+                          </Button>
+                        </Grid>
+                      </div>
+                    </Grid>
+                  ))}
             </Grid>
           </div>
         </Box>
