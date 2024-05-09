@@ -142,135 +142,142 @@ function AdminUserPage() {
                           ADD NEW
                         </Box>
                       </Button>
-                      <Box
-                        component="form"
-                        sx={{
-                          "& .MuiTextField-root": { m: 2, width: "25ch" },
-                        }}
-                        autoComplete="off"
-                        onSubmit={onSubmitSearch}
-                      >
-                        <TextField
-                          type="text"
-                          name="name"
-                          placeholder="Search Retailers"
-                          size="medium"
-                          id="outlined-basic"
-                          variant="outlined"
-                          value={name}
-                          onChange={(event) => setName(event.target.value)}
-                          className="form-control"
-                        />
-                        <Button
-                          type="submit"
-                          className="btn btn-search"
-                          color="pinot"
-                          variant="contained"
-                          size="small"
+                      <Stack>
+                        <Box
+                          component="form"
+                          sx={{
+                            "& .MuiTextField-root": { m: 2, width: "25ch" },
+                          }}
+                          autoComplete="off"
                           onSubmit={onSubmitSearch}
                         >
-                          Search
-                        </Button>
-                      </Box>
+                          <TextField
+                            type="text"
+                            name="name"
+                            placeholder="Search Retailers"
+                            size="medium"
+                            id="outlined-basic"
+                            variant="outlined"
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                            className="form-control"
+                          />
+                          <Button
+                            type="submit"
+                            className="btn btn-search"
+                            color="pinot"
+                            variant="contained"
+                            size="small"
+                            onSubmit={onSubmitSearch}
+                          >
+                            Search
+                          </Button>
+                        </Box>
+                      </Stack>
                     </p>
                   </Stack>
                 </Box>
               </AccordionSummary>
-
-              <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <Item>Name</Item>
-                    {users.map((client) => {
-                  return (
-                    <>
-                      <div className="clientItem" key={client.id}></div>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          p: 0,
-                          m: 1,
-                          bgcolor: "background.paper",
-                          borderRadius: 1,
-                        }}
-                      >
-                        <Typography sx={{ width: "35%" }}>
-                          {client.name}
-                        </Typography>
-                        <Link
-                          sx={{ width: "35%" }}
-                          href={`mailto:${client.email}`}
-                        >
-                          {client.email}
-                        </Link>
-                        {/* <p>{client.name}</p>
+              {name !== "" && (
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={4}>
+                        <Item>Name</Item>
+                        {users.map((client) => {
+                          return (
+                            <>
+                              <div className="clientItem" key={client.id}></div>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  p: 0,
+                                  m: 1,
+                                  bgcolor: "background.paper",
+                                  borderRadius: 1,
+                                }}
+                              >
+                                <Typography sx={{ width: "35%" }}>
+                                  {client.name}
+                                </Typography>
+                                <Link
+                                  sx={{ width: "35%" }}
+                                  href={`mailto:${client.email}`}
+                                >
+                                  {client.email}
+                                </Link>
+                                {/* <p>{client.name}</p>
                         <a href={`mailto:${client.email}`}>{client.email}</a> */}
-                        <Button
-                          variant="text"
+                                <Button
+                                  variant="text"
+                                  sx={{
+                                    color: "#861F41",
+                                  }}
+                                  onClick={() =>
+                                    handleClickOpenClient(client.id)
+                                  }
+                                >
+                                  VIEW
+                                </Button>
+                              </Box>
+                            </>
+                          );
+                        })}
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Item>Email</Item>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                )}
+              {!name && (
+                <AccordionDetails
+                  sx={{
+                    minHeight: 400,
+                    maxHeight: 400,
+                    overflowY: "scroll",
+                  }}
+                >
+                  {clients.map((client) => {
+                    return (
+                      <>
+                        <div className="clientItem" key={client.id}></div>
+                        <Box
                           sx={{
-                            color: "#861F41",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            p: 0,
+                            m: 1,
+                            bgcolor: "background.paper",
+                            borderRadius: 1,
                           }}
-                          onClick={() => handleClickOpenClient(client.id)}
                         >
-                          VIEW
-                        </Button>
-                      </Box>
-                    </>
-                  );
-                })}
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Item>Email</Item>
-                  </Grid>
-                </Grid>
-              </Box>
-              <AccordionDetails
-                sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
-                  overflowY: "scroll",
-                }}
-              >
-                {clients.map((client) => {
-                  return (
-                    <>
-                      <div className="clientItem" key={client.id}></div>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          p: 0,
-                          m: 1,
-                          bgcolor: "background.paper",
-                          borderRadius: 1,
-                        }}
-                      >
-                        <Typography sx={{ width: "35%" }}>
-                          {client.name}
-                        </Typography>
-                        <Link
-                          sx={{ width: "35%" }}
-                          href={`mailto:${client.email}`}
-                        >
-                          {client.email}
-                        </Link>
-                        {/* <p>{client.name}</p>
+                          <Typography sx={{ width: "35%" }}>
+                            {client.name}
+                          </Typography>
+                          <Link
+                            sx={{ width: "35%" }}
+                            href={`mailto:${client.email}`}
+                          >
+                            {client.email}
+                          </Link>
+                          {/* <p>{client.name}</p>
                         <a href={`mailto:${client.email}`}>{client.email}</a> */}
-                        <Button
-                          variant="text"
-                          sx={{
-                            color: "#861F41",
-                          }}
-                          onClick={() => handleClickOpenClient(client.id)}
-                        >
-                          VIEW
-                        </Button>
-                      </Box>
-                    </>
-                  );
-                })}
-              </AccordionDetails>
+                          <Button
+                            variant="text"
+                            sx={{
+                              color: "#861F41",
+                            }}
+                            onClick={() => handleClickOpenClient(client.id)}
+                          >
+                            VIEW
+                          </Button>
+                        </Box>
+                      </>
+                    );
+                  })}
+                </AccordionDetails>
+              )}
             </Accordion>
             <h2>ORDERS</h2>
             <Accordion>
@@ -292,6 +299,7 @@ function AdminUserPage() {
                   {checkNewOrders()} NEW ORDERS
                 </Typography>
               </AccordionSummary>
+
               <AccordionDetails
                 sx={{
                   minHeight: 400,
