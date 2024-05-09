@@ -68,95 +68,83 @@ function App() {
           <Route
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/home"
-          >
+            path="/home">
             <LandingPage />
           </Route>
 
           <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
-            path="/user"
-          >
+            path="/user">
             <UserPage />
           </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/client_info"
-          >
+            path="/client_info">
             <ClientInfoPage />
           </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/admin_user"
-          >
+            path="/admin_user">
             <AdminUserPage />
           </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
-            path="/retailer-info/:id"
-          >
+            path="/retailer-info/:id">
             <AdminRetailerView />
           </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/client_info"
-          >
+            path="/client_info">
             <ClientInfoPage />
           </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows UpdateUsers Page else shows LoginPage
             exact
-            path="/update/:id"
-          >
+            path="/update/:id">
             <UpdateUsers />
           </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows RegisterClient Page else shows LoginPage
             exact
-            path="/register-new"
-          >
+            path="/register-new">
             <RegisterClientPage />
           </ProtectedRoute>
 
           <ProtectedRoute
             // Order Summary page
             exact
-            path="/orderSummary"
-          >
+            path="/orderSummary">
             <OrderSummary />
           </ProtectedRoute>
 
           <ProtectedRoute
             // Order History page
             exact
-            path="/orderHistory"
-          >
+            path="/orderHistory">
             <OrderHistory />
           </ProtectedRoute>
 
           <ProtectedRoute
             // ShoppingCart Page
             exact
-            path="/cart"
-          >
+            path="/cart">
             <ShoppingCart />
           </ProtectedRoute>
 
           <ProtectedRoute
             // Product Page
             exact
-            path="/products"
-          >
+            path="/products">
             <ProductList />
           </ProtectedRoute>
 

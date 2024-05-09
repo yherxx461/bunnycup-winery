@@ -55,9 +55,9 @@ function OrderHistory() {
   console.log('Total Cost with Discount:', totalCost);
 
   //Functions for view and reorder button
-  const viewHandle = (event) => {
-    console.log('In View Handle');
-    history.push('/orderSummary');
+  const viewHandle = (orderId) => {
+    console.log('In View Handle', orderId);
+    history.push('/orderSummary/${orderId}');
   };
 
   const reorderHandle = (event) => {
@@ -116,7 +116,7 @@ function OrderHistory() {
                         <Grid item>
                           <Button
                             variant="contained"
-                            onClick={viewHandle}
+                            onClick={() => viewHandle(uniqueOrder.id)}
                             sx={{
                               fontFamily: 'Montserrat',
                               backgroundColor: '#757575',

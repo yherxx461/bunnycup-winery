@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './OrderSummary.css';
+import { useParams } from 'react-router-dom';
 
 function OrderSummary() {
   //dispatch hook
@@ -10,6 +11,13 @@ function OrderSummary() {
   //setting up clientOrders data
   const clientOrders = orders.clientOrders;
   console.log('clientOrders', clientOrders);
+  const { orderId } = useParams();
+  console.log('orderId', orderId);
+  // Filter clientOrders based on the orderId
+  const filteredOrders = clientOrders.filter(
+    (order) => order.id === parseInt(orderId)
+  );
+  console.log('filteredOrders', filteredOrders);
   //Extracting Date from clientOrders
   console.log('client order first array', clientOrders[0]);
   let orderDate = null;

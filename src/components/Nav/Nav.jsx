@@ -11,62 +11,63 @@ function Nav() {
   const user = useSelector((store) => store.user);
 
   function userType() {
-    if (user.id && user.access_level === 10){
+    if (user.id && user.access_level === 10) {
       return (
         <>
-            <Link className="navLink" to="/admin_user">
-              Home
-            </Link>
+          <Link className="navLink" to="/admin_user">
+            Home
+          </Link>
 
-            <Link className="navLink" to="/orderSummary">
-              Order Summary
-            </Link>
+          <Link className="navLink" to="/orderSummary">
+            Order Summary
+          </Link>
 
-            <Link className="navLink" to="/orderHistory">
-              Order History
-            </Link>
+          <Link className="navLink" to="/orderHistory">
+            Order History
+          </Link>
 
-            <Link className="navLink" to="/cart">
-              <ShoppingCartIconPage />
-            </Link>
+          <Link className="navLink" to="/cart">
+            <ShoppingCartIconPage />
+          </Link>
 
-            <LogOutButton className="navLink" />
-          </>
-          )
-    } if (user.id){
+          <LogOutButton className="navLink" />
+        </>
+      );
+    }
+    if (user.id) {
       return (
-      <>
-        <Link className="navLink" to="/user">
-          Home
-        </Link>
+        <>
+          <Link className="navLink" to="/user">
+            Home
+          </Link>
 
-        <Link className="navLink" to="/products">
-          Products
-        </Link>
+          <Link className="navLink" to="/products">
+            Products
+          </Link>
 
-        <Link className="navLink" to="/orderSummary">
-          Order Summary
-        </Link>
+          <Link className="navLink" to="/orderSummary">
+            Order Summary
+          </Link>
 
-        <Link className="navLink" to="/orderHistory">
-          Order History
-        </Link>
+          <Link className="navLink" to="/orderHistory">
+            Order History
+          </Link>
 
-        <Link className="navLink" to="/cart">
-          <ShoppingCartIconPage />
-        </Link>
+          <Link className="navLink" to="/cart">
+            <ShoppingCartIconPage />
+          </Link>
 
-        <LogOutButton className="navLink" />
-      </>
-      )
+          <LogOutButton className="navLink" />
+        </>
+      );
     } else {
       return (
-      <>
-        <Link className="navLink" to="/login">
-          Log In
-        </Link>
-      </>
-      )
+        <>
+          <Link className="navLink" to="/login">
+            Log In
+          </Link>
+        </>
+      );
     }
   }
 
@@ -76,7 +77,6 @@ function Nav() {
       <div>
         {userType()}
         {/* If a user is logged in and has ADMIN access level of 10, show these links */}
-        
 
         {/* {user.id && user.access_level === 10 && (
           <>
