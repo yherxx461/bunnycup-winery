@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import LogOutButton from "../LogOutButton/LogOutButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -22,7 +22,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { ThemeProvider } from "@mui/material/styles";
 import { primaryTheme } from "../App/App";
-import Typography from "@mui/material/Typography"
+import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -45,27 +45,46 @@ function AdminUserPage() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const [name, setName] = useState("");
+  const [users, setUsers] = useState([]);
+
   // onload makes GET call to fetch all boarding data.
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
-    dispatch({ type: 'GET_ADMIN_ORDERS' });
+    dispatch({ type: "GET_ADMIN_ORDERS" });
   }, []);
 
   const handleClickOpenClient = (id) => {
     history.push(`/retailer-info/${id}`);
   };
 
+  const onSubmitSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `http://localhost:5173/api/search/?name=${name}`
+      );
+
+      const parseResponse = await response.json();
+
+      setUsers(parseResponse);
+    } catch (err) {
+      console.log("ERROR: Search error", err);
+    }
+  };
+
   // tracking counts for NEW ORDERS
   let newOrders = [];
   function checkNewOrders() {
     for (let order of orders)
-      if (order.status === 'PENDING') {
+      if (order.status === "PENDING") {
         newOrders.push(order);
-      } return newOrders.length
+      }
+    return newOrders.length;
   }
 
   return (
-    <Container >
+    <Container>
       <ThemeProvider theme={primaryTheme}>
         <center>
           <h2>Welcome ADMIN!</h2>
@@ -123,12 +142,36 @@ function AdminUserPage() {
                           ADD NEW
                         </Box>
                       </Button>
-                      <TextField
-                        size="medium"
-                        id="outlined-basic"
-                        label="SEARCH"
-                        variant="outlined"
-                      />
+                      <Box
+                        component="form"
+                        sx={{
+                          "& .MuiTextField-root": { m: 2, width: "25ch" },
+                        }}
+                        autoComplete="off"
+                        onSubmit={onSubmitSearch}
+                      >
+                        <TextField
+                          type="text"
+                          name="name"
+                          placeholder="Search Retailers"
+                          size="medium"
+                          id="outlined-basic"
+                          variant="outlined"
+                          value={name}
+                          onChange={(event) => setName(event.target.value)}
+                          className="form-control"
+                        />
+                        <Button
+                          type="submit"
+                          className="btn btn-search"
+                          color="pinot"
+                          variant="contained"
+                          size="small"
+                          onSubmit={onSubmitSearch}
+                        >
+                          Search
+                        </Button>
+                      </Box>
                     </p>
                   </Stack>
                 </Box>
@@ -138,6 +181,44 @@ function AdminUserPage() {
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
                     <Item>Name</Item>
+                    {users.map((client) => {
+                  return (
+                    <>
+                      <div className="clientItem" key={client.id}></div>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          p: 0,
+                          m: 1,
+                          bgcolor: "background.paper",
+                          borderRadius: 1,
+                        }}
+                      >
+                        <Typography sx={{ width: "35%" }}>
+                          {client.name}
+                        </Typography>
+                        <Link
+                          sx={{ width: "35%" }}
+                          href={`mailto:${client.email}`}
+                        >
+                          {client.email}
+                        </Link>
+                        {/* <p>{client.name}</p>
+                        <a href={`mailto:${client.email}`}>{client.email}</a> */}
+                        <Button
+                          variant="text"
+                          sx={{
+                            color: "#861F41",
+                          }}
+                          onClick={() => handleClickOpenClient(client.id)}
+                        >
+                          VIEW
+                        </Button>
+                      </Box>
+                    </>
+                  );
+                })}
                   </Grid>
                   <Grid item xs={4}>
                     <Item>Email</Item>
@@ -165,15 +246,15 @@ function AdminUserPage() {
                           borderRadius: 1,
                         }}
                       >
-                      <Typography sx={{ width: '35%' }}>
-                        {client.name}
-                      </Typography>
-                      <Link
-                        sx={{ width: '35%' }}
-                        href={`mailto:${client.email}`}
-                      >
-                        {client.email}
-                      </Link>
+                        <Typography sx={{ width: "35%" }}>
+                          {client.name}
+                        </Typography>
+                        <Link
+                          sx={{ width: "35%" }}
+                          href={`mailto:${client.email}`}
+                        >
+                          {client.email}
+                        </Link>
                         {/* <p>{client.name}</p>
                         <a href={`mailto:${client.email}`}>{client.email}</a> */}
                         <Button
@@ -201,8 +282,13 @@ function AdminUserPage() {
                   bgcolor: "#F9F7F4",
                 }}
               >
-                <Typography sx={{ width: '40%', flexShrink: 0 }}>NEW</Typography>
-                <Typography color="pinot" sx={{ fontWeight: 'bold', width: '35%'}}>
+                <Typography sx={{ width: "40%", flexShrink: 0 }}>
+                  NEW
+                </Typography>
+                <Typography
+                  color="pinot"
+                  sx={{ fontWeight: "bold", width: "35%" }}
+                >
                   {checkNewOrders()} NEW ORDERS
                 </Typography>
               </AccordionSummary>
@@ -214,36 +300,42 @@ function AdminUserPage() {
                 }}
               >
                 {orders.map((order) => {
-                  if (order.status === 'PENDING') {
-              return (
-                <>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    p: 0,
-                    m: 1,
-                    bgcolor: 'background.paper',
-                    borderRadius: 1,
-                  }}
-                >
-                <Typography sx={{ width: '40%' }}>{order.date}</Typography>
-                <Typography sx={{ width: '35%' }}>{order.name}</Typography>
-                <Typography sx={{ width: '25%' }}>$ {order.total_cost}</Typography>
-                <Button
-                          variant="text"
+                  if (order.status === "PENDING") {
+                    return (
+                      <>
+                        <Box
                           sx={{
-                            color: "#861F41",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            p: 0,
+                            m: 1,
+                            bgcolor: "background.paper",
+                            borderRadius: 1,
                           }}
-                          // onClick={() => handleClickOpenClient(client.id)}
                         >
-                          VIEW
-                        </Button>
-                </Box>
-                </>
-              )
-                }
-              })}
+                          <Typography sx={{ width: "40%" }}>
+                            {order.date}
+                          </Typography>
+                          <Typography sx={{ width: "35%" }}>
+                            {order.name}
+                          </Typography>
+                          <Typography sx={{ width: "25%" }}>
+                            $ {order.total_cost}
+                          </Typography>
+                          <Button
+                            variant="text"
+                            sx={{
+                              color: "#861F41",
+                            }}
+                            // onClick={() => handleClickOpenClient(client.id)}
+                          >
+                            VIEW
+                          </Button>
+                        </Box>
+                      </>
+                    );
+                  }
+                })}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -265,36 +357,42 @@ function AdminUserPage() {
                 }}
               >
                 {orders.map((order) => {
-                  if (order.status === 'COMPLETE') {
-              return (
-                <>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    p: 0,
-                    m: 1,
-                    bgcolor: 'background.paper',
-                    borderRadius: 1,
-                  }}
-                >
-                <Typography sx={{ width: '40%' }}>{order.date}</Typography>
-                <Typography sx={{ width: '35%' }}>{order.name}</Typography>
-                <Typography sx={{ width: '25%' }}>$ {order.total_cost}</Typography>
-                <Button
-                          variant="text"
+                  if (order.status === "COMPLETE") {
+                    return (
+                      <>
+                        <Box
                           sx={{
-                            color: "#861F41",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            p: 0,
+                            m: 1,
+                            bgcolor: "background.paper",
+                            borderRadius: 1,
                           }}
-                          // onClick={() => handleClickOpenClient(client.id)}
                         >
-                          VIEW
-                        </Button>
-                </Box>
-                </>
-              )
-                }
-              })}
+                          <Typography sx={{ width: "40%" }}>
+                            {order.date}
+                          </Typography>
+                          <Typography sx={{ width: "35%" }}>
+                            {order.name}
+                          </Typography>
+                          <Typography sx={{ width: "25%" }}>
+                            $ {order.total_cost}
+                          </Typography>
+                          <Button
+                            variant="text"
+                            sx={{
+                              color: "#861F41",
+                            }}
+                            // onClick={() => handleClickOpenClient(client.id)}
+                          >
+                            VIEW
+                          </Button>
+                        </Box>
+                      </>
+                    );
+                  }
+                })}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -316,36 +414,42 @@ function AdminUserPage() {
                 }}
               >
                 {orders.map((order) => {
-                  if (order.status === 'CANCELED') {
-              return (
-                <>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    p: 0,
-                    m: 1,
-                    bgcolor: 'background.paper',
-                    borderRadius: 1,
-                  }}
-                >
-                <Typography sx={{ width: '40%' }}>{order.date}</Typography>
-                <Typography sx={{ width: '35%' }}>{order.name}</Typography>
-                <Typography sx={{ width: '25%' }}>$ {order.total_cost}</Typography>
-                <Button
-                          variant="text"
+                  if (order.status === "CANCELED") {
+                    return (
+                      <>
+                        <Box
                           sx={{
-                            color: "#861F41",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            p: 0,
+                            m: 1,
+                            bgcolor: "background.paper",
+                            borderRadius: 1,
                           }}
-                          // onClick={() => handleClickOpenClient(client.id)}
                         >
-                          VIEW
-                        </Button>
-                </Box>
-                </>
-              )
-                }
-              })}
+                          <Typography sx={{ width: "40%" }}>
+                            {order.date}
+                          </Typography>
+                          <Typography sx={{ width: "35%" }}>
+                            {order.name}
+                          </Typography>
+                          <Typography sx={{ width: "25%" }}>
+                            $ {order.total_cost}
+                          </Typography>
+                          <Button
+                            variant="text"
+                            sx={{
+                              color: "#861F41",
+                            }}
+                            // onClick={() => handleClickOpenClient(client.id)}
+                          >
+                            VIEW
+                          </Button>
+                        </Box>
+                      </>
+                    );
+                  }
+                })}
               </AccordionDetails>
             </Accordion>
           </div>
