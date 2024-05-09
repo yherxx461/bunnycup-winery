@@ -11,7 +11,8 @@ function OrderSummary() {
   //setting up clientOrders data
   const clientOrders = orders.clientOrders;
   console.log('clientOrders', clientOrders);
-  const { orderId } = useParams();
+  // const { orderId } = useParams();
+  const orderId = 11223;
   console.log('orderId', orderId);
   // Filter clientOrders based on the orderId
   const filteredOrders = clientOrders.filter(
@@ -142,8 +143,8 @@ function OrderSummary() {
             </tr>
           </thead>
           <tbody style={{ borderBottom: '3px solid black', color: 'black' }}>
-            {clientOrders &&
-              clientOrders.map((order, index) => (
+            {filteredOrders &&
+              filteredOrders.map((order, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{order.wine_sku}</td>
