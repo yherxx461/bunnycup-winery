@@ -213,7 +213,7 @@ function ShoppingCart() {
             ) : (
               cart.map((item) => (
                 // console.log('typeof bottles', typeof item.number_bottles),
-                // console.log('typeof price', typeof Number(item.unit_price)), // Although this makes the string a number, it's still showing that this is a string as it has the $ sign. This will continue returning a 'NaN'.
+                // console.log('typeof price', typeof Number(item.unit_price)),
                 <TableRow
                   className="product-list"
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -261,7 +261,6 @@ function ShoppingCart() {
                     />
                   </TableCell>
                   <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
-                    {/* unit_price is a string. It's not letting me multiply a string with a number. */}
                     $
                     {(item.number_bottles * Number(item.unit_price)).toFixed(2)}{' '}
                   </TableCell>
@@ -295,7 +294,6 @@ function ShoppingCart() {
             )}
           </TableBody>
         </Table>
-        {/* </TableContainer> */}
       </div>
     </main>
   );
