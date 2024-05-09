@@ -23,24 +23,24 @@ function OrderSummary() {
   console.log('Order Date:', orderDate);
 
   //making a customized order number
-  let orderNumber = null;
-  if (clientOrders && clientOrders.length > 0) {
-    const firstOrder = clientOrders[0];
-    const orderDate = new Date(firstOrder.date);
+  // let orderNumber = null;
+  // if (clientOrders && clientOrders.length > 0) {
+  //   const firstOrder = clientOrders[0];
+  //   const orderDate = new Date(firstOrder.date);
 
-    // Extract date components
-    const month = ('0' + (orderDate.getMonth() + 1)).slice(-2);
-    const day = ('0' + orderDate.getDate()).slice(-2);
-    const year = orderDate.getFullYear().toString().slice(-2);
+  //   // Extract date components
+  //   const month = ('0' + (orderDate.getMonth() + 1)).slice(-2);
+  //   const day = ('0' + orderDate.getDate()).slice(-2);
+  //   const year = orderDate.getFullYear().toString().slice(-2);
 
-    // Calculate the order number for the day
-    const orderDailyNumber = clientOrders.length;
+  //   // Calculate the order number for the day
+  //   const orderDailyNumber = clientOrders.length;
 
-    // Construct order number
-    orderNumber = `${month}${day}${year}-${orderDailyNumber}`;
-  }
+  //   // Construct order number
+  //   orderNumber = `${month}${day}${year}-${orderDailyNumber}`;
+  // }
 
-  console.log('Order Number:', orderNumber);
+  // console.log('Order Number:', orderNumber);
 
   // Calculating the total cost of clientOrders
   const totalCost = clientOrders
@@ -80,6 +80,12 @@ function OrderSummary() {
   const clientDiscount = clientDetails && clientDetails.discount;
   console.log('clientDiscount', clientDiscount);
 
+  // Convert discount to decimal
+  const discountPercentage = clientDiscount / 100;
+
+  // Apply discount to total cost
+  const discountedTotalCost = totalCost * (1 - discountPercentage);
+
   console.log('clients data', client);
   const clientID = client && Number(client.map((clientItem) => clientItem.id));
   console.log('clientID', clientID);
@@ -96,7 +102,7 @@ function OrderSummary() {
   return (
     <main className="main">
       <div className="header">
-        <h1>Order #{orderNumber}</h1>
+        <h1>Order #{clientID}</h1>
       </div>
       <div className="customerInfo">
         {/*To Do: Retailer info includes Name, Address, contact info */}
@@ -145,7 +151,7 @@ function OrderSummary() {
       </div>
 
       <div className="total">
-        <p>Total: ${totalCost.toFixed(2)}</p>
+        <p>Total: ${discountedTotalCost.toFixed(2)}</p>
       </div>
     </main>
   );
