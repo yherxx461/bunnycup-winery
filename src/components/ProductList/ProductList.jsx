@@ -34,11 +34,12 @@ function ProductList() {
   useEffect(() => {
     const initialQuantities = {};
     inventory.forEach((item) => {
-      initialQuantities[item.sku] = 12; // Default quantity
+      initialQuantities[item.sku] = 12; // Default quantity set to 12
     });
     setQuantities(initialQuantities);
   }, [inventory]);
 
+  // handles quantity change
   const handleQuantityChange = (sku, newQuantity) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
@@ -79,6 +80,7 @@ function ProductList() {
     });
   };
 
+  // Push function to go to the Shopping Cart page
   const viewCart = () => {
     history.push('/cart');
   };
@@ -101,7 +103,7 @@ function ProductList() {
           // justifyContent="center"
         > */}
         <Table
-          sx={{ maxWidth: 1350 }}
+          sx={{ maxWidth: 1500 }}
           arial-label="simple table"
           align="center"
         >
@@ -130,7 +132,6 @@ function ProductList() {
               </TableCell>
               <TableCell align="center" sx={{ verticalAlign: 'bottom' }}>
                 <h3>Quantity</h3>
-                {/* <p>(# of Bottles)</p> */}
               </TableCell>
               <TableCell
                 align="center"
@@ -172,7 +173,9 @@ function ProductList() {
                 </TableCell>
                 <TableCell align="center">{item.category}</TableCell>
                 <TableCell align="center">{item.inv_level}</TableCell>
-                <TableCell align="center">${item.retail_price}</TableCell>
+                <TableCell align="center">
+                  {item.retail_price} / bottle
+                </TableCell>
                 <TableCell align="center">
                   <TextField
                     type="number"
