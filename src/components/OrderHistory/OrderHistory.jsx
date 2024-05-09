@@ -51,6 +51,7 @@ function OrderHistory() {
       dispatch({ type: 'FETCH_CLIENTS' });
       dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
       dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientID });
+      dispatch({ type: 'GET_ADMIN_ORDERS' });
     }
   }, [dispatch, clientID]);
 
