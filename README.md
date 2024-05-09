@@ -10,7 +10,7 @@ Before you get started, make sure you have the following software installed on y
 - [Nodemon](https://nodemon.io)
 - And the dependencies listed in `package.json`
 
-A Note about SendGrid:
+A Note about the SendGrid dependency:
 - [SendGrid](https://docs.sendgrid.com/for-developers/sending-email/api-getting-started) also requires a SendGrid account, API key, and verifying the sending email address to send the order confirmation emails. Please see below and [the npm install webpage](https://www.npmjs.com/package/@sendgrid/mail) for detailed instructions.
 
 
