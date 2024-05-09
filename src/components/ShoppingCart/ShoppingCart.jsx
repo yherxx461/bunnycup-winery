@@ -88,13 +88,10 @@ function ShoppingCart() {
 
   // Calculation Total Price
   useEffect(() => {
-    if (cart.length > 0) {
-      console.log('cart in reduce function', cart);
-      const totalPrice = cart.reduce((acc, item) => {
-        return acc + item.unit_price * item.number_bottles;
-      }, 0);
-      setTotalPrice(totalPrice);
-    }
+    const totalPrice = cart.reduce((acc, item) => {
+      return acc + item.unit_price * item.number_bottles;
+    }, 0);
+    setTotalPrice(totalPrice);
     console.log('totalPrice', totalPrice);
   }, [cart]);
 
@@ -243,7 +240,7 @@ function ShoppingCart() {
                 </TableCell>
                 <TableCell align="center">
                   {/* unit_price is a string. It's not letting me multiply a string with a number. */}
-                  ${(item.number_bottles * Number(item.unit_price)).toFixed(2)}
+                  ${(item.number_bottles * Number(item.unit_price)).toFixed(2)}{' '}
                 </TableCell>
                 <TableCell align="center">
                   <Button
