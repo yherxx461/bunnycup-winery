@@ -124,13 +124,11 @@ function ShoppingCart() {
         {/* {client && ( // If there is a client, show the information below */}
         <div className="retailer-info-address">
           <h3>{clientInfo.name}</h3>
-          {/* <p>{client[0].name}</p> */}
           <p>{clientInfo.street}</p>
           <p>
             {clientInfo.city}, {clientInfo.state} {clientInfo.zip}
           </p>
         </div>
-        {/* // )} */}
         <div className="default-payment">
           <h3>Payment Method</h3>
           <p>{clientInfo.payment_type}</p>
