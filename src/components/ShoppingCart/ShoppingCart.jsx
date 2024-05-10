@@ -15,7 +15,8 @@ import './ShoppingCart.css';
 function ShoppingCart() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const user = useSelector((store) => store.user.id);
+  const user = useSelector((store) => store.user);
+  const orderCount = useSelector((store) => store.orders.orderCount);
   const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
   const cart = useSelector((store) => store.orders.cartWines);
@@ -28,50 +29,56 @@ function ShoppingCart() {
   // console.log('THIS IS THE CLIENT INFO', clientInfo);
   // console.log('THIS IS THE CLIENT', client);
 
-  useEffect(() => {
-    console.log(
-      'Cart Items:',
-      cart.map((item) => ({
-        name: item.product_name,
-        quantity: parseInt(item.number_bottles),
-        retail_price: item.unit_price.replace('$', ''),
-      }))
-    );
-  }, [cart]);
+  // useEffect(() => {
+  //   console.log(
+  //     'Cart Items:',
+  //     cart.map((item) => ({
+  //       name: item.product_name,
+  //       quantity: parseInt(item.number_bottles),
+  //       retail_price: item.unit_price.replace('$', ''),
+  //     }))
+  //   );
+  // }, [cart]);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_IMAGES' });
     dispatch({ type: 'FETCH_CLIENTS' });
     dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: user });
-  }, [dispatch]);
+    dispatch({
+      type: 'GET_ORDER_COUNT',
+      payload: new Date().toLocaleDateString().replaceAll('/', '-'),
+    });
+  }, []);
 
-  useEffect(
-    () => {
-      console.log('cart data', cart);
-      console.log('client data:', client);
-      console.log('clientInfo data:', clientInfo);
-    },
-    [client],
-    [clientInfo]
-  );
+  // useEffect(
+  //   () => {
+  //     console.log('cart data', cart);
+  //     console.log('client data:', client);
+  //     console.log('clientInfo data:', clientInfo);
+  //   },
+  //   [client],
+  //   [clientInfo]
+  // );
 
   // Place Order function
   const placeOrder = () => {
     console.log('Placing an order:', cart, clientInfo, client);
+    let count = orderCount + 1;
     dispatch({
-      type: 'ORDER_INFO',
+      type: 'POST_ORDER',
       payload: {
-        orders: {
-          client_id: clientInfo.id,
-          date: new Date().toISOString(),
-          cost: totalPrice,
-          discount: client.discount,
-          wines: cart.map((item) => ({
-            sku: item.wine_sku,
-            quantity: quantities[item.wine_sku] || item.number_bottles,
-            price: item.unit_price,
-          })),
-        },
+        client_id: clientInfo.id,
+        order_id: `${new Date()
+          .toLocaleDateString()
+          .replaceAll('/', '')}_${count}`,
+        date: new Date().toLocaleDateString(),
+        cost: totalPrice,
+        discount: clientInfo.discount,
+        wines: cart.map((item) => ({
+          sku: item.wine_sku,
+          quantity: quantities[item.wine_sku] || item.number_bottles,
+          price: item.unit_price,
+        })),
       },
     });
     // Clears cart once order is placed
