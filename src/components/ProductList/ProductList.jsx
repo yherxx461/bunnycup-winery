@@ -92,7 +92,7 @@ function ProductList() {
           Product Inventory
         </h1>
         <Table
-          sx={{ maxWidth: 1450 }}
+          sx={{ maxWidth: 1400 }}
           arial-label="simple table"
           align="center"
         >
