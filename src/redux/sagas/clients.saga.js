@@ -18,7 +18,7 @@ export function* fetchAllClients() {
   export function* fetchClientDetails(action) {
     try {
       // Get the clientdetails:
-      const clientResponse = yield axios.get(`/api/clients/${action.payload}`);
+      const clientResponse = yield axios.get(`/api/clients/${action.payload.id}`);
       // Set the value of the client reducer:
       yield put({
         type: 'SET_CLIENT_DETAILS',

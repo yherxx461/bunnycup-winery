@@ -35,8 +35,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 // return the CURRENT YEAR
-const currentYear = new Date().getFullYear()
-console.log('YEAR is:', currentYear)
+const currentYear = new Date().getFullYear();
+console.log("YEAR is:", currentYear);
 
 function AdminUserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -97,7 +97,7 @@ function AdminUserPage() {
             <p>{client.name}</p>
           )})} */}
           <div>
-            <Accordion defaultExpanded>
+            <Accordion defaultExpanded expanded>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
@@ -116,79 +116,79 @@ function AdminUserPage() {
                     width: 800,
                   }}
                 >
-                    <Typography
-                    fontSize={22}
+                  <Typography
+                    fontSize={25}
                     sx={{
                       marginTop: 2,
                       marginLeft: 1,
-                      width: '20%'
+                      width: "20%",
                     }}
                   >
-                    <p className="formControl">
-                      RETAILERS
-                      </Typography>
+                    RETAILERS
+                  </Typography>
+                  <Button
+                    sx={{ alignItems: "flex-end", marginTop: 1 }}
+                    variant="contained"
+                    size="large"
+                    color="pinot"
+                    onClick={() => {
+                      history.push("/register-new");
+                    }}
+                  >
+                    <Box
+                      // marginInlineStart={15}
+                      // marginInlineEnd={15}
+                      sx={{ width: "%" }}
+                      marginInlineStart={10}
+                      marginInlineEnd={10}
+                      fontSize={18}
+                    >
+                      ADD NEW
+                    </Box>
+                  </Button>
+                  <Stack>
+                    <Box
+                      component="form"
+                      sx={{
+                        "& .MuiTextField-root": {
+                          m: 1,
+                          width: "25ch",
+                          height: "1px",
+                        },
+                      }}
+                      autoComplete="off"
+                      onSubmit={onSubmitSearch}
+                    >
+                      <TextField
+                        type="text"
+                        name="name"
+                        placeholder="Search Retailers"
+                        size="medium"
+                        id="outlined-basic"
+                        variant="outlined"
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
+                        className="formControl"
+                      />
                       <Button
-                        sx={{ alignItems: "flex-end" }}
-                        variant="text"
-                        size="large"
+                        type="submit"
+                        className="btn btn-search"
                         color="pinot"
-                        onClick={() => {
-                          history.push("/register-new");
-                        }}
-                      >
-                        <Box
-                          // marginInlineStart={15}
-                          // marginInlineEnd={15}
-                          sx={{width: '%'}}
-                          marginInlineStart={10}
-                          marginInlineEnd={10}
-                          fontSize={22}
-                        >
-                          ADD NEW
-                        </Box>
-                      </Button>
-                      <Box
-                        component="form"
-                        sx={{
-                          "& .MuiTextField-root": {
-                            m: 1,
-                            width: "50ch",
-                            height: "1px",
-                          },
-                        }}
-                        autoComplete="off"
+                        variant="contained"
+                        size="large"
                         onSubmit={onSubmitSearch}
+                        sx={{
+                          width: "8ch",
+                          marginTop: 2.5,
+                        }}
                       >
-                        <TextField
-                          type="text"
-                          name="name"
-                          placeholder="Search Retailers"
-                          size="medium"
-                          id="outlined-basic"
-                          variant="outlined"
-                          value={name}
-                          onChange={(event) => setName(event.target.value)}
-                          className="formControl"
-                        />
-                        <Button
-                          type="submit"
-                          className="btn btn-search"
-                          color="pinot"
-                          variant="outlined"
-                          size="large"
-                          onSubmit={onSubmitSearch}
-                          sx={{
-                            width: "15ch",
-                            marginTop: 2,
-                          }}
-                        >
-                          Search
-                        </Button>
-                      </Box>
-                    </p>
+                        Search
+                      </Button>
+                    </Box>
                   </Stack>
                 </Box>
               </AccordionSummary>
+
               {name !== "" && (
                 <AccordionDetails
                   sx={{
