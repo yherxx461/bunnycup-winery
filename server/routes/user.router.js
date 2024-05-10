@@ -63,9 +63,9 @@ router.put('/', (req, res) => {
 
   pool
     .query(updateQuery, [
-      clientInfo.retailer,
+      clientInfo.name,
       clientInfo.discount,
-      clientInfo.paymentType,
+      clientInfo.payment,
       clientInfo.id,
       password,
       clientInfo.street,

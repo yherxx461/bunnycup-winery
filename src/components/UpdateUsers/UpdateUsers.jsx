@@ -26,13 +26,13 @@ function UpdateUsers() {
   const history = useHistory();
 
   const [password, setPassword] = useState("");
-  const [retailer, setRetailer] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zip, setZip] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [paymentType, setPaymentType] = useState("");
+  const [retailer, setRetailer] = useState(_name);
+  const [street, setStreet] = useState(_street);
+  const [city, setCity] = useState(_city);
+  const [state, setState] = useState(_state);
+  const [zip, setZip] = useState(_zip);
+  const [discount, setDiscount] = useState(_discount);
+  const [paymentType, setPaymentType] = useState(_payment_type);
   const user = useSelector((store) => store.user);
   const clients = useSelector((store) => store.clients);
   const { id } = useParams();
