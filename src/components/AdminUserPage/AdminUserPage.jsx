@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import LogOutButton from "../LogOutButton/LogOutButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import bunnycup from "../../../public/images/bunnycup.png";
+import bunnycup from "/images/bunnycup.png";
 
 // MUI imports
 // import * as React from 'react';
@@ -34,8 +34,9 @@ const Item = styled(Paper)(({ theme }) => ({
   fontSize: 15,
 }));
 
-// export default function AccordionUsage() {
-//   return (
+// return the CURRENT YEAR
+const currentYear = new Date().getFullYear()
+console.log('YEAR is:', currentYear)
 
 function AdminUserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -96,7 +97,7 @@ function AdminUserPage() {
             <p>{client.name}</p>
           )})} */}
           <div>
-            <Accordion>
+            <Accordion defaultExpanded>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
@@ -115,17 +116,17 @@ function AdminUserPage() {
                     width: 800,
                   }}
                 >
-                  <Stack
-                    spacing={3}
-                    margin={1}
+                    <Typography
+                    fontSize={22}
                     sx={{
-                      direction: "row",
-                      justifyContent: "end",
-                      fontSize: "22px",
+                      marginTop: 2,
+                      marginLeft: 1,
+                      width: '20%'
                     }}
                   >
                     <p className="formControl">
                       RETAILERS
+                      </Typography>
                       <Button
                         sx={{ alignItems: "flex-end" }}
                         variant="text"
@@ -136,6 +137,9 @@ function AdminUserPage() {
                         }}
                       >
                         <Box
+                          // marginInlineStart={15}
+                          // marginInlineEnd={15}
+                          sx={{width: '%'}}
                           marginInlineStart={10}
                           marginInlineEnd={10}
                           fontSize={22}
@@ -307,8 +311,8 @@ function AdminUserPage() {
 
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 300,
+                  maxHeight: 300,
                   overflowY: "scroll",
                 }}
               >
@@ -364,8 +368,8 @@ function AdminUserPage() {
               </AccordionSummary>
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 300,
+                  maxHeight: 300,
                   overflowY: "scroll",
                 }}
               >
@@ -423,8 +427,8 @@ function AdminUserPage() {
               </AccordionSummary>
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 300,
+                  maxHeight: 300,
                   overflowY: "scroll",
                 }}
               >

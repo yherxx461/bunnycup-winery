@@ -29,10 +29,22 @@ function* postOrder(action){
     };
 };
 
+function* getOrderCount(action){
+    try{
+        const date = action.payload
+        const countResponse = yield axios.post(`/api/inventory`, date)
+        //console.log('CountResponse: ', countResponse);
+        yield put({type: 'SET_ORDER_COUNT', payload: countResponse.data})
+    } catch (error) {
+        console.log('Error getting order count')
+    };
+}
+
 function* orderSaga() {
     yield takeEvery('GET_ADMIN_ORDERS', getAdminOrders);
     yield takeEvery('GET_CLIENT_ORDERS', getClientOrders);
     yield takeEvery('POST_ORDER', postOrder);
+    yield takeEvery('GET_ORDER_COUNT', getOrderCount);
 };
 
 export default orderSaga;

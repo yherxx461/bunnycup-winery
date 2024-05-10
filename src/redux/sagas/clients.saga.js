@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 export function* fetchAllClients() {
     try {
@@ -18,7 +18,7 @@ export function* fetchAllClients() {
   export function* fetchClientDetails(action) {
     try {
       // Get the clientdetails:
-      const clientResponse = yield axios.get(`/api/clients/${action.payload.id}`);
+      const clientResponse = yield axios.get(`/api/clients/${action.payload}`);
       // Set the value of the client reducer:
       yield put({
         type: 'SET_CLIENT_DETAILS',
@@ -41,7 +41,7 @@ function* updateClient(action) {
 }
 
   function* clientsSaga() {
-    yield takeLatest('FETCH_CLIENTS', fetchAllClients);
+    yield takeEvery('FETCH_CLIENTS', fetchAllClients);
     yield takeEvery('FETCH_CLIENT_DETAILS', fetchClientDetails);
     yield takeLatest('UPDATE', updateClient);
   }
