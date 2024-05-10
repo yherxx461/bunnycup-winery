@@ -32,7 +32,7 @@ export function* fetchAllClients() {
 function* updateClient(action) {
   console.log('In update user', action.payload.id);
   try {
-    yield axios.put(`/api/clients/update/${action.payload.id}`, action.payload);
+    yield axios.put(`/api/user`, action.payload);
     yield put ({type: 'SET_CLIENTS'});
   } catch (error) {
     console.log('Error with user update:', error);
@@ -44,6 +44,7 @@ function* updateClient(action) {
     yield takeEvery('FETCH_CLIENTS', fetchAllClients);
     yield takeEvery('FETCH_CLIENT_DETAILS', fetchClientDetails);
     yield takeLatest('UPDATE', updateClient);
+    yield takeEvery('FETCH_CLIENT_DETAILS_ADMIN', adminFetchClientDetails);
   }
   
   export default clientsSaga;
