@@ -1,4 +1,5 @@
 const express = require('express');
+const pool = require('./modules/pool');
 const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT || 5001;
@@ -32,6 +33,19 @@ app.use('/api/inventory', inventoryRouter);
 app.use('/api/clients', clientsRouter);
 app.use('/api/email', emailRouter);
 app.use('/api/orders', orderRouter);
+
+app.get('/api/search', async (req, res) => {
+  try {
+      const {name} = req.query;
+      const clients = await pool.query("SELECT * FROM clients WHERE name ILIKE $1", [`%${name}%`])
+
+      res.json(clients.rows)
+
+    } catch (err) {
+      console.log('ERROR: Search error', err);
+      res.sendStatus(500);
+    }
+});
 
 
 // Listen Server & Port
