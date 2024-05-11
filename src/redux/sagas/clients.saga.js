@@ -46,7 +46,7 @@ export function* adminFetchClientDetails(action) {
 function* updateClient(action) {
   console.log('In update client', action.payload.id);
   try {
-    yield axios.put(`/api/clients/update/${action.payload.id}`, action.payload);
+    yield axios.put(`/api/user`, action.payload);
     yield put ({type: 'FETCH_CLIENT'});
   } catch (error) {
     console.log('Error with client update:', error);
