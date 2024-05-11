@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 //npm install @fontsource/special-elite required
 import '@fontsource/special-elite';
 
-function Nav() {
+function Nav({ setFirstOrderId }) {
   const user = useSelector((store) => store.user);
 
   function userType() {
@@ -45,7 +45,7 @@ function Nav() {
             Products
           </Link>
 
-          <Link className="navLink" to="/orderSummary">
+          <Link className="navLink" to={`/orderSummary`}>
             Order Summary
           </Link>
 

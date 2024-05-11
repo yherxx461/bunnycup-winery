@@ -109,7 +109,7 @@ function OrderHistory() {
                             Date:{' '}
                             {new Date(uniqueOrder.date).toLocaleDateString()}
                           </p>
-                          <p>Total: ${uniqueOrder.total_cost}</p>
+                          <p>Total: ${totalCost}</p>
                         </Stack>
                       </Grid>
                       <div className="buttons">

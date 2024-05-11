@@ -55,8 +55,8 @@ function OrderSummary() {
   // console.log('Order Number:', orderNumber);
 
   // Calculating the total cost of clientOrders
-  const totalCost = clientOrders
-    ? clientOrders.reduce(
+  const totalCost = filteredOrders
+    ? filteredOrders.reduce(
         (total, order) => total + order.number_bottles * order.unit_price,
         0
       )
