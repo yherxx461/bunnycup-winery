@@ -58,7 +58,7 @@ function AdminRetailerView() {
     let newOrders = [];
     function checkNewOrders() {
       for (let order of orders)
-        if (order.name === "PENDING") {
+        if (order.name === "Pending") {
           newOrders.push(order);
         }
       return newOrders.length;
@@ -68,7 +68,7 @@ function AdminRetailerView() {
     let completedOrders = [];
     function checkCompletedOrders() {
       for (let order of orders)
-        if (order.name === "COMPLETE") {
+        if (order.name === "Complete") {
           completedOrders.push(order);
         }
       return completedOrders.length;
@@ -78,7 +78,7 @@ function AdminRetailerView() {
     let cancelledOrders = [];
     function checkCancelledOrders() {
       for (let order of orders)
-        if (order.name === "CANCELLED") {
+        if (order.name === "Cancelled") {
           cancelledOrders.push(order);
         }
       return cancelledOrders.length;
@@ -201,7 +201,7 @@ function AdminRetailerView() {
                 }}
               >
                 {orders.map((order) => {
-                  if (order.name === "PENDING") {
+                  if (order.name === "Pending") {
                     return (
                       <>
                         <Box
@@ -268,7 +268,7 @@ function AdminRetailerView() {
                 }}
               >
               {orders.map((order) => {
-                  if (order.name === "COMPLETE") {
+                  if (order.name === "Complete") {
                     return (
                       <>
                         <div key={order.id}>
@@ -337,7 +337,7 @@ function AdminRetailerView() {
                 }}
               >
                 {orders.map((order) => {
-                  if (order.name === "CANCELLED") {
+                  if (order.name === "Cancelled") {
                     return (
                       <>
                         <Box

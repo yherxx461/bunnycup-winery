@@ -78,7 +78,7 @@ function AdminUserPage() {
   let newOrders = [];
   function checkNewOrders() {
     for (let order of orders)
-      if (order.status === "PENDING") {
+      if (order.status === "Pending") {
         newOrders.push(order);
       }
     return newOrders.length;
@@ -88,7 +88,7 @@ function AdminUserPage() {
   let completedOrders = [];
   function checkCompletedOrders() {
     for (let order of orders)
-      if (order.status === "COMPLETE") {
+      if (order.status === "Complete") {
         completedOrders.push(order);
       }
     return completedOrders.length;
@@ -98,7 +98,7 @@ function AdminUserPage() {
   let cancelledOrders = [];
   function checkCancelledOrders() {
     for (let order of orders)
-      if (order.status === "CANCELLED") {
+      if (order.status === "Cancelled") {
         cancelledOrders.push(order);
       }
     return cancelledOrders.length;
@@ -340,7 +340,7 @@ function AdminUserPage() {
                 }}
               >
                 {orders.map((order) => {
-                  if (order.status === "PENDING") {
+                  if (order.status === "Pending") {
                     return (
                       <>
                         <Box
@@ -408,7 +408,7 @@ function AdminUserPage() {
                 }}
               >
                 {orders.map((order) => {
-                  if (order.status === "COMPLETE") {
+                  if (order.status === "Complete") {
                     return (
                       <>
                         <div key={order.id}>
@@ -478,7 +478,7 @@ function AdminUserPage() {
                 }}
               >
                 {orders.map((order) => {
-                  if (order.status === "CANCELLED") {
+                  if (order.status === "Cancelled") {
                     return (
                       <>
                         <Box
