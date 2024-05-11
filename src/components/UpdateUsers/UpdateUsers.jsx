@@ -43,7 +43,7 @@ function UpdateUsers() {
 
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
-    dispatch({ type: "FETCH_CLIENT_DETAILS", payload: { id } });
+    dispatch({ type: "FETCH_CLIENT_DETAILS_ADMIN", payload: { id } });
   }, []);
 
   const updateUser = (event) => {
