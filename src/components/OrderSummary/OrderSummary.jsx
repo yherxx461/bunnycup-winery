@@ -22,15 +22,17 @@ function OrderSummary() {
   console.log('filteredOrders', filteredOrders);
   //Extracting Date from clientOrders
   console.log('client order first array', clientOrders[0]);
-  const orderIdentification = filteredOrders[0].id;
-  console.log('order Identification for first array', orderIdentification);
+
+  let orderIdentification = null;
   let orderDate = null;
   if (filteredOrders.length > 0) {
     const firstOrder = filteredOrders[0];
+    orderIdentification = firstOrder.id;
     const options = { month: 'long', day: '2-digit', year: 'numeric' };
     orderDate = new Date(firstOrder.date).toLocaleDateString('en-US', options);
   }
   console.log('Order Date:', orderDate);
+  console.log('order Identification for first array', orderIdentification);
 
   //making a customized order number
   // let orderNumber = null;
