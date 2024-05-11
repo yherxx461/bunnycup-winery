@@ -123,7 +123,7 @@ function App() {
           <ProtectedRoute
             // Order Summary page
             exact
-            path="/orderSummary">
+            path="/orderSummary/:orderId">
             <OrderSummary />
           </ProtectedRoute>
 

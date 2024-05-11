@@ -57,7 +57,7 @@ function OrderHistory() {
   //Functions for view and reorder button
   const viewHandle = (orderId) => {
     console.log('In View Handle', orderId);
-    history.push('/orderSummary/${orderId}');
+    history.push(`/orderSummary/${orderId}`);
   };
 
   const reorderHandle = (event) => {

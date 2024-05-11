@@ -11,17 +11,18 @@ function OrderSummary() {
   //setting up clientOrders data
   const clientOrders = orders.clientOrders;
   console.log('clientOrders', clientOrders);
-  // const { orderId } = useParams();
-  const orderId = 11223;
+  //getting orderId from URL
+  const { orderId } = useParams();
+  // const orderId = 11223;
   console.log('orderId', orderId);
   // Filter clientOrders based on the orderId
   const filteredOrders = clientOrders.filter(
-    (order) => order.id === parseInt(orderId)
+    (order) => order.id === Number(orderId)
   );
   console.log('filteredOrders', filteredOrders);
   //Extracting Date from clientOrders
   console.log('client order first array', clientOrders[0]);
-  const orderIdentification = clientOrders[0].id;
+  const orderIdentification = filteredOrders[0].id;
   console.log('order Identification for first array', orderIdentification);
   let orderDate = null;
   if (clientOrders && clientOrders.length > 0) {
