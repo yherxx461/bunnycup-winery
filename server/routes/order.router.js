@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
 //GET route to pull orders for specific client id. This is intended for use in client order history view
 router.get('/:id', (req, res) => {
   const clientId = req.params.id;
-  const clientOrderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost", 
+  const clientOrderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost",
                             "orders"."checkout_discount", "status"."name", "wine_orders"."wine_sku",
                             "wine_orders"."number_bottles", "wine_orders"."unit_price" FROM "orders"
                             JOIN "status" ON "status"."id" = "orders"."status_id"
@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
     const wineText = `INSERT INTO "wine_orders" ("order_id", "wine_sku", "number_bottles", "unit_price")
     VALUES($1, $2, $3, $4);`;
     //Query text that lets us add the wines into the wine_order table
-    
+
     await db.query('BEGIN'); //Start transaction
     //console.log('INSIDE TRANSACTION')
     let result = await db.query(orderText, [

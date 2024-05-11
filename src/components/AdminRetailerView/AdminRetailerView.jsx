@@ -22,6 +22,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { ThemeProvider } from "@mui/material/styles";
 import { primaryTheme } from "../App/App";
+import Typography from "@mui/material/Typography";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "black" ? "#1A2027" : "#fff",
@@ -32,14 +33,11 @@ const Item = styled(Paper)(({ theme }) => ({
   fontSize: 15,
 }));
 
-// export default function AccordionUsage() {
-//   return (
-
 function AdminRetailerView() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
   const clients = useSelector((store) => store.clients);
-  // const orders = useSelector((store) => store.orders);
+  const orders = useSelector((store) => store.orders.clientOrders);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -49,15 +47,46 @@ function AdminRetailerView() {
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
     dispatch({ type: "FETCH_CLIENT_DETAILS_ADMIN", payload: { id } });
-    // dispatch({ type: 'FETCH_ALL_ORDERS' });
+    dispatch({ type: "GET_CLIENT_ORDERS", payload: id });
   }, []);
 
   const handleClickEditClient = (id) => {
     history.push(`/update/${id}`);
   };
 
-  console.log("CLIENTS", clients);
-  console.log("CLIENT DETAILS", clientDetails);
+    // tracking counts for NEW ORDERS
+    let newOrders = [];
+    function checkNewOrders() {
+      for (let order of orders)
+        if (order.name === "PENDING") {
+          newOrders.push(order);
+        }
+      return newOrders.length;
+    }
+  
+    // tracking counts for COMPLETED ORDERS
+    let completedOrders = [];
+    function checkCompletedOrders() {
+      for (let order of orders)
+        if (order.name === "COMPLETE") {
+          completedOrders.push(order);
+        }
+      return completedOrders.length;
+    }
+  
+    // tracking counts for CANCELLED ORDERS
+    let cancelledOrders = [];
+    function checkCancelledOrders() {
+      for (let order of orders)
+        if (order.name === "CANCELLED") {
+          cancelledOrders.push(order);
+        }
+      return cancelledOrders.length;
+    }
+
+  // console.log("CLIENTS", clients);
+  // console.log("CLIENT DETAILS", clientDetails);
+  // console.log("CLIENT ORDERS", orders);
 
   return (
     <Container maxWidth>
@@ -115,7 +144,6 @@ function AdminRetailerView() {
                   fontFamily: "George Sans Serif",
                   fontSize: "20px",
                   width: 800,
-                  
                 }}
               >
                 <p>Name: {clientDetails.name}</p>
@@ -138,8 +166,8 @@ function AdminRetailerView() {
               </Box>
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 300,
+                  maxHeight: 300,
                 }}
               ></AccordionDetails>
             </Accordion>
@@ -153,39 +181,62 @@ function AdminRetailerView() {
                   bgcolor: "#F9F7F4",
                 }}
               >
-                NEW
-                <div>
-                  {/* {orders.length} */}
-                  (orders.length) NEW ORDERS
-                </div>
+                <Typography sx={{ width: "40%", flexShrink: 0 }}>
+                  NEW
+                </Typography>
+                <Typography
+                  color="#861f41"
+                  sx={{ fontWeight: "bold", width: "35%" }}
+                >
+                  {checkNewOrders()} NEW ORDERS
+                </Typography>
+                <Typography>
+                ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 300,
+                  maxHeight: 300,
                 }}
               >
-                DISPLAY NEW ORDERS HERE
-                {/* {orders.map((order) => {
-              return (
-                <>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    p: 0,
-                    m: 1,
-                    bgcolor: 'background.paper',
-                    borderRadius: 1,
-                  }}
-                >
-                  <p>{order.date}</p>
-                  <p>{order.client_id}</p>
-                  <p>{order.total_cost}</p>
-                  <p type="button" onClick={() => handleClickOpenClient(client)}>VIEW</p>
-                </Box>
-                </>
-            )})} */}
+                {orders.map((order) => {
+                  if (order.name === "PENDING") {
+                    return (
+                      <>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            p: 0,
+                            m: 1,
+                            bgcolor: "background.paper",
+                            borderRadius: 1,
+                          }}
+                        >
+                          <Typography sx={{ width: "40%" }}>
+                            {order.date}
+                          </Typography>
+                          <Typography sx={{ width: "35%" }}>
+                            {order.name}
+                          </Typography>
+                          <Typography sx={{ width: "25%" }}>
+                            $ {order.total_cost}
+                          </Typography>
+                          <Button
+                            variant="text"
+                            sx={{
+                              color: "#861F41",
+                            }}
+                            // onClick={() => handleClickOpenClient(client.id)}
+                          >
+                            VIEW
+                          </Button>
+                        </Box>
+                      </>
+                    );
+                  }
+                })}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -197,16 +248,64 @@ function AdminRetailerView() {
                   bgcolor: "#F9F7F4",
                 }}
               >
-                COMPLETED
+                <Typography sx={{ width: "40%", flexShrink: 0 }}>
+                  COMPLETED
+                </Typography>
+                <Typography
+                  color="pinot"
+                  sx={{ width: "35%" }}
+                >
+                  {checkCompletedOrders()} ORDERS
+                </Typography>
+                <Typography>
+                  ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 300,
+                  maxHeight: 300,
                 }}
               >
-                FUNCTION completedOrders() to .map and filter for completed
-                orders.
+              {orders.map((order) => {
+                  if (order.name === "COMPLETE") {
+                    return (
+                      <>
+                        <div key={order.id}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              p: 0,
+                              m: 1,
+                              bgcolor: "background.paper",
+                              borderRadius: 1,
+                            }}
+                          >
+                            <Typography sx={{ width: "40%" }}>
+                              {order.date}
+                            </Typography>
+                            <Typography sx={{ width: "35%" }}>
+                              {order.name}
+                            </Typography>
+                            <Typography sx={{ width: "25%" }}>
+                              $ {order.total_cost}
+                            </Typography>
+                            <Button
+                              variant="text"
+                              sx={{
+                                color: "#861F41",
+                              }}
+                              // onClick={() => handleClickOpenClient(client.id)}
+                            >
+                              VIEW
+                            </Button>
+                          </Box>
+                        </div>
+                      </>
+                    );
+                  }
+                })}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -218,16 +317,62 @@ function AdminRetailerView() {
                   bgcolor: "#F9F7F4",
                 }}
               >
-                CANCELED
+                <Typography sx={{ width: "40%", flexShrink: 0 }}>
+                  CANCELLED
+                </Typography>
+                <Typography
+                  color="#cccccc"
+                  sx={{ width: "35%" }}
+                >
+                  {checkCancelledOrders()} ORDERS
+                </Typography>
+                <Typography color="#cccccc">
+                  ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
-                  minHeight: 400,
-                  maxHeight: 400,
+                  minHeight: 300,
+                  maxHeight: 300,
                 }}
               >
-                FUNCTION canceledOrders() to .map and filter for cancelled
-                orders.
+                {orders.map((order) => {
+                  if (order.name === "CANCELLED") {
+                    return (
+                      <>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            p: 0,
+                            m: 1,
+                            bgcolor: "background.paper",
+                            borderRadius: 1,
+                          }}
+                        >
+                          <Typography sx={{ width: "40%" }}>
+                            {order.date}
+                          </Typography>
+                          <Typography sx={{ width: "35%" }}>
+                            {order.name}
+                          </Typography>
+                          <Typography sx={{ width: "25%" }}>
+                            $ {order.total_cost}
+                          </Typography>
+                          <Button
+                            variant="text"
+                            sx={{
+                              color: "#861F41",
+                            }}
+                            // onClick={() => handleClickOpenClient(client.id)}
+                          >
+                            VIEW
+                          </Button>
+                        </Box>
+                      </>
+                    );
+                  }
+                })}
               </AccordionDetails>
             </Accordion>
           </div>

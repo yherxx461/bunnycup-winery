@@ -84,6 +84,26 @@ function AdminUserPage() {
     return newOrders.length;
   }
 
+  // tracking counts for COMPLETED ORDERS
+  let completedOrders = [];
+  function checkCompletedOrders() {
+    for (let order of orders)
+      if (order.status === "COMPLETE") {
+        completedOrders.push(order);
+      }
+    return completedOrders.length;
+  }
+
+  // tracking counts for CANCELLED ORDERS
+  let cancelledOrders = [];
+  function checkCancelledOrders() {
+    for (let order of orders)
+      if (order.status === "CANCELLED") {
+        cancelledOrders.push(order);
+      }
+    return cancelledOrders.length;
+  }
+
   return (
     <Container>
       <ThemeProvider theme={primaryTheme}>
@@ -192,8 +212,8 @@ function AdminUserPage() {
               {name !== "" && (
                 <AccordionDetails
                   sx={{
-                    minHeight: 400,
-                    maxHeight: 400,
+                    minHeight: 300,
+                    maxHeight: 300,
                     overflowY: "scroll",
                   }}
                 >
@@ -241,8 +261,8 @@ function AdminUserPage() {
               {!name && (
                 <AccordionDetails
                   sx={{
-                    minHeight: 400,
-                    maxHeight: 400,
+                    minHeight: 300,
+                    maxHeight: 300,
                     overflowY: "scroll",
                   }}
                 >
@@ -302,10 +322,13 @@ function AdminUserPage() {
                   NEW
                 </Typography>
                 <Typography
-                  color="pinot"
+                  color="#861f41"
                   sx={{ fontWeight: "bold", width: "35%" }}
                 >
                   {checkNewOrders()} NEW ORDERS
+                </Typography>
+                <Typography>
+                  ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
                 </Typography>
               </AccordionSummary>
 
@@ -321,7 +344,6 @@ function AdminUserPage() {
                     return (
                       <>
                         <Box
-   
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -365,7 +387,18 @@ function AdminUserPage() {
                   bgcolor: "#F9F7F4",
                 }}
               >
-                COMPLETED
+                <Typography sx={{ width: "40%", flexShrink: 0 }}>
+                  COMPLETED
+                </Typography>
+                <Typography
+                  color="pinot"
+                  sx={{ width: "35%" }}
+                >
+                  {checkCompletedOrders()} ORDERS
+                </Typography>
+                <Typography>
+                  ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
@@ -424,7 +457,18 @@ function AdminUserPage() {
                   bgcolor: "#F9F7F4",
                 }}
               >
-                CANCELED
+                <Typography sx={{ width: "40%", flexShrink: 0 }}>
+                  CANCELLED
+                </Typography>
+                <Typography
+                  color="#cccccc"
+                  sx={{ width: "35%" }}
+                >
+                  {checkCancelledOrders()} ORDERS
+                </Typography>
+                <Typography color="#cccccc">
+                  ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
@@ -434,7 +478,7 @@ function AdminUserPage() {
                 }}
               >
                 {orders.map((order) => {
-                  if (order.status === "CANCELED") {
+                  if (order.status === "CANCELLED") {
                     return (
                       <>
                         <Box
