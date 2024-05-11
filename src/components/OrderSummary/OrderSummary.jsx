@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './OrderSummary.css';
+import { useParams } from 'react-router-dom';
 
 function OrderSummary() {
   //dispatch hook
@@ -10,58 +11,64 @@ function OrderSummary() {
   //setting up clientOrders data
   const clientOrders = orders.clientOrders;
   console.log('clientOrders', clientOrders);
+  //getting orderId from URL
+  const { orderId } = useParams();
+  // const orderId = 11223;
+  console.log('orderId', orderId);
+  // Filter clientOrders based on the orderId
+  const filteredOrders = clientOrders.filter(
+    (order) => order.id === Number(orderId)
+  );
+  console.log('filteredOrders', filteredOrders);
   //Extracting Date from clientOrders
   console.log('client order first array', clientOrders[0]);
+
+  let orderIdentification = null;
   let orderDate = null;
-  if (clientOrders && clientOrders.length > 0) {
-    const firstOrder = clientOrders[0];
-    orderDate = new Date(firstOrder.date);
-    // formatting the orderDate into "Month XX, XXXX" format
+  if (filteredOrders.length > 0) {
+    const firstOrder = filteredOrders[0];
+    orderIdentification = firstOrder.id;
     const options = { month: 'long', day: '2-digit', year: 'numeric' };
-    orderDate = orderDate.toLocaleDateString('en-US', options);
+    orderDate = new Date(firstOrder.date).toLocaleDateString('en-US', options);
   }
   console.log('Order Date:', orderDate);
+  console.log('order Identification for first array', orderIdentification);
 
   //making a customized order number
-  let orderNumber = null;
-  if (clientOrders && clientOrders.length > 0) {
-    const firstOrder = clientOrders[0];
-    const orderDate = new Date(firstOrder.date);
+  // let orderNumber = null;
+  // if (clientOrders && clientOrders.length > 0) {
+  //   const firstOrder = clientOrders[0];
+  //   const orderDate = new Date(firstOrder.date);
 
-    // Extract date components
-    const month = ('0' + (orderDate.getMonth() + 1)).slice(-2);
-    const day = ('0' + orderDate.getDate()).slice(-2);
-    const year = orderDate.getFullYear().toString().slice(-2);
+  //   // Extract date components
+  //   const month = ('0' + (orderDate.getMonth() + 1)).slice(-2);
+  //   const day = ('0' + orderDate.getDate()).slice(-2);
+  //   const year = orderDate.getFullYear().toString().slice(-2);
 
-    // Calculate the order number for the day
-    const orderDailyNumber = clientOrders.length;
+  //   // Calculate the order number for the day
+  //   const orderDailyNumber = clientOrders.length;
 
-    // Construct order number
-    orderNumber = `${month}${day}${year}-${orderDailyNumber}`;
-  }
+  //   // Construct order number
+  //   orderNumber = `${month}${day}${year}-${orderDailyNumber}`;
+  // }
 
-  console.log('Order Number:', orderNumber);
+  // console.log('Order Number:', orderNumber);
 
-  //Calculating the total cost of clientOrders
-  const totalCost =
-    clientOrders &&
-    clientOrders.reduce((total, order) => total + Number(order.total_cost), 0);
+  // Calculating the total cost of clientOrders
+  const totalCost = filteredOrders
+    ? filteredOrders.reduce(
+        (total, order) => total + order.number_bottles * order.unit_price,
+        0
+      )
+    : 0;
   console.log('total cost', totalCost);
 
   const client = useSelector((store) => store.clients);
+  console.log('client data', client);
   //getting client details information
   const clientDetails = useSelector((store) => store.clientDetails);
   console.log('clientDetails data', clientDetails);
-  // const deliveryAddress = clientDetails && clientDetails.delivery_address;
-  // console.log('deliveryAddress', deliveryAddress);
-  //Formatting Delivery Address
-  // const addressParts = deliveryAddress ? deliveryAddress.split(',') : '';
-  // const streetAddress = deliveryAddress ? addressParts[0] : '';
-  // const cityStateZip = deliveryAddress
-  //   ? addressParts.slice(1).join(',').trim()
-  //   : '';
-  // console.log('street address', streetAddress);
-  // console.log('cityStateZip', cityStateZip);
+
   //address information changed so need to adjust mapping
   const street = clientDetails && clientDetails.street;
   const city = clientDetails && clientDetails.city;
@@ -75,6 +82,12 @@ function OrderSummary() {
   //Extracting discount
   const clientDiscount = clientDetails && clientDetails.discount;
   console.log('clientDiscount', clientDiscount);
+
+  // Convert discount to decimal
+  const discountPercentage = clientDiscount / 100;
+
+  // Apply discount to total cost
+  const discountedTotalCost = totalCost * (1 - discountPercentage);
 
   console.log('clients data', client);
   const clientID = client && Number(client.map((clientItem) => clientItem.id));
@@ -92,7 +105,7 @@ function OrderSummary() {
   return (
     <main className="main">
       <div className="header">
-        <h1>Order #{orderNumber}</h1>
+        <h1>Order #{orderIdentification}</h1>
       </div>
       <div className="customerInfo">
         {/*To Do: Retailer info includes Name, Address, contact info */}
@@ -124,14 +137,16 @@ function OrderSummary() {
             </tr>
           </thead>
           <tbody style={{ borderBottom: '3px solid black', color: 'black' }}>
-            {clientOrders &&
-              clientOrders.map((order, index) => (
+            {filteredOrders &&
+              filteredOrders.map((order, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{order.wine_sku}</td>
                   <td>{order.number_bottles}</td>
                   <td>{order.unit_price}</td>
-                  <td>{order.total_cost}</td>
+                  <td>
+                    $ {(order.number_bottles * order.unit_price).toFixed(2)}
+                  </td>
                 </tr>
               ))}
           </tbody>
@@ -139,7 +154,7 @@ function OrderSummary() {
       </div>
 
       <div className="total">
-        <p>Total: ${totalCost}</p>
+        <p>Total: ${discountedTotalCost.toFixed(2)}</p>
       </div>
     </main>
   );
