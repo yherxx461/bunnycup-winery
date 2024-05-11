@@ -20,46 +20,18 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 router.post('/register', (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
-  const client = {name: req.body.name,
-                  street: req.body.street,
-                  city: req.body.city,
-                  state: req.body.state, 
-                  zip: req.body.zip,
-                  discount: req.body.discount,
-                  payment: req.body.payment}
 
   const userText = `INSERT INTO "user" ("email", "password", "access_level")
                     VALUES ($1, $2, $3) RETURNING id;`;
-  const clientText = `WITH "ins1" as (
-                        INSERT INTO "user" ("email", "password", "access_level")
-                        VALUES ($1, $2, 1)
-                        RETURNING "id"),
-                        "ins2" AS (
-                        INSERT INTO "clients" ("user_id", "name", "email", "discount", "payment_type")
-                        SELECT "id", $3, $4, $5, $6 FROM "ins1"
-                        RETURNING "id")
-                      INSERT INTO "client_address" ("client_id", "street", "city", "state", "zip")
-                      SELECT "id", $7, $8, $9, $10 FROM "ins2";`;
 
-  if ("name" in req.body){
-    pool.query(clientText, [username, password, client.name, username, client.discount, client.payment, client.street, client.city, client.state, client.zip])
-    .then((result) => {
-      res.sendStatus(200)
-    })
-    .catch((error) => {
-      console.log('Retailer registration failed: ', error)
-      res.sendStatus(500)})
-  } else {
-    pool
-      .query(userText, [username, password, 10])
-      .then(() => res.sendStatus(201))
-      .catch((err) => {
-        console.log('User registration failed: ', err);
-        res.sendStatus(500);
-      });
-  };
+  pool
+    .query(userText, [username, password, 10])
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.log('User registration failed: ', err);
+      res.sendStatus(500);
+    });
 });
-
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
@@ -75,27 +47,57 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+//User account update
 router.put('/', (req, res) => {
   const clientInfo = req.body;
   const password = encryptLib.encryptPassword(req.body.password);
   const updateQuery = `WITH "ins1" AS (
-                        UPDATE "user" SET "password" = $1 WHERE "id" = $2
-                        RETURNING "id"
-                        ),
+                        UPDATE "clients" SET "name" = $1, "discount" = $2, "payment_type" = $3 WHERE "id" = $4
+                        RETURNING "user_id"),
                         "ins2" AS (
-                        UPDATE "clients" SET "name" = $3, "discount" = $4, "payment_type" = $5 WHERE "user_id" IN (SELECT "id" FROM "ins1")
-                        RETURNING "id")
-                      UPDATE "client_address" SET "street" = $6, "city" = $7, "state" = $8, "zip" = $9 WHERE "client_id" IN (SELECT "id" FROM "ins2");`;
+                        UPDATE "user" SET "password" = $5 WHERE "id" IN (SELECT "user_id" FROM "ins1")
+                        RETURNING "id"
+                        )
+                      UPDATE "client_address" SET "street" = $6, "city" = $7, "state" = $8, "zip" = $9 WHERE "client_id" = $4;`;
 
-  pool.query(updateQuery, [password, clientInfo.id, clientInfo.retailer, clientInfo.discount, clientInfo.paymentType, clientInfo.street, clientInfo.city, clientInfo.state, clientInfo.zip])
-  .then((result) => {
-    console.log('Client updated successfully');
-    res.sendStatus(200)
-  })
-  .catch((error) => {
-    console.log('Client update failed')
-    res.sendStatus(500)
-  })
-})
+  pool
+    .query(updateQuery, [
+      clientInfo.name,
+      clientInfo.discount,
+      clientInfo.payment,
+      clientInfo.id,
+      password,
+      clientInfo.street,
+      clientInfo.city,
+      clientInfo.state,
+      clientInfo.zip,
+    ])
+    .then((result) => {
+      console.log('Client updated successfully');
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log('Client update failed');
+      res.sendStatus(500);
+    });
+});
+
+// This enables specific user account deletion.
+// Deleting a user account will not delete client information, so that order history is preserved.
+router.delete('/:id', (req, res) => {
+  const deleteInfo = req.params.id;
+  const deleteQuery = `DELETE * FROM "user" WHERE "id" = $1`;
+
+  pool
+    .query(deleteQuery, [deleteInfo])
+    .then((result) => {
+      console.log('Account deletion successful');
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log('Account deletion failed');
+      res.sendStatus(500);
+    });
+});
 
 module.exports = router;

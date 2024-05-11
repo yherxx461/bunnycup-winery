@@ -12,7 +12,7 @@ CREATE TABLE "status"(
 
 CREATE TABLE "user"(
 	"id" SERIAL PRIMARY KEY,
-	"email" VARCHAR(200) NOT NULL,
+	"email" VARCHAR(200) UNIQUE NOT NULL,
 	"password" VARCHAR(200) NOT NULL,
 	"access_level" INT
 );
@@ -36,7 +36,7 @@ CREATE TABLE "client_address"(
 	);
 
 CREATE TABLE "orders"(
-	"id" VARCHAR(50) PRIMARY KEY,
+	"id" VARCHAR(50) UNIQUE PRIMARY KEY,
 	"client_id" INT NOT NULL REFERENCES "clients",
 	"date" DATE,
 	"total_cost" DECIMAL,
@@ -45,6 +45,7 @@ CREATE TABLE "orders"(
 );
 
 CREATE TABLE "wine_orders"(
+	"id" SERIAL PRIMARY KEY,
 	"order_id" VARCHAR(50) REFERENCES "orders",
 	"wine_sku" VARCHAR(20),
 	"number_bottles" INT,
@@ -70,3 +71,10 @@ VALUES ('FBOMB', '/images/fbomb.png'),
 		('FARMWHITE', '/images/farmwhite.png'),
 		('SUMMERTIME', '/images/summertime.png'),
 		('SUNSHINE', '/images/sunshine.png');
+
+--This query will set up the status table with the different status codes--
+INSERT INTO "status" ("id", "name")
+VALUES (1, 'Pending'),
+	   (2, 'Complete'),
+	   (3, 'Cancelled'),
+	   (4, 'Cart')

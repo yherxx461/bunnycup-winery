@@ -3,6 +3,9 @@ import errors from './errors.reducer';
 import user from './user.reducer';
 import inventory from './inventory.reducer';
 import {clients} from './clients.reducer';
+import { clientDetails } from './clients.reducer';
+import orders from './order.reducer'
+
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -15,6 +18,8 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   inventory, // contains current inventory data fetched from 3rd party Winery Management System API
   clients, //contains clients information passed from DB
+  clientDetails, ////contains clients information passed from DB
+  orders
 });
 
 export default rootReducer;

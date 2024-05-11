@@ -3,31 +3,64 @@ import { useDispatch, useSelector } from "react-redux";
 // install sweetalerts
 import Swal from "sweetalert2";
 
+import Button from "@mui/material/Button";
+import { ThemeProvider } from "@mui/material/styles";
+import { primaryTheme } from "../App/App";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Typography } from "@mui/material";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 function UpdateUsers() {
-  const [password, setPassword] = useState("");
-  const [retailer, setRetailer] = useState("");
-  const [address, setAddress] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [paymentType, setPaymentType] = useState("");
+  const clientDetails = useSelector((store) => store.clientDetails);
+//   const _name = clientDetails.name;
+//   const _email = clientDetails.email;
+//   const _discount = clientDetails.discount;
+//   const _payment_type = clientDetails.paymentType;
+//   const _street = clientDetails.street;
+//   const _city = clientDetails.city;
+//   const _state = clientDetails.state;
+//   const _zip = clientDetails.zip;
+
+  const history = useHistory();
+
   const user = useSelector((store) => store.user);
+  const [password, setPassword] = useState(user.password);
+  const [retailer, setRetailer] = useState(clientDetails.name);
+  const [street, setStreet] = useState(clientDetails.street);
+  const [city, setCity] = useState(clientDetails.city);
+  const [state, setState] = useState(clientDetails.state);
+  const [zip, setZip] = useState(clientDetails.zip);
+  const [discount, setDiscount] = useState(clientDetails.discount);
+  const [paymentType, setPaymentType] = useState(clientDetails.paymentType);
+  const clients = useSelector((store) => store.clients);
+  const { id } = useParams();
+
+  console.log(clientDetails);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
+    dispatch({ type: "FETCH_CLIENT_DETAILS_ADMIN", payload: { id } });
   }, []);
-  
+
   const updateUser = (event) => {
     event.preventDefault();
 
     dispatch({
       type: "UPDATE",
       payload: {
-        id: user.id,
+        id: id,
         password: password,
-        retailer: retailer,
-        address: address,
+        name: retailer,
+        street: street,
+        city: city,
+        state: state,
+        zip: zip,
         discount: discount,
-        paymentType: paymentType,
+        payment: paymentType,
       },
     });
     Swal.fire({
@@ -36,76 +69,131 @@ function UpdateUsers() {
     });
   }; // end updateUser
 
+  const handleClickOpenClient = (id) => {
+    history.push(`/retailer-info/${id}`);
+  };
+
   return (
-    <form className="formPanel" onSubmit={updateUser}>
-      <h2>Update Retailer</h2>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={password}
-            required
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="retailer">
-          Retailer Name:
-          <input
-            type="retailer"
-            name="retailer"
-            value={retailer}
-            required
-            onChange={(event) => setRetailer(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="address">
-          Delivery Address:
-          <input
-            type="address"
-            name="address"
-            value={address}
-            required
-            onChange={(event) => setAddress(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="discount">
-          Discount %:
-          <input
-            type="discount"
-            name="discount"
-            value={discount}
-            required
-            onChange={(event) => setDiscount(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="paymentType">
-          Default Payment Type:
-          <input
-            type="paymentType"
-            name="paymentType"
-            value={paymentType}
-            required
-            onChange={(event) => setPaymentType(event.target.value)}
-          />
-        </label>
-      </div>
-        <input
-          className="btn"
-          type="submit"
-          name="submit"
-          value="Update User"
-        />
-    </form>
+    <ThemeProvider theme={primaryTheme}>
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "45ch" },
+        }}
+        autoComplete="on"
+        onSubmit={updateUser}
+      >
+        <center>
+          <h2>Update Retailer</h2>
+          <Button
+          color="pinot"
+          sx={{
+            marginLeft: 1,
+            marginRight: "auto",
+          }}
+          onClick={() => handleClickOpenClient(clientDetails.id)}
+          >
+            BACK
+          </Button>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Password"
+              type="password"
+              name="password"
+              defaultValue={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField InputLabelProps={{ shrink: true }}
+              variant="outlined"
+              label="Retailer Name"
+              type="retailer"
+              name="retailer"
+              defaultValue={retailer}
+              required
+              onChange={(event) => setRetailer(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField InputLabelProps={{ shrink: true }}
+              variant="outlined"
+              label="Street Address"
+              type="street"
+              name="street"
+              defaultValue={street}
+              required
+              onChange={(event) => setStreet(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="City"
+              type="city"
+              name="city"
+              value={city}
+              defaultValue={city}
+              required
+              onChange={(event) => setCity(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="State"
+              type="state"
+              name="state"
+              defaultValue={state}
+              required
+              onChange={(event) => setState(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Zip Code"
+              type="zip"
+              name="zip"
+              defaultValue={zip}
+              required
+              onChange={(event) => setZip(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Discount %"
+              type="discount"
+              name="discount"
+              defaultValue={discount}
+              onChange={(event) => setDiscount(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Default Payment Type"
+              type="paymentType"
+              name="paymentType"
+              defaultValue={paymentType}
+              onChange={(event) => setPaymentType(event.target.value)}
+            />
+          </div>
+          <Button
+            variant="contained"
+            size="large"
+            color="pinot"
+            type="submit"
+            name="submit"
+            value="Update User"
+          >
+            Update
+          </Button>
+        </center>
+      </Box>
+    </ThemeProvider>
   );
 }
 

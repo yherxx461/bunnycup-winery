@@ -3,12 +3,17 @@
 }
 
 .listItem {
+<<<<<<< HEAD
   background-color: #e0e0e0;
+=======
+  background-color: #861f41;
+>>>>>>> bf30a906deea237b5a31ea7842d09f34009d9785
   max-width: 80%;
   text-align: center;
   margin: 10px auto;
   padding: 10px;
   border-radius: 10px;
+<<<<<<< HEAD
   border: 2px solid black;
 }
 
@@ -29,4 +34,40 @@
   text-align: left;
   display: inline-flex;
   margin-bottom: 15px;
+=======
+  border: 3px solid black;
+  color: #ffffff;
+}
+
+.orderHandle {
+  /* margin-left: 15px; */
+}
+
+.buttons {
+  float: right;
+  display: inline-flex;
+}
+
+.main {
+  font-family: 'Montserrat';
+}
+
+.dateTotal {
+  /* text-align: left;
+  display: inline-flex;
+  margin-bottom: 15px; */
+  font-weight: 575;
+  display: inline-flex;
+  float: left;
+  margin-left: 25px;
+}
+
+.orders {
+  margin-top: 75px;
+}
+
+.boxItems {
+  display: flex;
+  justify-content: center;
+>>>>>>> bf30a906deea237b5a31ea7842d09f34009d9785
 }
