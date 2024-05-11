@@ -11,7 +11,8 @@ router.get('/', (req, res) => {
                         FROM "orders"
                         JOIN "status" ON "status"."id" = "orders"."status_id"
                         JOIN "wine_orders" ON "orders"."id" = "wine_orders"."order_id"
-                        JOIN "clients" ON "orders"."client_id" = "clients"."id";`;
+                        JOIN "clients" ON "orders"."client_id" = "clients"."id"
+                        ORDER BY "orders"."id" DESC;`;
   pool
     .query(orderQuery)
     .then((result) => {
@@ -30,7 +31,8 @@ router.get('/:id', (req, res) => {
                             "wine_orders"."number_bottles", "wine_orders"."unit_price" FROM "orders"
                             JOIN "status" ON "status"."id" = "orders"."status_id"
                             JOIN "wine_orders" ON "orders"."id" = "wine_orders"."order_id"
-                            WHERE "orders"."client_id" = $1;`;
+                            WHERE "orders"."client_id" = $1
+                            ORDER BY "orders"."id" DESC;`;
   pool
     .query(clientOrderQuery, [clientId])
     .then((result) => {
@@ -45,20 +47,23 @@ router.get('/:id', (req, res) => {
 router.post('/', async (req, res) => {
   const db = await pool.connect();
   try {
-    const orderId = req.body.order_id; //Stores order id
+    //console.log('Order submission data:', req.body)
     const clientId = req.body.client_id; //Stores client id
     const date = req.body.date; //Stores the date
+    //console.log(date);
+    let orderId = req.body.order_id; //Stores the generated orderId
     const cost = req.body.cost; //Stores the total order cost
     const discount = req.body.discount; //Stores the discount
     const wineOrder = req.body.wines; //Stores the array of wine objects
     const orderText = `INSERT INTO "orders" ("id", "client_id", "date", "total_cost", "status_id", "checkout_discount")
-                            VALUES($1, $2, $3, $4, $5, $6);`;
+    VALUES($1, $2, $3, $4, $5, $6);`;
     //Query text that lets us create an order in the order table
     const wineText = `INSERT INTO "wine_orders" ("order_id", "wine_sku", "number_bottles", "unit_price")
-                            VALUES($1, $2, $3, $4);`;
+    VALUES($1, $2, $3, $4);`;
     //Query text that lets us add the wines into the wine_order table
-
+    
     await db.query('BEGIN'); //Start transaction
+    //console.log('INSIDE TRANSACTION')
     let result = await db.query(orderText, [
       orderId,
       clientId,

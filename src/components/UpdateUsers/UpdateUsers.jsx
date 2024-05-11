@@ -9,18 +9,31 @@ import { primaryTheme } from "../App/App";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Typography } from "@mui/material";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function UpdateUsers() {
   const clientDetails = useSelector((store) => store.clientDetails);
-  const [password, setPassword] = useState("");
-  const [retailer, setRetailer] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zip, setZip] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [paymentType, setPaymentType] = useState("");
+//   const _name = clientDetails.name;
+//   const _email = clientDetails.email;
+//   const _discount = clientDetails.discount;
+//   const _payment_type = clientDetails.paymentType;
+//   const _street = clientDetails.street;
+//   const _city = clientDetails.city;
+//   const _state = clientDetails.state;
+//   const _zip = clientDetails.zip;
+
+  const history = useHistory();
+
   const user = useSelector((store) => store.user);
+  const [password, setPassword] = useState(user.password);
+  const [retailer, setRetailer] = useState(clientDetails.name);
+  const [street, setStreet] = useState(clientDetails.street);
+  const [city, setCity] = useState(clientDetails.city);
+  const [state, setState] = useState(clientDetails.state);
+  const [zip, setZip] = useState(clientDetails.zip);
+  const [discount, setDiscount] = useState(clientDetails.discount);
+  const [paymentType, setPaymentType] = useState(clientDetails.paymentType);
   const clients = useSelector((store) => store.clients);
   const { id } = useParams();
 
@@ -30,7 +43,7 @@ function UpdateUsers() {
 
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
-    dispatch({ type: "FETCH_CLIENT_DETAILS", payload: { id } });
+    dispatch({ type: "FETCH_CLIENT_DETAILS_ADMIN", payload: { id } });
   }, []);
 
   const updateUser = (event) => {
@@ -39,7 +52,7 @@ function UpdateUsers() {
     dispatch({
       type: "UPDATE",
       payload: {
-        id: user.id,
+        id: id,
         password: password,
         name: retailer,
         street: street,
@@ -56,6 +69,10 @@ function UpdateUsers() {
     });
   }; // end updateUser
 
+  const handleClickOpenClient = (id) => {
+    history.push(`/retailer-info/${id}`);
+  };
+
   return (
     <ThemeProvider theme={primaryTheme}>
       <Box
@@ -68,34 +85,44 @@ function UpdateUsers() {
       >
         <center>
           <h2>Update Retailer</h2>
+          <Button
+          color="pinot"
+          sx={{
+            marginLeft: 1,
+            marginRight: "auto",
+          }}
+          onClick={() => handleClickOpenClient(clientDetails.id)}
+          >
+            BACK
+          </Button>
           <div>
             <TextField
               variant="outlined"
               label="Password"
               type="password"
               name="password"
-              value={password}
+              defaultValue={password}
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
           <div>
-            <TextField
+            <TextField InputLabelProps={{ shrink: true }}
               variant="outlined"
               label="Retailer Name"
               type="retailer"
               name="retailer"
-              value={clientDetails.name}
+              defaultValue={retailer}
               required
               onChange={(event) => setRetailer(event.target.value)}
             />
           </div>
           <div>
-            <TextField
+            <TextField InputLabelProps={{ shrink: true }}
               variant="outlined"
               label="Street Address"
               type="street"
               name="street"
-              value={clientDetails.street}
+              defaultValue={street}
               required
               onChange={(event) => setStreet(event.target.value)}
             />
@@ -106,7 +133,8 @@ function UpdateUsers() {
               label="City"
               type="city"
               name="city"
-              value={clientDetails.city}
+              value={city}
+              defaultValue={city}
               required
               onChange={(event) => setCity(event.target.value)}
             />
@@ -117,7 +145,7 @@ function UpdateUsers() {
               label="State"
               type="state"
               name="state"
-              value={clientDetails.state}
+              defaultValue={state}
               required
               onChange={(event) => setState(event.target.value)}
             />
@@ -128,7 +156,7 @@ function UpdateUsers() {
               label="Zip Code"
               type="zip"
               name="zip"
-              value={clientDetails.zip}
+              defaultValue={zip}
               required
               onChange={(event) => setZip(event.target.value)}
             />
@@ -139,7 +167,7 @@ function UpdateUsers() {
               label="Discount %"
               type="discount"
               name="discount"
-              value={clientDetails.discount}
+              defaultValue={discount}
               onChange={(event) => setDiscount(event.target.value)}
             />
           </div>
@@ -149,7 +177,7 @@ function UpdateUsers() {
               label="Default Payment Type"
               type="paymentType"
               name="paymentType"
-              value={clientDetails.payment_type}
+              defaultValue={paymentType}
               onChange={(event) => setPaymentType(event.target.value)}
             />
           </div>

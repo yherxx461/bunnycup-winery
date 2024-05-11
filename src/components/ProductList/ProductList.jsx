@@ -1,18 +1,18 @@
 // import axios from 'axios';
 import {
-  // Paper,
   Table,
   TableBody,
   TableCell,
-  // TableContainer,
   TableHead,
   TableRow,
   Button,
   TextField,
+  IconButton,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import ShoppingCartIconPage from '../ShoppingCartIcon/ShoppingCartIcon';
 import './ProductList.css';
 
 function ProductList() {
@@ -34,11 +34,12 @@ function ProductList() {
   useEffect(() => {
     const initialQuantities = {};
     inventory.forEach((item) => {
-      initialQuantities[item.sku] = 12; // Default quantity
+      initialQuantities[item.sku] = 12; // Default quantity set to 12
     });
     setQuantities(initialQuantities);
   }, [inventory]);
 
+  // handles quantity change
   const handleQuantityChange = (sku, newQuantity) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
@@ -49,14 +50,14 @@ function ProductList() {
   // Add to Cart function
   const handleAddToCart = (item) => {
     const quantity = quantities[item.sku]; // Retrieve quantity from state
-    console.log(
-      'adding item to cart',
-      item.image,
-      item.name,
-      item.sku,
-      item.retail_price,
-      quantity
-    );
+    // console.log(
+    //   'adding item to cart',
+    //   item.image,
+    //   item.name,
+    //   item.sku,
+    //   item.retail_price,
+    //   quantity
+    // );
 
     // Find corresponding image URL from imageList
     const image = imageList.find(
@@ -68,7 +69,7 @@ function ProductList() {
       image: image,
       product_name: item.name,
       wine_sku: item.sku,
-      unit_price: item.retail_price,
+      unit_price: item.retail_price.replace('$', ''),
       number_bottles: quantity,
     };
 
@@ -79,62 +80,82 @@ function ProductList() {
     });
   };
 
+  // Push function to go to the Shopping Cart page
   const viewCart = () => {
     history.push('/cart');
   };
 
   return (
-    // <div>
-    //       <LoginForm />
-    //     </div>
     <>
       <div className="inventory-list" key={inventory.id}>
         <h1 className="product-list-title" align="center">
           Product Inventory
         </h1>
-        {/* TO-DO: Create a table with the Product List */}
-        {/* Map the Product List  */}
-        {/* Will need to make sure API get request is set up in the server side route */}
-        {/* <TableContainer
-          component={Paper}
-          align="center"
-          // justifyContent="center"
-        > */}
         <Table
-          sx={{ maxWidth: 1350 }}
+          sx={{ maxWidth: 1400 }}
           arial-label="simple table"
           align="center"
         >
           <TableHead>
             <TableRow>
-              <TableCell align="center" sx={{ verticalAlign: 'bottom' }}>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
                 <h3></h3>
-              </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'bottom' }}>
-                <h3>Product Name</h3>
-              </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'bottom' }}>
-                <h3>SKU #</h3>
-              </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'bottom' }}>
-                <h3>Teaser</h3>
-              </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'bottom' }}>
-                <h3>Category</h3>
-              </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'bottom' }}>
-                <h3>Inventory</h3>
-              </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'bottom' }}>
-                <h3>Retail Price</h3>
-              </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'bottom' }}>
-                <h3>Quantity</h3>
-                {/* <p>(# of Bottles)</p> */}
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ verticalAlign: 'top' }}
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
+                <h3>Product Name</h3>
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
+                <h3>SKU #</h3>
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
+                <h3>Teaser</h3>
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
+                <h3>Category</h3>
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
+                <h3>Inventory</h3>
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
+                <h3>Retail Price</h3>
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
+                <h3>Quantity</h3>
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
               ></TableCell>
             </TableRow>
           </TableHead>
@@ -145,7 +166,7 @@ function ProductList() {
                 className="product-list"
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell align="center">
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
                   <img
                     // filter through the wine.sku images to match inventory.sku of the inventory table
                     src={
@@ -157,8 +178,12 @@ function ProductList() {
                     style={{ width: '100px', height: 'auto' }}
                   />
                 </TableCell>
-                <TableCell align="center">{item.name}</TableCell>
-                <TableCell align="center">{item.sku}</TableCell>
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                  {item.name}
+                </TableCell>
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                  {item.sku}
+                </TableCell>
                 <TableCell
                   align="left"
                   style={{
@@ -167,18 +192,25 @@ function ProductList() {
                     wordWrap: 'break-words',
                     maxWidth: '300px',
                   }}
+                  sx={{ fontFamily: 'Montserrat' }}
                 >
                   {item.teaser}
                 </TableCell>
-                <TableCell align="center">{item.category}</TableCell>
-                <TableCell align="center">{item.inv_level}</TableCell>
-                <TableCell align="center">{item.retail_price}</TableCell>
-                <TableCell align="center">
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                  {item.category}
+                </TableCell>
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                  {item.inv_level}
+                </TableCell>
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                  {item.retail_price} / bottle
+                </TableCell>
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
                   <TextField
                     type="number"
                     InputProps={{
                       inputProps: { min: 0, max: item.inv_level },
-                      style: { fontSize: '0.9rem' },
+                      style: { fontSize: '0.9rem', fontFamily: 'Montserrat' },
                     }}
                     value={quantities[item.sku] || ''}
                     onChange={(event) =>
@@ -194,10 +226,21 @@ function ProductList() {
                 <TableCell align="center">
                   <Button
                     size="small"
-                    variant="contained"
-                    style={{
+                    variant="outlined"
+                    sx={{
                       backgroundColor: 'white',
-                      color: 'black',
+                      marginRight: '1rem',
+                      color: '#757575',
+                      borderColor: '#757575',
+                      borderWidth: '2px',
+                      fontFamily: 'Montserrat',
+                      fontWeight: '575',
+                      '&:hover': {
+                        backgroundColor: '#757575',
+                        borderWidth: '2px',
+                        borderColor: '#757575',
+                        color: 'white',
+                      },
                     }}
                     type="button"
                     onClick={() => handleAddToCart(item)}
@@ -212,16 +255,29 @@ function ProductList() {
             <Button
               className="view-cart"
               size="small"
-              variant="contained"
-              style={{ backgroundColor: 'white', color: 'black' }}
+              variant="outlined"
               type="button"
               onClick={viewCart}
+              sx={{
+                backgroundColor: 'white',
+                marginRight: '1rem',
+                color: '#757575',
+                borderColor: '#757575',
+                borderWidth: '2px',
+                fontFamily: 'Montserrat',
+                fontWeight: '575',
+                '&:hover': {
+                  backgroundColor: '#757575',
+                  borderWidth: '2px',
+                  borderColor: '#757575',
+                  color: 'white',
+                },
+              }}
             >
-              View Cart
+              <ShoppingCartIconPage /> Cart
             </Button>
           </div>
         </Table>
-        {/* </TableContainer> */}
       </div>
     </>
   );

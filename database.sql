@@ -36,7 +36,7 @@ CREATE TABLE "client_address"(
 	);
 
 CREATE TABLE "orders"(
-	"id" VARCHAR(50) PRIMARY KEY,
+	"id" VARCHAR(50) UNIQUE PRIMARY KEY,
 	"client_id" INT NOT NULL REFERENCES "clients",
 	"date" DATE,
 	"total_cost" DECIMAL,
@@ -45,6 +45,7 @@ CREATE TABLE "orders"(
 );
 
 CREATE TABLE "wine_orders"(
+	"id" SERIAL PRIMARY KEY,
 	"order_id" VARCHAR(50) REFERENCES "orders",
 	"wine_sku" VARCHAR(20),
 	"number_bottles" INT,
@@ -75,4 +76,5 @@ VALUES ('FBOMB', '/images/fbomb.png'),
 INSERT INTO "status" ("id", "name")
 VALUES (1, 'Pending'),
 	   (2, 'Complete'),
-	   (3, 'Cancelled')
+	   (3, 'Cancelled'),
+	   (4, 'Cart')
