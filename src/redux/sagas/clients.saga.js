@@ -29,6 +29,20 @@ export function* fetchClientDetails(action) {
   }
 }
 
+export function* adminFetchClientDetails(action) {
+  try {
+    // Get the clientdetails:
+    const clientResponse = yield axios.get(`/api/clients/admin/${action.payload.id}`);
+    // Set the value of the client reducer:
+    yield put({
+      type: 'SET_CLIENT_DETAILS',
+      payload: clientResponse.data,
+    });
+  } catch (error) {
+    console.log('fetchClientDetails error:', error);
+  }
+}
+
 function* updateClient(action) {
   console.log('In update client', action.payload.id);
   try {
