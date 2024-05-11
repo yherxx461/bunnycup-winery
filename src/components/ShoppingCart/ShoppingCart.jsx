@@ -9,13 +9,14 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import './ShoppingCart.css';
 
 function ShoppingCart() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const user = useSelector((store) => store.user.id)
+  const user = useSelector((store) => store.user);
+  const orderCount = useSelector((store) => store.orders.orderCount);
   const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
   const cart = useSelector((store) => store.orders.cartWines);
@@ -28,55 +29,61 @@ function ShoppingCart() {
   // console.log('THIS IS THE CLIENT INFO', clientInfo);
   // console.log('THIS IS THE CLIENT', client);
 
-  useEffect(() => {
-    console.log(
-      'Cart Items:',
-      cart.map((item) => ({
-        name: item.product_name,
-        quantity: parseInt(item.number_bottles),
-        retail_price: item.unit_price,
-      }))
-    );
-  }, [cart]);
+  // useEffect(() => {
+  //   console.log(
+  //     'Cart Items:',
+  //     cart.map((item) => ({
+  //       name: item.product_name,
+  //       quantity: parseInt(item.number_bottles),
+  //       retail_price: item.unit_price.replace('$', ''),
+  //     }))
+  //   );
+  // }, [cart]);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_IMAGES' });
     dispatch({ type: 'FETCH_CLIENTS' });
     dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: user });
-  }, [dispatch]);
+    dispatch({
+      type: 'GET_ORDER_COUNT',
+      payload: new Date().toLocaleDateString().replaceAll('/', '-'),
+    });
+  }, []);
 
-  useEffect(
-    () => {
-      console.log('cart data', cart);
-      console.log('client data:', client);
-      console.log('clientInfo data:', clientInfo);
-    },
-    [client],
-    [clientInfo]
-  );
+  // useEffect(
+  //   () => {
+  //     console.log('cart data', cart);
+  //     console.log('client data:', client);
+  //     console.log('clientInfo data:', clientInfo);
+  //   },
+  //   [client],
+  //   [clientInfo]
+  // );
 
   // Place Order function
   const placeOrder = () => {
     console.log('Placing an order:', cart, clientInfo, client);
+    let count = orderCount + 1;
     dispatch({
-      type: 'ORDER_INFO',
+      type: 'POST_ORDER',
       payload: {
-        orders: {
-          client_id: clientInfo.id,
-          date: new Date().toISOString(),
-          cost: totalPrice,
-          discount: client.discount,
-          wines: cart.map((item) => ({
-            sku: item.wine_sku,
-            quantity: quantities[item.wine_sku] || item.number_bottles,
-            price: item.unit_price,
-          })),
-        },
+        client_id: clientInfo.id,
+        order_id: `${new Date()
+          .toLocaleDateString()
+          .replaceAll('/', '')}_${count}`,
+        date: new Date().toLocaleDateString(),
+        cost: totalPrice,
+        discount: clientInfo.discount,
+        wines: cart.map((item) => ({
+          sku: item.wine_sku,
+          quantity: quantities[item.wine_sku] || item.number_bottles,
+          price: item.unit_price,
+        })),
       },
     });
     // Clears cart once order is placed
     history.push('/orderSummary');
-    // dispatch({ type: 'CLEAR_CART' });
+    dispatch({ type: 'CLEAR_CART' });
     // Navigates to Order Summery Page
   };
 
@@ -88,12 +95,11 @@ function ShoppingCart() {
 
   // Calculation Total Price
   useEffect(() => {
-    if (cart.length > 0) {
-      const totalPrice = cart.reduce((acc, item) => {
-        return acc + item.unit_price * item.number_bottles;
-      }, 0);
-      setTotalPrice(totalPrice);
-    }
+    const totalPrice = cart.reduce((acc, item) => {
+      return acc + item.unit_price * item.number_bottles;
+    }, 0);
+    setTotalPrice(totalPrice);
+    console.log('totalPrice', totalPrice);
   }, [cart]);
 
   // Update quantity in the local state
@@ -111,135 +117,190 @@ function ShoppingCart() {
     }));
   };
 
+  // const currentClient = client.find((item) => {
+  //   return item.user_id === user.id;
+  // });
+  // console.log('currentClient', currentClient);
+
   return (
-    <div>
-      <h1 className="cart-list-title" align="center">
-        Shopping Cart
-      </h1>
-      {client && ( // If there is a client, show the information below
+    <main>
+      <div>
+        <h1 className="cart-list-title" align="center">
+          Shopping Cart
+        </h1>
+        {/* {client && ( // If there is a client, show the information below */}
         <div className="retailer-info-address">
-          <h3>Retailer Information</h3>
-          <p>{client.name}</p>
+          <h3>{clientInfo.name}</h3>
           <p>{clientInfo.street}</p>
           <p>
             {clientInfo.city}, {clientInfo.state} {clientInfo.zip}
           </p>
         </div>
-      )}
-      <div className="default-payment">
-        <h3>Payment Method</h3>
-        <p>{clientInfo.payment_type}</p>
-      </div>
-      <div className="total">
-        <p>Retail Total: ${Number(totalPrice).toFixed(2)}</p>
-        <p>Your Discount: {Number(clientInfo.discount)}% </p>
-        <h4>Your Total: ${(Number(totalPrice) - (Number(totalPrice) * ((clientInfo.discount / 100)))).toFixed(2)}</h4>
-        <Button
-          size="small"
-          variant="outlined"
-          type="button"
-          onClick={placeOrder}
-          style={{ marginRight: '3rem' }}
+        <div className="default-payment">
+          <h3>Payment Method</h3>
+          <p>{clientInfo.payment_type}</p>
+        </div>
+        <div className="total-container">
+          <p>Retail Total: ${Number(totalPrice).toFixed(2)}</p>
+          <p>Your Discount: {Number(clientInfo.discount)}% </p>
+          <h4>
+            Your Total: $
+            {(
+              Number(totalPrice) -
+              Number(totalPrice) * (clientInfo.discount / 100)
+            ).toFixed(2)}
+          </h4>
+          <Button
+            size="small"
+            variant="outlined"
+            type="button"
+            onClick={placeOrder}
+            sx={{
+              backgroundColor: 'white',
+              marginRight: '1rem',
+              color: '#757575',
+              borderColor: '#757575',
+              borderWidth: '2px',
+              fontFamily: 'Montserrat',
+              fontWeight: '575',
+              '&:hover': {
+                backgroundColor: '#757575',
+                borderWidth: '2px',
+                borderColor: '#757575',
+                color: 'white',
+              },
+            }}
+          >
+            Place Order
+          </Button>
+        </div>
+        <Table
+          sx={{ maxWidth: 1000 }}
+          arial-label="simple table"
+          align="center"
         >
-          Place Order
-        </Button>
-      </div>
-      <Table sx={{ maxWidth: 900 }} arial-label="simple table" align="center">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">
-              <h3>Product Image</h3>
-            </TableCell>
-            <TableCell align="center">
-              <h3>Product Name</h3>
-            </TableCell>
-            <TableCell align="center">
-              <h3>SKU #</h3>
-            </TableCell>
-            <TableCell align="center">
-              <h3>Retail Price</h3>
-            </TableCell>
-            <TableCell align="center">
-              <h3>Quantity</h3>
-              {/* <p>(# of Bottles)</p> */}
-            </TableCell>
-            <TableCell align="center">
-              <h3>Subtotal</h3>
-            </TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {/* Conditional rendering: If there's no items in the cart, show the 'Your cart is empty' message */}
-          {cart.length === 0 ? (
+          <TableHead>
             <TableRow>
-              <TableCell colSpan={7} align="center">
-                Your cart is empty
+              <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                <h3>Product Image</h3>
               </TableCell>
+              <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                <h3>Product Name</h3>
+              </TableCell>
+              <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                <h3>SKU #</h3>
+              </TableCell>
+              <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                <h3>Retail Price</h3>
+              </TableCell>
+              <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                <h3>Quantity</h3>
+                {/* <p>(# of Bottles)</p> */}
+              </TableCell>
+              <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                <h3>Subtotal</h3>
+              </TableCell>
+              <TableCell></TableCell>
             </TableRow>
-          ) : (
-            cart.map((item) => (
-              // console.log('typeof bottles', typeof item.number_bottles),
-              // console.log('typeof price', typeof Number(item.unit_price)), // Although this makes the string a number, it's still showing that this is a string as it has the $ sign. This will continue returning a 'NaN'.
-              <TableRow
-                className="product-list"
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell align="center">
-                  <img
-                    // filter through the wine.sku images to match inventory.sku of the inventory table
-                    src={
-                      imageList.filter((item) => {
-                        return item.sku === item.sku;
-                      })[0]?.image
-                    }
-                    alt={item.name}
-                    style={{ width: '100px', height: 'auto' }}
-                  />
-                </TableCell>
-                <TableCell align="center">{item.product_name}</TableCell>
-                <TableCell align="center">{item.wine_sku}</TableCell>
-                <TableCell align="center">${item.unit_price}</TableCell>
-                {/* <TableCell align="center">{item.number_bottles}</TableCell>
-                 */}
-                <TableCell align="center">
-                  <TextField
-                    type="number"
-                    InputProps={{
-                      inputProps: { min: 0, max: inventory.inv_level },
-                      style: { fontSize: '0.9rem' },
-                    }}
-                    value={quantities[item.wine_sku] || item.number_bottles}
-                    onChange={(event) =>
-                      handleQuantityChange(
-                        item.wine_sku,
-                        parseInt(event.target.value, 10)
-                      )
-                    }
-                    variant="outlined"
-                    size="small"
-                  />
-                </TableCell>
-                <TableCell align="center">
-                  {/* unit_price is a string. It's not letting me multiply a string with a number. */}
-                  ${(item.number_bottles * Number(item.unit_price)).toFixed(2)}
-                </TableCell>
-                <TableCell align="center">
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={() => handleRemoveItem(item.wine_sku)}
-                  >
-                    Remove
-                  </Button>
+          </TableHead>
+          <TableBody>
+            {/* Conditional rendering: If there's no items in the cart, show the 'Your cart is empty' message */}
+            {cart.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={7}
+                  align="center"
+                  sx={{ fontFamily: 'Montserrat' }}
+                >
+                  Your cart is empty
                 </TableCell>
               </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-      {/* </TableContainer> */}
-    </div>
+            ) : (
+              cart.map((item) => (
+                // console.log('typeof bottles', typeof item.number_bottles),
+                // console.log('typeof price', typeof Number(item.unit_price)),
+                <TableRow
+                  className="product-list"
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                    <img
+                      // filter through the wine.sku images to match inventory.sku of the inventory table
+                      src={
+                        imageList.filter((item) => {
+                          return item.sku === item.sku;
+                        })[0]?.image
+                      }
+                      alt={item.name}
+                      style={{ width: '100px', height: 'auto' }}
+                    />
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                    {item.product_name}
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                    {item.wine_sku}
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                    ${item.unit_price} / bottle
+                  </TableCell>
+                  {/* <TableCell align="center">{item.number_bottles}</TableCell>
+                   */}
+                  <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                    <TextField
+                      type="number"
+                      InputProps={{
+                        inputProps: { min: 0, max: inventory.inv_level },
+                        style: { fontSize: '0.9rem', fontFamily: 'Montserrat' },
+                      }}
+                      value={quantities[item.wine_sku] || item.number_bottles}
+                      onChange={(event) =>
+                        handleQuantityChange(
+                          item.wine_sku,
+                          parseInt(event.target.value, 10)
+                        )
+                      }
+                      variant="outlined"
+                      size="small"
+                      sx={{ width: '80px', height: '40px' }}
+                    />
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                    $
+                    {(item.number_bottles * Number(item.unit_price)).toFixed(2)}{' '}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      type="button"
+                      onClick={() => handleRemoveItem(item.wine_sku)}
+                      sx={{
+                        backgroundColor: 'white',
+                        marginRight: '1rem',
+                        color: '#757575',
+                        borderColor: '#757575',
+                        borderWidth: '2px',
+                        fontFamily: 'Montserrat',
+                        fontWeight: '575',
+                        '&:hover': {
+                          backgroundColor: '#757575',
+                          borderWidth: '2px',
+                          borderColor: '#757575',
+                          color: 'white',
+                        },
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </main>
   );
 }
 

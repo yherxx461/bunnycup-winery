@@ -48,7 +48,7 @@ function AdminRetailerView() {
   // onload makes GET call to fetch all boarding data.
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
-    dispatch({ type: "FETCH_CLIENT_DETAILS", payload: { id } });
+    dispatch({ type: "FETCH_CLIENT_DETAILS_ADMIN", payload: { id } });
     // dispatch({ type: 'FETCH_ALL_ORDERS' });
   }, []);
 
@@ -73,7 +73,7 @@ function AdminRetailerView() {
             <p>{client.name}</p>
           )})} */}
           <div>
-            <Accordion>
+            <Accordion defaultExpanded>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
