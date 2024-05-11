@@ -39,8 +39,21 @@ function OrderHistory() {
     history.push(`/orderSummary/${orderId}`);
   };
 
-  const reorderHandle = (order) => {
-    console.log('reorder data', order);
+  const reorderHandle = (orders) => {
+    console.log('reorder data', orders);
+    orders.forEach((order) => {
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: {
+          wine_sku: order.wine_sku,
+          number_bottles: order.number_bottles,
+          unit_price: order.unit_price,
+          checkout_discount: order.checkout_discount,
+        },
+      });
+    });
+    // Navigate to the shopping cart page after adding items
+    history.push('/cart');
   };
 
   // Fetch orders on component mount
