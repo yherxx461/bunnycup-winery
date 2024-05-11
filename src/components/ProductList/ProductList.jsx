@@ -251,33 +251,33 @@ function ProductList() {
               </TableRow>
             ))}
           </TableBody>
-          <div className="view-cart">
-            <Button
-              className="view-cart"
-              size="small"
-              variant="outlined"
-              type="button"
-              onClick={viewCart}
-              sx={{
-                backgroundColor: 'white',
-                marginRight: '1rem',
-                color: '#757575',
-                borderColor: '#757575',
-                borderWidth: '2px',
-                fontFamily: 'Montserrat',
-                fontWeight: '575',
-                '&:hover': {
-                  backgroundColor: '#757575',
-                  borderWidth: '2px',
-                  borderColor: '#757575',
-                  color: 'white',
-                },
-              }}
-            >
-              <ShoppingCartIconPage /> Cart
-            </Button>
-          </div>
         </Table>
+      </div>
+      <div className="view-cart">
+        <Button
+          className="view-cart"
+          size="small"
+          variant="outlined"
+          type="button"
+          onClick={viewCart}
+          sx={{
+            backgroundColor: 'white',
+            marginRight: '1rem',
+            color: '#757575',
+            borderColor: '#757575',
+            borderWidth: '2px',
+            fontFamily: 'Montserrat',
+            fontWeight: '575',
+            '&:hover': {
+              backgroundColor: '#757575',
+              borderWidth: '2px',
+              borderColor: '#757575',
+              color: 'white',
+            },
+          }}
+        >
+          <ShoppingCartIconPage /> Cart
+        </Button>
       </div>
     </>
   );
