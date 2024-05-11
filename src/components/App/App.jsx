@@ -48,28 +48,16 @@ function App() {
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.user);
-  // const client = useSelector((store) => store.clients);
-  // const clientID = client && Number(client.map((clientItem) => clientItem.id));
-  //Grabbing orders
-  // const orders = useSelector((store) => store.orders);
-
-  //setting up clientOrders data
-  // const clientOrders = orders.clientOrders;
-
-  // const setFirstOrderId = clientOrders.length > 0 ? clientOrders[0].id : null;
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
-    // dispatch({ type: 'FETCH_CLIENTS' });
-    // dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
-    // dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientID });
   }, [dispatch]);
 
   return (
     <Router>
       <div>
         <Nav />
-       {/* <Nav setFirstOrderId={setFirstOrderId} />  */}
+
         <Switch>
           {/* Visiting localhost:5173 will redirect to localhost:5173/home */}
           <Redirect exact from="/" to="/home" />

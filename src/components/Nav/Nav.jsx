@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import ShoppingCartIconPage from '../ShoppingCartIcon/ShoppingCartIcon';
 import './Nav.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 //npm install @fontsource/special-elite required
 import '@fontsource/special-elite';
 
-function Nav({ setFirstOrderId }) {
+function Nav() {
   const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+
+  const client = useSelector((store) => store.clients);
+  const clientID = client && Number(client.map((clientItem) => clientItem.id));
+  // Grabbing orders
+  const orders = useSelector((store) => store.orders);
+
+  // setting up clientOrders data
+  const clientOrders = orders.clientOrders;
+
+  const defaultOrderId = clientOrders.length > 0 ? clientOrders[0].id : null;
+  // console.log('defaultOrderId', defaultOrderId);
+
+  useEffect(() => {
+    dispatch({ type: 'FETCH_CLIENTS' });
+    dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
+    dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientID });
+  }, [dispatch, clientID]);
 
   function userType() {
     if (user.id && user.access_level === 10) {
@@ -45,7 +63,7 @@ function Nav({ setFirstOrderId }) {
             Products
           </Link>
 
-          <Link className="navLink" to={`/orderSummary`}>
+          <Link className="navLink" to={`/orderSummary/${defaultOrderId}`}>
             Order Summary
           </Link>
 
