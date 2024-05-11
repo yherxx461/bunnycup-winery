@@ -100,6 +100,7 @@ function OrderHistory() {
                               {new Date(uniqueOrder.date).toLocaleDateString()}
                             </p>
                             <p>Total: ${formattedTotalCost}</p>
+                            <p>Order #{uniqueOrder.id}</p>
                           </Stack>
                         </Grid>
                         <div className="buttons">

@@ -61,16 +61,19 @@ function ShoppingCart() {
   // );
 
   // Place Order function
-  const placeOrder = () => {
+  const placeOrder = async () => {
     console.log('Placing an order:', cart, clientInfo, client);
     let count = orderCount + 1;
-    dispatch({
+    const orderId = `${new Date()
+      .toLocaleDateString()
+      .replaceAll('/', '')}${count}`;
+    await dispatch({
       type: 'POST_ORDER',
       payload: {
         client_id: clientInfo.id,
         order_id: `${new Date()
           .toLocaleDateString()
-          .replaceAll('/', '')}_${count}`,
+          .replaceAll('/', '')}${count}`,
         date: new Date().toLocaleDateString(),
         cost: totalPrice,
         discount: clientInfo.discount,
@@ -81,10 +84,11 @@ function ShoppingCart() {
         })),
       },
     });
-    // Clears cart once order is placed
-    history.push('/orderSummary');
+    // navigate to the order summary page
+    history.push(`/orderSummary/${orderId}`);
+
+    // Clears cart
     dispatch({ type: 'CLEAR_CART' });
-    // Navigates to Order Summery Page
   };
 
   // Remove Item from Cart
@@ -169,16 +173,14 @@ function ShoppingCart() {
                 borderColor: '#757575',
                 color: 'white',
               },
-            }}
-          >
+            }}>
             Place Order
           </Button>
         </div>
         <Table
           sx={{ maxWidth: 1000 }}
           arial-label="simple table"
-          align="center"
-        >
+          align="center">
           <TableHead>
             <TableRow>
               <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
@@ -210,8 +212,7 @@ function ShoppingCart() {
                 <TableCell
                   colSpan={7}
                   align="center"
-                  sx={{ fontFamily: 'Montserrat' }}
-                >
+                  sx={{ fontFamily: 'Montserrat' }}>
                   Your cart is empty
                 </TableCell>
               </TableRow>
@@ -221,8 +222,7 @@ function ShoppingCart() {
                 // console.log('typeof price', typeof Number(item.unit_price)),
                 <TableRow
                   className="product-list"
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                   <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
                     <img
                       // filter through the wine.sku images to match inventory.sku of the inventory table
@@ -289,8 +289,7 @@ function ShoppingCart() {
                           borderColor: '#757575',
                           color: 'white',
                         },
-                      }}
-                    >
+                      }}>
                       Remove
                     </Button>
                   </TableCell>
