@@ -8,6 +8,10 @@ function OrderSummary() {
   const dispatch = useDispatch();
   const orders = useSelector((store) => store.orders);
   console.log('orders data', orders);
+  if (!orders.clientOrders) {
+    // If clientOrders is not available yet, return a loading message
+    return <div>Loading...</div>;
+  }
   //setting up clientOrders data
   const clientOrders = orders.clientOrders;
   console.log('clientOrders', clientOrders);
@@ -98,7 +102,7 @@ function OrderSummary() {
     {
       dispatch({ type: 'FETCH_CLIENTS' });
       dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
-      dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientID })
+      dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientID });
     }
   }, [dispatch, clientID]);
 
