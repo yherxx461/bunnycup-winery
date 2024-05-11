@@ -21,6 +21,8 @@ function OrderSummary() {
   console.log('filteredOrders', filteredOrders);
   //Extracting Date from clientOrders
   console.log('client order first array', clientOrders[0]);
+  const orderIdentification = clientOrders[0].id;
+  console.log('order Identification for first array', orderIdentification);
   let orderDate = null;
   if (clientOrders && clientOrders.length > 0) {
     const firstOrder = clientOrders[0];
@@ -65,16 +67,7 @@ function OrderSummary() {
   //getting client details information
   const clientDetails = useSelector((store) => store.clientDetails);
   console.log('clientDetails data', clientDetails);
-  // const deliveryAddress = clientDetails && clientDetails.delivery_address;
-  // console.log('deliveryAddress', deliveryAddress);
-  //Formatting Delivery Address
-  // const addressParts = deliveryAddress ? deliveryAddress.split(',') : '';
-  // const streetAddress = deliveryAddress ? addressParts[0] : '';
-  // const cityStateZip = deliveryAddress
-  //   ? addressParts.slice(1).join(',').trim()
-  //   : '';
-  // console.log('street address', streetAddress);
-  // console.log('cityStateZip', cityStateZip);
+
   //address information changed so need to adjust mapping
   const street = clientDetails && clientDetails.street;
   const city = clientDetails && clientDetails.city;
@@ -111,7 +104,7 @@ function OrderSummary() {
   return (
     <main className="main">
       <div className="header">
-        <h1>Order #{clientID}</h1>
+        <h1>Order #{orderIdentification}</h1>
       </div>
       <div className="customerInfo">
         {/*To Do: Retailer info includes Name, Address, contact info */}
