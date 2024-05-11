@@ -25,12 +25,10 @@ function OrderSummary() {
   const orderIdentification = filteredOrders[0].id;
   console.log('order Identification for first array', orderIdentification);
   let orderDate = null;
-  if (clientOrders && clientOrders.length > 0) {
-    const firstOrder = clientOrders[0];
-    orderDate = new Date(firstOrder.date);
-    // formatting the orderDate into "Month XX, XXXX" format
+  if (filteredOrders.length > 0) {
+    const firstOrder = filteredOrders[0];
     const options = { month: 'long', day: '2-digit', year: 'numeric' };
-    orderDate = orderDate.toLocaleDateString('en-US', options);
+    orderDate = new Date(firstOrder.date).toLocaleDateString('en-US', options);
   }
   console.log('Order Date:', orderDate);
 
