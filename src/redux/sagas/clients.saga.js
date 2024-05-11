@@ -30,12 +30,12 @@ export function* fetchClientDetails(action) {
 }
 
 function* updateClient(action) {
-  console.log('In update user', action.payload.id);
+  console.log('In update client', action.payload.id);
   try {
-    yield axios.put(`/api/user`, action.payload);
-    yield put({ type: 'SET_CLIENTS' });
+    yield axios.put(`/api/clients/update/${action.payload.id}`, action.payload);
+    yield put ({type: 'FETCH_CLIENT'});
   } catch (error) {
-    console.log('Error with user update:', error);
+    console.log('Error with client update:', error);
     yield put({ type: 'UPDATE_FAILED' });
   }
 }

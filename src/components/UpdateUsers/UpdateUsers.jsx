@@ -14,26 +14,26 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function UpdateUsers() {
   const clientDetails = useSelector((store) => store.clientDetails);
-  const _name = clientDetails.name;
-  const _email = clientDetails.email;
-  const _discount = clientDetails.discount;
-  const _payment_type = clientDetails.paymentType;
-  const _street = clientDetails.street;
-  const _city = clientDetails.city;
-  const _state = clientDetails.state;
-  const _zip = clientDetails.zip;
+//   const _name = clientDetails.name;
+//   const _email = clientDetails.email;
+//   const _discount = clientDetails.discount;
+//   const _payment_type = clientDetails.paymentType;
+//   const _street = clientDetails.street;
+//   const _city = clientDetails.city;
+//   const _state = clientDetails.state;
+//   const _zip = clientDetails.zip;
 
   const history = useHistory();
 
-  const [password, setPassword] = useState("");
-  const [retailer, setRetailer] = useState(_name);
-  const [street, setStreet] = useState(_street);
-  const [city, setCity] = useState(_city);
-  const [state, setState] = useState(_state);
-  const [zip, setZip] = useState(_zip);
-  const [discount, setDiscount] = useState(_discount);
-  const [paymentType, setPaymentType] = useState(_payment_type);
   const user = useSelector((store) => store.user);
+  const [password, setPassword] = useState(user.password);
+  const [retailer, setRetailer] = useState(clientDetails.name);
+  const [street, setStreet] = useState(clientDetails.street);
+  const [city, setCity] = useState(clientDetails.city);
+  const [state, setState] = useState(clientDetails.state);
+  const [zip, setZip] = useState(clientDetails.zip);
+  const [discount, setDiscount] = useState(clientDetails.discount);
+  const [paymentType, setPaymentType] = useState(clientDetails.paymentType);
   const clients = useSelector((store) => store.clients);
   const { id } = useParams();
 
@@ -101,28 +101,28 @@ function UpdateUsers() {
               label="Password"
               type="password"
               name="password"
-              value={password}
+              defaultValue={password}
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
           <div>
-            <TextField
+            <TextField InputLabelProps={{ shrink: true }}
               variant="outlined"
               label="Retailer Name"
               type="retailer"
               name="retailer"
-              defaultValue={_name}
+              defaultValue={retailer}
               required
               onChange={(event) => setRetailer(event.target.value)}
             />
           </div>
           <div>
-            <TextField
+            <TextField InputLabelProps={{ shrink: true }}
               variant="outlined"
               label="Street Address"
               type="street"
               name="street"
-              defaultValue={_street}
+              defaultValue={street}
               required
               onChange={(event) => setStreet(event.target.value)}
             />
@@ -133,7 +133,8 @@ function UpdateUsers() {
               label="City"
               type="city"
               name="city"
-              defaultValue={_city}
+              value={city}
+              defaultValue={city}
               required
               onChange={(event) => setCity(event.target.value)}
             />
@@ -144,7 +145,7 @@ function UpdateUsers() {
               label="State"
               type="state"
               name="state"
-              defaultValue={_state}
+              defaultValue={state}
               required
               onChange={(event) => setState(event.target.value)}
             />
@@ -155,7 +156,7 @@ function UpdateUsers() {
               label="Zip Code"
               type="zip"
               name="zip"
-              defaultValue={_zip}
+              defaultValue={zip}
               required
               onChange={(event) => setZip(event.target.value)}
             />
@@ -166,7 +167,7 @@ function UpdateUsers() {
               label="Discount %"
               type="discount"
               name="discount"
-              defaultValue={_discount}
+              defaultValue={discount}
               onChange={(event) => setDiscount(event.target.value)}
             />
           </div>
@@ -176,7 +177,7 @@ function UpdateUsers() {
               label="Default Payment Type"
               type="paymentType"
               name="paymentType"
-              defaultValue={_payment_type}
+              defaultValue={paymentType}
               onChange={(event) => setPaymentType(event.target.value)}
             />
           </div>
