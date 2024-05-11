@@ -39,8 +39,8 @@ function OrderHistory() {
     history.push(`/orderSummary/${orderId}`);
   };
 
-  const reorderHandle = (event) => {
-    console.log('In Reorder Handle');
+  const reorderHandle = (order) => {
+    console.log('reorder data', order);
   };
 
   // Fetch orders on component mount
@@ -127,7 +127,13 @@ function OrderHistory() {
                                 color: '#FFFFFF',
                                 fontWeight: '575',
                               }}
-                              onClick={reorderHandle}>
+                              onClick={() =>
+                                reorderHandle(
+                                  clientOrders.filter(
+                                    (order) => order.id === uniqueOrder.id
+                                  )
+                                )
+                              }>
                               Reorder
                             </Button>
                           </Grid>
