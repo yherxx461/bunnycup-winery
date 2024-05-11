@@ -34,10 +34,7 @@ function LandingPage() {
   };
 
   return (
-    // <div>
-    //       <LoginForm />
-    //     </div>
-    <>
+    <main className="main">
       <div className="inventory-list" key={inventory.id}>
         <h1 className="product-list-title" align="center">
           Product Inventory
@@ -59,22 +56,46 @@ function LandingPage() {
         >
           <TableHead>
             <TableRow>
-              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
                 <h3></h3>
               </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
                 <h3>Product Name</h3>
               </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
                 <h3>SKU #</h3>
               </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
                 <h3>Teaser</h3>
               </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
                 <h3>Category</h3>
               </TableCell>
-              <TableCell align="center" sx={{ verticalAlign: 'top' }}>
+              <TableCell
+                align="center"
+                sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
+              >
+                {' '}
                 <h3>Retail Price</h3>
               </TableCell>
             </TableRow>
@@ -98,8 +119,12 @@ function LandingPage() {
                     style={{ width: '100px', height: 'auto' }}
                   />
                 </TableCell>
-                <TableCell align="center">{item.name}</TableCell>
-                <TableCell align="center">{item.sku}</TableCell>
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                  {item.name}
+                </TableCell>
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                  {item.sku}
+                </TableCell>
                 <TableCell
                   align="left"
                   style={{
@@ -108,18 +133,23 @@ function LandingPage() {
                     wordWrap: 'break-words',
                     maxWidth: '275px',
                   }}
+                  sx={{ verticalAlign: 'bottom', fontFamily: 'Montserrat' }}
                 >
                   {item.teaser}
                 </TableCell>
-                <TableCell align="center">{item.category}</TableCell>
-                <TableCell align="center">{item.retail_price}</TableCell>
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                  {item.category}
+                </TableCell>
+                <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
+                  {item.retail_price}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
         {/* </TableContainer> */}
       </div>
-    </>
+    </main>
   );
 }
 
