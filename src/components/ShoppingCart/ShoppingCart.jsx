@@ -84,10 +84,10 @@ function ShoppingCart() {
         })),
       },
     });
-    await dispatch({
-      type: 'SEND_EMAIL',
-      payload: {}
-    })
+    // await dispatch({
+    //   type: 'SEND_EMAIL',
+    //   payload: {}
+    // })
     // navigate to the order summary page
     history.push(`/orderSummary/${orderId}`);
 
