@@ -75,34 +75,42 @@ function AdminUserPage() {
   };
 
   // tracking counts for NEW ORDERS
-  let newOrders = [];
-  function checkNewOrders() {
-    for (let order of orders)
-      if (order.status === "Pending") {
-        newOrders.push(order);
-      }
-    return newOrders.length;
-  }
+  let newOrders = orders.filter((orderItem) => {
+    return orderItem.status.includes("Pending")
+  });
+  // function checkNewOrders() {
+  //   for (let order of orders)
+  //     if (order.status.includes("Pending")) {
+  //       newOrders.push(order);
+  //     }
+  //   return newOrders.length;
+  // }
 
   // tracking counts for COMPLETED ORDERS
-  let completedOrders = [];
-  function checkCompletedOrders() {
-    for (let order of orders)
-      if (order.status === "Complete") {
-        completedOrders.push(order);
-      }
-    return completedOrders.length;
-  }
+  let completedOrders = orders.filter((orderItem) => {
+    return orderItem.status.includes("Complete")
+  });
+  // let completedOrders = [];
+  // function checkCompletedOrders() {
+  //   for (let order of orders)
+  //     if (order.status.includes("Complete")) {
+  //       completedOrders.push(order);
+  //     }
+  //   return completedOrders.length;
+  // }
 
   // tracking counts for CANCELLED ORDERS
-  let cancelledOrders = [];
-  function checkCancelledOrders() {
-    for (let order of orders)
-      if (order.status === "Cancelled") {
-        cancelledOrders.push(order);
-      }
-    return cancelledOrders.length;
-  }
+  let cancelledOrders = orders.filter((orderItem) => {
+    return orderItem.status.includes("Cancelled")
+  });
+  // let cancelledOrders = [];
+  // function checkCancelledOrders() {
+  //   for (let order of orders)
+  //     if (order.status.includes("Cancelled")) {
+  //       cancelledOrders.push(order);
+  //     }
+  //   return cancelledOrders.length;
+  // }
 
   // empty array, if same or different order_id
 
@@ -339,7 +347,7 @@ function AdminUserPage() {
                   color="#861f41"
                   sx={{ fontWeight: "bold", width: "35%" }}
                 >
-                  {checkNewOrders()} NEW ORDERS
+                  {newOrders.length} NEW ORDERS
                 </Typography>
                 <Typography>
                   ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -353,8 +361,7 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
-                {orders.map((order) => {
-                  if (order.status === "Pending") {
+                {newOrders.map((order) => {
                     return (
                       <>
                         <Box
@@ -389,7 +396,7 @@ function AdminUserPage() {
                       </>
                     );
                   }
-                })}
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -408,7 +415,7 @@ function AdminUserPage() {
                   color="pinot"
                   sx={{ width: "35%" }}
                 >
-                  {checkCompletedOrders()} ORDERS
+                  {completedOrders.length} ORDERS
                 </Typography>
                 <Typography>
                   ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -421,8 +428,7 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
-                {orders.map((order) => {
-                  if (order.status === "Complete") {
+                {completedOrders.map((order) => {
                     return (
                       <>
                         <div key={order.id}>
@@ -459,7 +465,7 @@ function AdminUserPage() {
                       </>
                     );
                   }
-                })}
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -478,7 +484,7 @@ function AdminUserPage() {
                   color="#cccccc"
                   sx={{ width: "35%" }}
                 >
-                  {checkCancelledOrders()} ORDERS
+                  {cancelledOrders.length} ORDERS
                 </Typography>
                 <Typography color="#cccccc">
                   ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -491,8 +497,7 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
-                {orders.map((order) => {
-                  if (order.status === "Cancelled") {
+                {cancelledOrders.map((order) => {
                     return (
                       <>
                         <Box
@@ -527,7 +532,7 @@ function AdminUserPage() {
                       </>
                     );
                   }
-                })}
+                )}
               </AccordionDetails>
             </Accordion>
           </div>
