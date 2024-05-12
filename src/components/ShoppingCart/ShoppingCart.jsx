@@ -84,6 +84,10 @@ function ShoppingCart() {
         })),
       },
     });
+    await dispatch({
+      type: 'SEND_EMAIL',
+      //PUT PAYLOAD HERE
+    })
     // navigate to the order summary page
     history.push(`/orderSummary/${orderId}`);
 
