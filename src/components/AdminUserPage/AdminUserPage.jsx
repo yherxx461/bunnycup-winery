@@ -133,14 +133,9 @@ function AdminUserPage() {
     <Container>
       <ThemeProvider theme={primaryTheme}>
         <center>
-          <h2>Welcome ADMIN!</h2>
-          <img src={bunnycup} width="100" height="100" />
+          <img src={bunnycup} width="150" height="150" />
         </center>
         <div className="container">
-          {/* {clients.map((client) => {
-          return (
-            <p>{client.name}</p>
-          )})} */}
           <div>
             <Accordion defaultExpanded expanded>
               <AccordionSummary
@@ -181,8 +176,6 @@ function AdminUserPage() {
                     }}
                   >
                     <Box
-                      // marginInlineStart={15}
-                      // marginInlineEnd={15}
                       sx={{ width: "%" }}
                       marginInlineStart={10}
                       marginInlineEnd={10}
@@ -224,7 +217,7 @@ function AdminUserPage() {
                         onSubmit={onSubmitSearch}
                         sx={{
                           width: "8ch",
-                          marginTop: 2.5,
+                          marginTop: 2,
                         }}
                       >
                         Search
@@ -265,8 +258,6 @@ function AdminUserPage() {
                           >
                             {client.email}
                           </Link>
-                          {/* <p>{client.name}</p>
-                        <a href={`mailto:${client.email}`}>{client.email}</a> */}
                           <Button
                             variant="text"
                             sx={{
@@ -314,8 +305,6 @@ function AdminUserPage() {
                             >
                               {client.email}
                             </Link>
-                            {/* <p>{client.name}</p>
-                        <a href={`mailto:${client.email}`}>{client.email}</a> */}
                             <Button
                               variant="text"
                               sx={{
@@ -379,7 +368,7 @@ function AdminUserPage() {
                           }}
                         >
                           <Typography sx={{ width: "40%" }}>
-                            {order.order_id}
+                            {order.id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
                             {order.name}
@@ -448,7 +437,7 @@ function AdminUserPage() {
                             }}
                           >
                             <Typography sx={{ width: "40%" }}>
-                              {order.order_id}
+                              {order.id}
                             </Typography>
                             <Typography sx={{ width: "35%" }}>
                               {order.name}
@@ -517,7 +506,7 @@ function AdminUserPage() {
                           }}
                         >
                           <Typography sx={{ width: "40%" }}>
-                            {order.order_id}
+                            {order.id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
                             {order.name}

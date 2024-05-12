@@ -83,33 +83,52 @@ function AdminRetailerView() {
         }
       return cancelledOrders.length;
     }
-// const orderHolder = []
-//     function orderArray() {
-//       for (let order of orders) {
-//         orderHolder.push(order.order_id)
-//       }
-//       return orderHolder;
-//     };
-//     console.log('ORDER HOLDER', orderArray());
 
-//     const uniqueArray = originalArray.reduce((accumulator, currentValue) => {
-//       if (!accumulator.includes(currentValue)) {
-//         accumulator.push(currentValue);
-//       }
-//       return accumulator;
-//     }, []);
+    const orderHolder = []
+    function orderArray() {
+      for (let order of orders) {
+        orderHolder.push(order.id)
+      }
+      return orderHolder;
+    };
+    console.log('ORDER HOLDER', orderArray());
+
+    // const orderObjHolder = []
+    // function orderObjArray() {
+    //   for (let order of orders) {
+    //     orderObjHolder.push(order)
+    //   }
+    //   return orderObjHolder;
+    // };
+    // console.log('ORDER OBJ HOLDER', orderObjArray());
+    // console.log('ORDERS', orders);
+
+    // const uniqueOrders = [];
+    // function uniqueOrders() {
+    //   for (let order of orders) {
+    //     if (!order.id)
+    //   }
+    // }
+
+    const uniqueArray = orderHolder.reduce((accumulator, currentValue) => {
+      if (!accumulator.includes(currentValue)) {
+        accumulator.push(currentValue);
+      }
+      return accumulator;
+    }, []);
+    console.log('FILTERED ORDERS', uniqueArray);
+
 
   // console.log("CLIENTS", clients);
   // console.log("CLIENT DETAILS", clientDetails);
-  console.log("CLIENT ORDERS", orders);
+  // console.log("CLIENT ORDERS", orders);
 
   return (
     <Container maxWidth>
       <ThemeProvider theme={primaryTheme}>
         {/* <p>Your ID is: {user.id}</p> */}
         <center>
-          <h2>Welcome ADMIN!</h2>
-          <img src={bunnycup} width="100" height="100" />
+          <img src={bunnycup} width="150" height="150" />
         </center>
         <div className="container">
           {/* {clients.map((client) => {
@@ -232,7 +251,7 @@ function AdminRetailerView() {
                           }}
                         >
                           <Typography sx={{ width: "40%" }}>
-                            {order.date}
+                            {order.id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
                             {order.name}
@@ -301,7 +320,7 @@ function AdminRetailerView() {
                             }}
                           >
                             <Typography sx={{ width: "40%" }}>
-                              {order.date}
+                              {order.id}
                             </Typography>
                             <Typography sx={{ width: "35%" }}>
                               {order.name}
@@ -370,7 +389,7 @@ function AdminRetailerView() {
                           }}
                         >
                           <Typography sx={{ width: "40%" }}>
-                            {order.date}
+                            {order.id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
                             {order.name}
