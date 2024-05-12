@@ -63,7 +63,7 @@ function AdminRetailerView() {
         }
       return newOrders.length;
     }
-  
+
     // tracking counts for COMPLETED ORDERS
     let completedOrders = [];
     function checkCompletedOrders() {
@@ -73,7 +73,7 @@ function AdminRetailerView() {
         }
       return completedOrders.length;
     }
-  
+
     // tracking counts for CANCELLED ORDERS
     let cancelledOrders = [];
     function checkCancelledOrders() {
@@ -83,10 +83,25 @@ function AdminRetailerView() {
         }
       return cancelledOrders.length;
     }
+// const orderHolder = []
+//     function orderArray() {
+//       for (let order of orders) {
+//         orderHolder.push(order.order_id)
+//       }
+//       return orderHolder;
+//     };
+//     console.log('ORDER HOLDER', orderArray());
+
+//     const uniqueArray = originalArray.reduce((accumulator, currentValue) => {
+//       if (!accumulator.includes(currentValue)) {
+//         accumulator.push(currentValue);
+//       }
+//       return accumulator;
+//     }, []);
 
   // console.log("CLIENTS", clients);
   // console.log("CLIENT DETAILS", clientDetails);
-  // console.log("CLIENT ORDERS", orders);
+  console.log("CLIENT ORDERS", orders);
 
   return (
     <Container maxWidth>
@@ -168,6 +183,7 @@ function AdminRetailerView() {
                 sx={{
                   minHeight: 300,
                   maxHeight: 300,
+                  overflowY: "scroll",
                 }}
               ></AccordionDetails>
             </Accordion>
@@ -198,6 +214,7 @@ function AdminRetailerView() {
                 sx={{
                   minHeight: 300,
                   maxHeight: 300,
+                  overflowY: "scroll",
                 }}
               >
                 {orders.map((order) => {
@@ -265,6 +282,7 @@ function AdminRetailerView() {
                 sx={{
                   minHeight: 300,
                   maxHeight: 300,
+                  overflowY: "scroll",
                 }}
               >
               {orders.map((order) => {
@@ -334,6 +352,7 @@ function AdminRetailerView() {
                 sx={{
                   minHeight: 300,
                   maxHeight: 300,
+                  overflowY: "scroll",
                 }}
               >
                 {orders.map((order) => {

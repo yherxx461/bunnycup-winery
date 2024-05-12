@@ -104,6 +104,31 @@ function AdminUserPage() {
     return cancelledOrders.length;
   }
 
+  // empty array, if same or different order_id
+
+  // Function to group transactions by month
+  // const groupTransactionsByMonth = () => {
+  //   const groupedTransactions = {};
+  //   //forEach to call function and loop through array
+  //   transactions &&
+  //     transactions.forEach((transaction) => {
+  //       //Getting the month from each transaction
+  //       const month = new Date(transaction.trans_date).getMonth() + 1; // Adding 1 because getMonth() returns zero-based month index
+  //       //if the month exists and creating an array if not
+  //       if (!groupedTransactions[month]) {
+  //         groupedTransactions[month] = [];
+  //       }
+  //       // console.log(groupedTransactions[month]);
+  //       //pushing the transaction into the corresponding array
+  //       groupedTransactions[month].push(transaction);
+  //     });
+  //   return groupedTransactions;
+  // };
+
+  // const filteredOrders = orders.filter(
+  //   (order) => order.id === orderId
+  // );
+
   return (
     <Container>
       <ThemeProvider theme={primaryTheme}>
@@ -354,7 +379,7 @@ function AdminUserPage() {
                           }}
                         >
                           <Typography sx={{ width: "40%" }}>
-                            {order.date}
+                            {order.order_id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
                             {order.name}
@@ -423,7 +448,7 @@ function AdminUserPage() {
                             }}
                           >
                             <Typography sx={{ width: "40%" }}>
-                              {order.date}
+                              {order.order_id}
                             </Typography>
                             <Typography sx={{ width: "35%" }}>
                               {order.name}
@@ -492,7 +517,7 @@ function AdminUserPage() {
                           }}
                         >
                           <Typography sx={{ width: "40%" }}>
-                            {order.date}
+                            {order.order_id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
                             {order.name}
