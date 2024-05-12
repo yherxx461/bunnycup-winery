@@ -74,68 +74,20 @@ function AdminUserPage() {
     }
   };
 
-  // tracking counts for NEW ORDERS
+  // FILTER for NEW ORDERS
   let newOrders = orders.filter((orderItem) => {
     return orderItem.status.includes("Pending")
   });
-  // function checkNewOrders() {
-  //   for (let order of orders)
-  //     if (order.status.includes("Pending")) {
-  //       newOrders.push(order);
-  //     }
-  //   return newOrders.length;
-  // }
 
-  // tracking counts for COMPLETED ORDERS
+  // FILTER for COMPLETED ORDERS
   let completedOrders = orders.filter((orderItem) => {
     return orderItem.status.includes("Complete")
   });
-  // let completedOrders = [];
-  // function checkCompletedOrders() {
-  //   for (let order of orders)
-  //     if (order.status.includes("Complete")) {
-  //       completedOrders.push(order);
-  //     }
-  //   return completedOrders.length;
-  // }
 
-  // tracking counts for CANCELLED ORDERS
+  // FILTER for CANCELLED ORDERS
   let cancelledOrders = orders.filter((orderItem) => {
     return orderItem.status.includes("Cancelled")
   });
-  // let cancelledOrders = [];
-  // function checkCancelledOrders() {
-  //   for (let order of orders)
-  //     if (order.status.includes("Cancelled")) {
-  //       cancelledOrders.push(order);
-  //     }
-  //   return cancelledOrders.length;
-  // }
-
-  // empty array, if same or different order_id
-
-  // Function to group transactions by month
-  // const groupTransactionsByMonth = () => {
-  //   const groupedTransactions = {};
-  //   //forEach to call function and loop through array
-  //   transactions &&
-  //     transactions.forEach((transaction) => {
-  //       //Getting the month from each transaction
-  //       const month = new Date(transaction.trans_date).getMonth() + 1; // Adding 1 because getMonth() returns zero-based month index
-  //       //if the month exists and creating an array if not
-  //       if (!groupedTransactions[month]) {
-  //         groupedTransactions[month] = [];
-  //       }
-  //       // console.log(groupedTransactions[month]);
-  //       //pushing the transaction into the corresponding array
-  //       groupedTransactions[month].push(transaction);
-  //     });
-  //   return groupedTransactions;
-  // };
-
-  // const filteredOrders = orders.filter(
-  //   (order) => order.id === orderId
-  // );
 
   return (
     <Container>
