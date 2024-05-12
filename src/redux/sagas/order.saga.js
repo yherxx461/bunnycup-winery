@@ -7,7 +7,7 @@ function* getAdminOrders(){
         yield put ({type: 'SET_ORDERS', payload: adminOrdersResponse.data})
     } catch (error) {
         console.log('Error retrieving order data')
-    };   
+    };
 };
 
 function* getClientOrders(action){
@@ -18,7 +18,7 @@ function* getClientOrders(action){
     } catch (error) {
         console.log('Error fetching client order data')
     };
-}; 
+};
 
 function* postOrder(action){
     try{
