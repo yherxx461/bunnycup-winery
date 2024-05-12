@@ -7,7 +7,14 @@ function OrderSummary() {
   //dispatch hook
   const dispatch = useDispatch();
   const orders = useSelector((store) => store.orders);
+  const user = useSelector((store) => store.user);
+  console.log('user data', user);
+
   console.log('orders data', orders);
+  if (!orders.clientOrders) {
+    // If clientOrders is not available yet, return a loading message
+    return <div>Loading...</div>;
+  }
   //setting up clientOrders data
   const clientOrders = orders.clientOrders;
   console.log('clientOrders', clientOrders);
@@ -17,7 +24,7 @@ function OrderSummary() {
   console.log('orderId', orderId);
   // Filter clientOrders based on the orderId
   const filteredOrders = clientOrders.filter(
-    (order) => order.id === Number(orderId)
+    (order) => Number(order.id) === Number(orderId)
   );
   console.log('filteredOrders', filteredOrders);
   //Extracting Date from clientOrders
@@ -90,15 +97,18 @@ function OrderSummary() {
   const discountedTotalCost = totalCost * (1 - discountPercentage);
 
   console.log('clients data', client);
-  const clientID = client && Number(client.map((clientItem) => clientItem.id));
+  // const clientID = client && Number(client.map((clientItem) => clientItem.id));
+  const clientID = user.id;
   console.log('clientID', clientID);
+  const clientDetailsID = clientDetails.id;
+  console.log('clientDetailsID', clientDetailsID);
 
   // Fetch orders on component mount
   useEffect(() => {
     {
       dispatch({ type: 'FETCH_CLIENTS' });
       dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
-      dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientID });
+      dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientDetailsID });
     }
   }, [dispatch, clientID]);
 

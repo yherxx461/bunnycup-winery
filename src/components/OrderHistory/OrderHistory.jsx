@@ -39,8 +39,21 @@ function OrderHistory() {
     history.push(`/orderSummary/${orderId}`);
   };
 
-  const reorderHandle = (event) => {
-    console.log('In Reorder Handle');
+  const reorderHandle = (orders) => {
+    console.log('reorder data', orders);
+    orders.forEach((order) => {
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: {
+          wine_sku: order.wine_sku,
+          number_bottles: order.number_bottles,
+          unit_price: order.unit_price,
+          checkout_discount: order.checkout_discount,
+        },
+      });
+    });
+    // Navigate to the shopping cart page after adding items
+    history.push('/cart');
   };
 
   // Fetch orders on component mount
@@ -100,6 +113,7 @@ function OrderHistory() {
                               {new Date(uniqueOrder.date).toLocaleDateString()}
                             </p>
                             <p>Total: ${formattedTotalCost}</p>
+                            <p>Order #{uniqueOrder.id}</p>
                           </Stack>
                         </Grid>
                         <div className="buttons">
@@ -126,7 +140,13 @@ function OrderHistory() {
                                 color: '#FFFFFF',
                                 fontWeight: '575',
                               }}
-                              onClick={reorderHandle}>
+                              onClick={() =>
+                                reorderHandle(
+                                  clientOrders.filter(
+                                    (order) => order.id === uniqueOrder.id
+                                  )
+                                )
+                              }>
                               Reorder
                             </Button>
                           </Grid>
