@@ -113,6 +113,14 @@ function Nav() {
         <>
           <ListItem disablePadding>
             <ListItemButton>
+            <Typography component={Link} to="/home" sx={{ textDecoration: 'none', color: 'black'}}>
+              <ListItemText>HOME</ListItemText>
+            </Typography>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton>
               <Typography component={Link} to="/login" sx={{ textDecoration: 'none', color: 'black'}}>
                 <ListItemText>LOG IN</ListItemText>
               </Typography>
