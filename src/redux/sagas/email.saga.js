@@ -6,7 +6,7 @@ function* sendEmail (action) {
         //send email with order info to winery
         const emailResponse = yield axios.post(`/api/email/`, action.payload); //NEED TO FIGURE OUT WHAT PAYLOAD WILL BE FROM ORDER SUBMISSION
         //PUT yielded SWEETALERT HERE INDICATING SUCCESSFUL EMAIL SENT???------------------------------------
-        // console.log();
+        console.log('Sent an email, I think??');
     }
     catch(err) {
         console.log('sendEmail saga error:', err);

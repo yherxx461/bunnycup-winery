@@ -4,15 +4,17 @@ const router = express.Router();
 
 //GET route to pull ALL orders in history
 router.get('/', (req, res) => {
-  const orderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost", 
-                        "orders"."checkout_discount", "status"."name" as "status", "wine_orders"."wine_sku",
-                        "wine_orders"."number_bottles", "wine_orders"."unit_price", "clients"."name"
+  const orderQuery = `
+  SELECT "orders"."id", "orders"."date", "orders"."total_cost", string_agg("status"."name", ',') "status",
+  "orders"."checkout_discount", "clients"."name"
 
-                        FROM "orders"
-                        JOIN "status" ON "status"."id" = "orders"."status_id"
-                        JOIN "wine_orders" ON "orders"."id" = "wine_orders"."order_id"
-                        JOIN "clients" ON "orders"."client_id" = "clients"."id"
-                        ORDER BY "orders"."id" DESC;`;
+  FROM "orders"
+  JOIN "status" ON "status"."id" = "orders"."status_id"
+  JOIN "wine_orders" ON "orders"."id" = "wine_orders"."order_id"
+  JOIN "clients" ON "orders"."client_id" = "clients"."id"
+  GROUP BY "orders"."id", "clients"."name"
+  ORDER BY "orders"."id" DESC;`;
+
   pool
     .query(orderQuery)
     .then((result) => {

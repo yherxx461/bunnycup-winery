@@ -14,6 +14,7 @@ function OrderHistory() {
   const dispatch = useDispatch();
   const orders = useSelector((store) => store.orders);
   const client = useSelector((store) => store.clients);
+  const user = useSelector((store) => store.user);
   // Getting client details information
   const clientDetails = useSelector((store) => store.clientDetails);
   console.log('clientDetails data', clientDetails);
@@ -21,7 +22,7 @@ function OrderHistory() {
   // Setting up clientOrders data
   const clientOrders = orders.clientOrders;
   console.log('clientOrders', clientOrders);
-  const clientID = client && Number(client.map((clientItem) => clientItem.id));
+  const clientID = clientDetails.id;
   console.log('clientID', clientID);
   // Getting Client Name
   const clientName = clientDetails && clientDetails.name;
@@ -56,12 +57,20 @@ function OrderHistory() {
     history.push('/cart');
   };
 
-  // Fetch orders on component mount
+  // Fetch clientDetails on component mount
   useEffect(() => {
     dispatch({ type: 'FETCH_CLIENTS' });
-    dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
-    dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientID });
-  }, [dispatch, clientID]);
+    if (user && user.id) {
+      dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: user.id } });
+    } 
+  }, [dispatch, user]);
+
+  // Fetch orders on component mount
+  useEffect(() => {
+    if (clientDetails && clientDetails.id) {
+      dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientDetails.id });
+    }
+  }, [dispatch, clientDetails]);
 
   return (
     <>

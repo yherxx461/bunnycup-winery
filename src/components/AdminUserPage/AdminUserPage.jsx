@@ -74,60 +74,20 @@ function AdminUserPage() {
     }
   };
 
-  // tracking counts for NEW ORDERS
-  let newOrders = [];
-  function checkNewOrders() {
-    for (let order of orders)
-      if (order.status === "Pending") {
-        newOrders.push(order);
-      }
-    return newOrders.length;
-  }
+  // FILTER for NEW ORDERS
+  let newOrders = orders.filter((orderItem) => {
+    return orderItem.status.includes("Pending")
+  });
 
-  // tracking counts for COMPLETED ORDERS
-  let completedOrders = [];
-  function checkCompletedOrders() {
-    for (let order of orders)
-      if (order.status === "Complete") {
-        completedOrders.push(order);
-      }
-    return completedOrders.length;
-  }
+  // FILTER for COMPLETED ORDERS
+  let completedOrders = orders.filter((orderItem) => {
+    return orderItem.status.includes("Complete")
+  });
 
-  // tracking counts for CANCELLED ORDERS
-  let cancelledOrders = [];
-  function checkCancelledOrders() {
-    for (let order of orders)
-      if (order.status === "Cancelled") {
-        cancelledOrders.push(order);
-      }
-    return cancelledOrders.length;
-  }
-
-  // empty array, if same or different order_id
-
-  // Function to group transactions by month
-  // const groupTransactionsByMonth = () => {
-  //   const groupedTransactions = {};
-  //   //forEach to call function and loop through array
-  //   transactions &&
-  //     transactions.forEach((transaction) => {
-  //       //Getting the month from each transaction
-  //       const month = new Date(transaction.trans_date).getMonth() + 1; // Adding 1 because getMonth() returns zero-based month index
-  //       //if the month exists and creating an array if not
-  //       if (!groupedTransactions[month]) {
-  //         groupedTransactions[month] = [];
-  //       }
-  //       // console.log(groupedTransactions[month]);
-  //       //pushing the transaction into the corresponding array
-  //       groupedTransactions[month].push(transaction);
-  //     });
-  //   return groupedTransactions;
-  // };
-
-  // const filteredOrders = orders.filter(
-  //   (order) => order.id === orderId
-  // );
+  // FILTER for CANCELLED ORDERS
+  let cancelledOrders = orders.filter((orderItem) => {
+    return orderItem.status.includes("Cancelled")
+  });
 
   return (
     <Container>
@@ -339,7 +299,7 @@ function AdminUserPage() {
                   color="#861f41"
                   sx={{ fontWeight: "bold", width: "35%" }}
                 >
-                  {checkNewOrders()} NEW ORDERS
+                  {newOrders.length} NEW ORDERS
                 </Typography>
                 <Typography>
                   ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -353,8 +313,7 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
-                {orders.map((order) => {
-                  if (order.status === "Pending") {
+                {newOrders.map((order) => {
                     return (
                       <>
                         <Box
@@ -389,7 +348,7 @@ function AdminUserPage() {
                       </>
                     );
                   }
-                })}
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -408,7 +367,7 @@ function AdminUserPage() {
                   color="pinot"
                   sx={{ width: "35%" }}
                 >
-                  {checkCompletedOrders()} ORDERS
+                  {completedOrders.length} ORDERS
                 </Typography>
                 <Typography>
                   ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -421,8 +380,7 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
-                {orders.map((order) => {
-                  if (order.status === "Complete") {
+                {completedOrders.map((order) => {
                     return (
                       <>
                         <div key={order.id}>
@@ -459,7 +417,7 @@ function AdminUserPage() {
                       </>
                     );
                   }
-                })}
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -478,7 +436,7 @@ function AdminUserPage() {
                   color="#cccccc"
                   sx={{ width: "35%" }}
                 >
-                  {checkCancelledOrders()} ORDERS
+                  {cancelledOrders.length} ORDERS
                 </Typography>
                 <Typography color="#cccccc">
                   ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -491,8 +449,7 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
-                {orders.map((order) => {
-                  if (order.status === "Cancelled") {
+                {cancelledOrders.map((order) => {
                     return (
                       <>
                         <Box
@@ -527,7 +484,7 @@ function AdminUserPage() {
                       </>
                     );
                   }
-                })}
+                )}
               </AccordionDetails>
             </Accordion>
           </div>

@@ -11,8 +11,8 @@ router.post('/', async (req, res) => {
             to: 'nateglewwe@gmail.com',
             from: 'nateglewwe@gmail.com', // Use the email address or domain you verified above
             subject: 'Sending with Twilio SendGrid is Fun',
-            text: 'and easy to do anywhere, even with Node.js',
-            html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+            text: 'Test text here', // We're not using this text property, not really sure what it does
+            html: '<p>Testing testing testing</p>', // This is the text we want to put in the body of the email
           };
           //Send the email data to the Twilio SendGrid API
           const email = await sgMail.send(msg);
