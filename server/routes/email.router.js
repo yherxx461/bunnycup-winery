@@ -25,6 +25,7 @@ router.post('/', async (req, res) => {
                  <p>Total cost before discount__ $${req.body.cost}</p>
                  <p>Discount percentage__ ${req.body.discount}%</p>
                  <p>Discounted price__ $${discountedPrice}</p>
+                 <p>Payment type__ ${req.body.payment_type}</p>
                  <p>Wine quantities ordered:</p>
                  <ul>
                     ${orderedWines}

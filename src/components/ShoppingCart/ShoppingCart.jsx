@@ -94,6 +94,7 @@ function ShoppingCart() {
         date: new Date().toLocaleDateString(),
         cost: totalPrice,
         discount: clientInfo.discount,
+        payment_type: clientInfo.payment_type,
         wines: cart.map((item) => ({
           sku: item.wine_sku,
           quantity: quantities[item.wine_sku] || item.number_bottles,
