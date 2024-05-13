@@ -103,7 +103,7 @@ function ShoppingCart() {
       }
     })
     // navigate to the order summary page
-    //history.push(`/orderSummary/${orderId}`);
+    history.push(`/orderSummary/${orderId}`);
 
     // Clears cart
     dispatch({ type: 'CLEAR_CART' });
