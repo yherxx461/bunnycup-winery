@@ -12,6 +12,7 @@ import TextField from "@mui/material/TextField";
 function RegisterForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [retailer, setRetailer] = useState("");
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
@@ -30,6 +31,7 @@ function RegisterForm() {
       payload: {
         username: username,
         password: password,
+        phone: phone,
         name: retailer,
         street: street,
         city: city,
@@ -147,6 +149,16 @@ function RegisterForm() {
               name="discount"
               value={discount}
               onChange={(event) => setDiscount(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Phone Number"
+              type="phone"
+              name="phone"
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
             />
           </div>
           <div>

@@ -23,7 +23,8 @@ CREATE TABLE "clients"(
 	"name" VARCHAR(100) NOT NULL,
 	"email" VARCHAR(200) NOT NULL,
 	"discount" INT,
-	"payment_type" VARCHAR(30)
+	"payment_type" VARCHAR(30),
+	"phone" VARCHAR(20)
 );
 
 CREATE TABLE "client_address"(
