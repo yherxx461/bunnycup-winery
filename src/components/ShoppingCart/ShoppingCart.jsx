@@ -84,10 +84,24 @@ function ShoppingCart() {
         })),
       },
     });
-    // await dispatch({
-    //   type: 'SEND_EMAIL',
-    //   payload: {}
-    // })
+    await dispatch({
+      type: 'SEND_EMAIL',
+      payload: {
+        client_name: clientInfo.name,
+        order_id: `${new Date()
+          .toLocaleDateString()
+          .replaceAll('/', '')}${count}`,
+        date: new Date().toLocaleDateString(),
+        cost: totalPrice,
+        discount: clientInfo.discount,
+        payment_type: clientInfo.payment_type,
+        wines: cart.map((item) => ({
+          sku: item.wine_sku,
+          quantity: quantities[item.wine_sku] || item.number_bottles,
+          price: item.unit_price,
+        })),
+      }
+    })
     // navigate to the order summary page
     history.push(`/orderSummary/${orderId}`);
 
