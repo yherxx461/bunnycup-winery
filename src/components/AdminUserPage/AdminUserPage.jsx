@@ -43,6 +43,7 @@ function AdminUserPage() {
   const user = useSelector((store) => store.user);
   const clients = useSelector((store) => store.clients);
   const orders = useSelector((store) => store.orders.orders);
+  const clientOrders = useSelector((store) => {store.orders.clientOrders})
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -59,16 +60,18 @@ function AdminUserPage() {
     history.push(`/retailer-info/${id}`);
   };
 
-  const handleClickOpenOrder = (order) => {
+  const handleClickOpenOrder = async (order) => {
     console.log('clickOpenOrder:', order.id);
     const filteredClient = clients.filter((clientItem) => {
       return clientItem.name.includes(order.name);
-    })
+    });
+    console.log('Client ID: ', filteredClient)
+    dispatch({ type: "GET_ADMIN_CLIENT_ORDERS", payload: filteredClient[0].id });
     // history.push(`/adminOrderSummary/${order.id}`);
-    history.push({
+    await history.push({
       pathname: `/adminOrderSummary/${order.id}`,
-      state: filteredClient
-  });
+      state: filteredClient[0]
+    });
   };
 
   const onSubmitSearch = async (e) => {
