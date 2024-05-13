@@ -75,7 +75,11 @@ function ShoppingCart() {
           .toLocaleDateString()
           .replaceAll('/', '')}${count}`,
         date: new Date().toLocaleDateString(),
-        cost: totalPrice,
+        // cost: totalPrice,
+        cost: (
+          Number(totalPrice) -
+          Number(totalPrice) * (clientInfo.discount / 100)
+        ).toFixed(2),
         discount: clientInfo.discount,
         wines: cart.map((item) => ({
           sku: item.wine_sku,
@@ -173,14 +177,16 @@ function ShoppingCart() {
                 borderColor: '#757575',
                 color: 'white',
               },
-            }}>
+            }}
+          >
             Place Order
           </Button>
         </div>
         <Table
           sx={{ maxWidth: 1000 }}
           arial-label="simple table"
-          align="center">
+          align="center"
+        >
           <TableHead>
             <TableRow>
               <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
@@ -212,7 +218,8 @@ function ShoppingCart() {
                 <TableCell
                   colSpan={7}
                   align="center"
-                  sx={{ fontFamily: 'Montserrat' }}>
+                  sx={{ fontFamily: 'Montserrat' }}
+                >
                   Your cart is empty
                 </TableCell>
               </TableRow>
@@ -222,7 +229,8 @@ function ShoppingCart() {
                 // console.log('typeof price', typeof Number(item.unit_price)),
                 <TableRow
                   className="product-list"
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
                   <TableCell align="center" sx={{ fontFamily: 'Montserrat' }}>
                     <img
                       // filter through the wine.sku images to match inventory.sku of the inventory table
@@ -289,7 +297,8 @@ function ShoppingCart() {
                           borderColor: '#757575',
                           color: 'white',
                         },
-                      }}>
+                      }}
+                    >
                       Remove
                     </Button>
                   </TableCell>
