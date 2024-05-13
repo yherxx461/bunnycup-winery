@@ -80,29 +80,6 @@ function AdminOrderSummary() {
   //getting client details information
   const clientDetails = location.state;
   console.log('clientDetails data', clientDetails);
-
-  //address information changed so need to adjust mapping
-  const street = clientDetails && clientDetails.street;
-  const city = clientDetails && clientDetails.city;
-  const state = clientDetails && clientDetails.state;
-  const zip = clientDetails && clientDetails.zip;
-
-  //Getting Client Name
-  const clientName = clientDetails && clientDetails.name;
-  //Getting Client Email
-  const clientEmail = clientDetails && clientDetails.email;
-  //Extracting discount
-  const clientDiscount = filteredOrders[0].checkout_discount;
-  console.log('clientDiscount', clientDiscount);
-
-  // Convert discount to decimal
-  const discountPercentage = clientDiscount / 100;
-
-  // Apply discount to total cost
-  const discountedTotalCost = totalCost * (1 - discountPercentage);
-
-  console.log('clients data', client);
-  // const clientID = client && Number(client.map((clientItem) => clientItem.id));
   const clientID = user.id;
   console.log('clientID', clientID);
   const clientDetailsID = clientDetails.id;
@@ -116,6 +93,31 @@ function AdminOrderSummary() {
       dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientDetailsID });
     }
   }, [dispatch, clientID]);
+
+  //address information changed so need to adjust mapping
+  const street = clientDetails && clientDetails.street;
+  const city = clientDetails && clientDetails.city;
+  const state = clientDetails && clientDetails.state;
+  const zip = clientDetails && clientDetails.zip;
+
+  //Getting Client Name
+  const clientName = clientDetails && clientDetails.name;
+  //Getting Client Email
+  const clientEmail = clientDetails && clientDetails.email;
+  //Extracting discount
+  let clientDiscount = 0;
+  if( filteredOrders.length > 0 ) {
+    clientDiscount = filteredOrders[0].checkout_discount;
+    console.log('clientDiscount', clientDiscount);
+  };
+  // Convert discount to decimal
+  const discountPercentage = clientDiscount / 100;
+
+  // Apply discount to total cost
+  const discountedTotalCost = totalCost * (1 - discountPercentage);
+
+  console.log('clients data', client);
+  // const clientID = client && Number(client.map((clientItem) => clientItem.id));
 
   function handleCompleteOrder(orderId) {
     alert(`marking ${orderId} complete`);
