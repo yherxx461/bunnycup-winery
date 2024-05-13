@@ -50,12 +50,32 @@ function* getOrderCount(action){
     };
 }
 
+function* completeOrder(action) {
+  console.log('completeOrder saga hit', action.payload)
+  try {
+    yield axios.put('/api/complete/admin', {id: action.payload});
+  } catch (error) {
+    console.log('Error completing order:', error);
+  }
+}
+
+function* cancelOrder(action) {
+  console.log('cancelOrder saga hit', action.payload)
+  try {
+    yield axios.put('/api/cancel/admin', {id: action.payload});
+  } catch (error) {
+    console.log('Error cancelling order:', error);
+  }
+}
+
 function* orderSaga() {
     yield takeEvery('GET_ADMIN_ORDERS', getAdminOrders);
     yield takeEvery('GET_ADMIN_CLIENT_ORDERS', getAdminClientOrders);
     yield takeEvery('GET_CLIENT_ORDERS', getClientOrders);
     yield takeEvery('POST_ORDER', postOrder);
     yield takeEvery('GET_ORDER_COUNT', getOrderCount);
+    yield takeEvery('COMPLETE_ORDER', completeOrder);
+    yield takeEvery('CANCEL_ORDER', cancelOrder);
 };
 
 export default orderSaga;

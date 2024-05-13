@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import './AdminOrderSummary.css';
 import { useParams } from 'react-router-dom';
 
+// MUI Imports
+import { Button, Container } from '@mui/material';
+
 function AdminOrderSummary() {
   //dispatch hook
   const dispatch = useDispatch();
@@ -112,6 +115,18 @@ function AdminOrderSummary() {
     }
   }, [dispatch, clientID]);
 
+  function handleCompleteOrder(orderId) {
+    alert(`marking ${orderId} complete`);
+    dispatch({ type: 'COMPLETE_ORDER', payload: orderId });
+    console.log('dispatching complete_order', orderId);
+  }
+
+  function handleCancelOrder(orderId) {
+    alert(`CANCELLING ${orderId}`);
+    dispatch({ type: 'CANCEL_ORDER', payload: orderId });
+    console.log('dispatching CANCEL_ORDER', orderId);
+  }
+
   return (
     <main className="main">
       <div className="header">
@@ -165,6 +180,15 @@ function AdminOrderSummary() {
 
       <div className="total">
         <p>Total: ${discountedTotalCost.toFixed(2)}</p>
+      <Button
+      variant='contained'
+      sx={{marginRight: 1}}
+      onClick={() => handleCompleteOrder(orderId)}
+      >MARK COMPLETE</Button>
+      <Button
+      variant='contained'
+      onClick={() => handleCancelOrder(orderId)}
+      >CANCEL</Button>
       </div>
     </main>
   );

@@ -26,7 +26,6 @@ router.get('/', (req, res) => {
 
 //GET route to pull orders for specific client id. This is intended for use in client order history view
 router.get('/:id', (req, res) => {
-  console.log('Louis');
   const clientId = req.params.id;
   const clientOrderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost",
                             "orders"."checkout_discount", "status"."name", "wine_orders"."wine_sku",
@@ -47,7 +46,6 @@ router.get('/:id', (req, res) => {
 
 //***ADMIN*** GET route to pull orders for specific client id. This is intended for use in AdminRetailerView
 router.get('/admin/:id', (req, res) => {
-  console.log('Masato');
   const clientId = req.params.id;
   const clientOrderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost",  string_agg("status"."name", ',') "status",
                             "orders"."checkout_discount", "clients"."name"
@@ -176,5 +174,39 @@ router.put('/:order_id/:status_id', (req, res) => {
     .then((result) => {res.sendStatus(200)})
     .catch((error) => {res.sendStatus(500)})
 })
+
+// router.put('/:id', (req,res) => {
+//   const orderId = req.body.id;
+// console.log('In COMPLETE ORDER router', orderId)
+//   const sqlText = `UPDATE "orders" SET "status_id"=$1
+//                   WHERE "id" = $2;`;
+//   const sqlValue = [2, orderId];
+
+//   pool.query(sqlText, sqlValue)
+//   .then((dbRes) => {
+//       res.sendStatus(201)
+//     })
+//     .catch(err => {
+//       console.log('ERROR: COMPLETE ORDER', err);
+//       res.sendStatus(500)
+//     })
+// });
+
+// router.put('/:id', (req,res) => {
+//   const orderId = req.body.id;
+// console.log('In CANCEL ORDER router', orderId)
+//   const sqlText = `UPDATE "orders" SET "status_id"=$1
+//                   WHERE "id" = $2;`;
+//   const sqlValue = [3, orderId];
+
+//   pool.query(sqlText, sqlValue)
+//   .then((dbRes) => {
+//       res.sendStatus(201)
+//     })
+//     .catch(err => {
+//       console.log('ERROR: COMPLETE ORDER', err);
+//       res.sendStatus(500)
+//     })
+// });
 
 module.exports = router;
