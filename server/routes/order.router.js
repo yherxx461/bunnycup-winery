@@ -4,16 +4,15 @@ const router = express.Router();
 
 //GET route to pull ALL orders in history
 router.get('/', (req, res) => {
-  const orderQuery = `
-  SELECT "orders"."id", "orders"."date", "orders"."total_cost", string_agg("status"."name", ',') "status",
-  "orders"."checkout_discount", "clients"."name"
+  const orderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost", string_agg("status"."name", ',') "status",
+                      "orders"."checkout_discount", "clients"."name"
 
-  FROM "orders"
-  JOIN "status" ON "status"."id" = "orders"."status_id"
-  JOIN "wine_orders" ON "orders"."id" = "wine_orders"."order_id"
-  JOIN "clients" ON "orders"."client_id" = "clients"."id"
-  GROUP BY "orders"."id", "clients"."name"
-  ORDER BY "orders"."id" DESC;`;
+                      FROM "orders"
+                      JOIN "status" ON "status"."id" = "orders"."status_id"
+                      JOIN "wine_orders" ON "orders"."id" = "wine_orders"."order_id"
+                      JOIN "clients" ON "orders"."client_id" = "clients"."id"
+                      GROUP BY "orders"."id", "clients"."name"
+                      ORDER BY "orders"."id" DESC;`;
 
   pool
     .query(orderQuery)
@@ -27,6 +26,7 @@ router.get('/', (req, res) => {
 
 //GET route to pull orders for specific client id. This is intended for use in client order history view
 router.get('/:id', (req, res) => {
+  console.log('Louis');
   const clientId = req.params.id;
   const clientOrderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost",
                             "orders"."checkout_discount", "status"."name", "wine_orders"."wine_sku",
@@ -35,6 +35,30 @@ router.get('/:id', (req, res) => {
                             JOIN "wine_orders" ON "orders"."id" = "wine_orders"."order_id"
                             WHERE "orders"."client_id" = $1
                             ORDER BY "orders"."id" DESC;`;
+  pool
+    .query(clientOrderQuery, [clientId])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+    });
+});
+
+//***ADMIN*** GET route to pull orders for specific client id. This is intended for use in AdminRetailerView
+router.get('/admin/:id', (req, res) => {
+  console.log('Masato');
+  const clientId = req.params.id;
+  const clientOrderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost",  string_agg("status"."name", ',') "status",
+                            "orders"."checkout_discount", "clients"."name"
+
+                            FROM "orders"
+                            JOIN "status" ON "status"."id" = "orders"."status_id"
+                            JOIN "wine_orders" ON "orders"."id" = "wine_orders"."order_id"
+                            JOIN "clients" ON "orders"."client_id" = "clients"."id"
+                            WHERE "orders"."client_id" = $1
+                            GROUP BY "orders"."id", "clients"."name"
+                            ORDER BY "orders"."id" DESC;`
   pool
     .query(clientOrderQuery, [clientId])
     .then((result) => {

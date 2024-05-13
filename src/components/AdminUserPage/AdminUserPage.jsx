@@ -313,6 +313,29 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
+                                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    p: 0,
+                    m: 1,
+                    bgcolor: "background.paper",
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                ORDER NUMBER
+                </Typography>
+                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
+                RETAILER
+                </Typography>
+                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                ORDER TOTAL
+                </Typography>
+                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
+                VIEW
+                </Typography>
+                </Box>
                 {newOrders.map((order) => {
                     return (
                       <>
@@ -326,7 +349,7 @@ function AdminUserPage() {
                             borderRadius: 1,
                           }}
                         >
-                          <Typography sx={{ width: "40%" }}>
+                          <Typography sx={{ width: "32%" }}>
                             {order.id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
@@ -338,6 +361,7 @@ function AdminUserPage() {
                           <Button
                             variant="text"
                             sx={{
+                              width: "8%",
                               color: "#861F41",
                             }}
                             // onClick={() => handleClickOpenClient(client.id)}
@@ -380,6 +404,29 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    p: 0,
+                    m: 1,
+                    bgcolor: "background.paper",
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                ORDER NUMBER
+                </Typography>
+                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
+                RETAILER
+                </Typography>
+                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                ORDER TOTAL
+                </Typography>
+                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
+                VIEW
+                </Typography>
+                </Box>
                 {completedOrders.map((order) => {
                     return (
                       <>
@@ -394,7 +441,7 @@ function AdminUserPage() {
                               borderRadius: 1,
                             }}
                           >
-                            <Typography sx={{ width: "40%" }}>
+                            <Typography sx={{ width: "32%" }}>
                               {order.id}
                             </Typography>
                             <Typography sx={{ width: "35%" }}>
@@ -406,6 +453,7 @@ function AdminUserPage() {
                             <Button
                               variant="text"
                               sx={{
+                                width: "8%",
                                 color: "#861F41",
                               }}
                               // onClick={() => handleClickOpenClient(client.id)}
@@ -449,6 +497,29 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    p: 0,
+                    m: 1,
+                    bgcolor: "background.paper",
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                ORDER NUMBER
+                </Typography>
+                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
+                RETAILER
+                </Typography>
+                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                ORDER TOTAL
+                </Typography>
+                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
+                VIEW
+                </Typography>
+                </Box>
                 {cancelledOrders.map((order) => {
                     return (
                       <>
@@ -462,7 +533,7 @@ function AdminUserPage() {
                             borderRadius: 1,
                           }}
                         >
-                          <Typography sx={{ width: "40%" }}>
+                          <Typography sx={{ width: "32%" }}>
                             {order.id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
@@ -474,6 +545,7 @@ function AdminUserPage() {
                           <Button
                             variant="text"
                             sx={{
+                              width: "8%",
                               color: "#861F41",
                             }}
                             // onClick={() => handleClickOpenClient(client.id)}

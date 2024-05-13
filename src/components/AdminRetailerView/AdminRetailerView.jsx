@@ -47,46 +47,31 @@ function AdminRetailerView() {
   useEffect(() => {
     dispatch({ type: "FETCH_CLIENTS" });
     dispatch({ type: "FETCH_CLIENT_DETAILS_ADMIN", payload: { id } });
-    dispatch({ type: "GET_CLIENT_ORDERS", payload: id });
+    dispatch({ type: "GET_ADMIN_CLIENT_ORDERS", payload: id });
   }, []);
 
   const handleClickEditClient = (id) => {
     history.push(`/update/${id}`);
   };
 
-    // tracking counts for NEW ORDERS
-    let newOrders = [];
-    function checkNewOrders() {
-      for (let order of orders)
-        if (order.name === "Pending") {
-          newOrders.push(order);
-        }
-      return newOrders.length;
-    }
+  // FILTER for NEW ORDERS
+  let newOrders = orders.filter((orderItem) => {
+    return orderItem.status.includes("Pending")
+  });
 
-    // tracking counts for COMPLETED ORDERS
-    let completedOrders = [];
-    function checkCompletedOrders() {
-      for (let order of orders)
-        if (order.name === "Complete") {
-          completedOrders.push(order);
-        }
-      return completedOrders.length;
-    }
+  // FILTER for COMPLETED ORDERS
+  let completedOrders = orders.filter((orderItem) => {
+    return orderItem.status.includes("Complete")
+  });
 
-    // tracking counts for CANCELLED ORDERS
-    let cancelledOrders = [];
-    function checkCancelledOrders() {
-      for (let order of orders)
-        if (order.name === "Cancelled") {
-          cancelledOrders.push(order);
-        }
-      return cancelledOrders.length;
-    }
+  // FILTER for CANCELLED ORDERS
+  let cancelledOrders = orders.filter((orderItem) => {
+    return orderItem.status.includes("Cancelled")
+  });
 
   // console.log("CLIENTS", clients);
   // console.log("CLIENT DETAILS", clientDetails);
-  // console.log("CLIENT ORDERS", orders);
+  console.log("CLIENT ORDERS", orders);
 
   return (
     <Container maxWidth>
@@ -188,7 +173,7 @@ function AdminRetailerView() {
                   color="#861f41"
                   sx={{ fontWeight: "bold", width: "35%" }}
                 >
-                  {checkNewOrders()} NEW ORDERS
+                  {newOrders.length} NEW ORDERS
                 </Typography>
                 <Typography>
                 ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -201,8 +186,30 @@ function AdminRetailerView() {
                   overflowY: "scroll",
                 }}
               >
-                {orders.map((order) => {
-                  if (order.name === "Pending") {
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    p: 0,
+                    m: 1,
+                    bgcolor: "background.paper",
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                ORDER NUMBER
+                </Typography>
+                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
+                ORDER STATUS
+                </Typography>
+                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                ORDER TOTAL
+                </Typography>
+                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
+                VIEW
+                </Typography>
+                </Box>
+                {newOrders.map((order) => {
                     return (
                       <>
                         <Box
@@ -215,11 +222,11 @@ function AdminRetailerView() {
                             borderRadius: 1,
                           }}
                         >
-                          <Typography sx={{ width: "40%" }}>
+                          <Typography sx={{ width: "32%" }}>
                             {order.id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
-                            {order.name}
+                            {order.status}
                           </Typography>
                           <Typography sx={{ width: "25%" }}>
                             $ {order.total_cost}
@@ -227,6 +234,7 @@ function AdminRetailerView() {
                           <Button
                             variant="text"
                             sx={{
+                              width: "8%",
                               color: "#861F41",
                             }}
                             // onClick={() => handleClickOpenClient(client.id)}
@@ -237,7 +245,7 @@ function AdminRetailerView() {
                       </>
                     );
                   }
-                })}
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -256,7 +264,7 @@ function AdminRetailerView() {
                   color="pinot"
                   sx={{ width: "35%" }}
                 >
-                  {checkCompletedOrders()} ORDERS
+                  {completedOrders.length} ORDERS
                 </Typography>
                 <Typography>
                   ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -269,8 +277,30 @@ function AdminRetailerView() {
                   overflowY: "scroll",
                 }}
               >
-              {orders.map((order) => {
-                  if (order.name === "Complete") {
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    p: 0,
+                    m: 1,
+                    bgcolor: "background.paper",
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                ORDER NUMBER
+                </Typography>
+                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
+                ORDER STATUS
+                </Typography>
+                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                ORDER TOTAL
+                </Typography>
+                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
+                VIEW
+                </Typography>
+                </Box>
+              {completedOrders.map((order) => {
                     return (
                       <>
                         <div key={order.id}>
@@ -284,11 +314,11 @@ function AdminRetailerView() {
                               borderRadius: 1,
                             }}
                           >
-                            <Typography sx={{ width: "40%" }}>
+                            <Typography sx={{ width: "32%" }}>
                               {order.id}
                             </Typography>
                             <Typography sx={{ width: "35%" }}>
-                              {order.name}
+                              {order.status}
                             </Typography>
                             <Typography sx={{ width: "25%" }}>
                               $ {order.total_cost}
@@ -296,6 +326,7 @@ function AdminRetailerView() {
                             <Button
                               variant="text"
                               sx={{
+                                width: "8%",
                                 color: "#861F41",
                               }}
                               // onClick={() => handleClickOpenClient(client.id)}
@@ -307,7 +338,7 @@ function AdminRetailerView() {
                       </>
                     );
                   }
-                })}
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -326,7 +357,7 @@ function AdminRetailerView() {
                   color="#cccccc"
                   sx={{ width: "35%" }}
                 >
-                  {checkCancelledOrders()} ORDERS
+                  {cancelledOrders.length} ORDERS
                 </Typography>
                 <Typography color="#cccccc">
                   ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -339,8 +370,30 @@ function AdminRetailerView() {
                   overflowY: "scroll",
                 }}
               >
-                {orders.map((order) => {
-                  if (order.name === "Cancelled") {
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    p: 0,
+                    m: 1,
+                    bgcolor: "background.paper",
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                ORDER NUMBER
+                </Typography>
+                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
+                ORDER STATUS
+                </Typography>
+                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                ORDER TOTAL
+                </Typography>
+                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
+                VIEW
+                </Typography>
+                </Box>
+                {cancelledOrders.map((order) => {
                     return (
                       <>
                         <Box
@@ -353,11 +406,11 @@ function AdminRetailerView() {
                             borderRadius: 1,
                           }}
                         >
-                          <Typography sx={{ width: "40%" }}>
+                          <Typography sx={{ width: "32%" }}>
                             {order.id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
-                            {order.name}
+                            {order.status}
                           </Typography>
                           <Typography sx={{ width: "25%" }}>
                             $ {order.total_cost}
@@ -365,6 +418,7 @@ function AdminRetailerView() {
                           <Button
                             variant="text"
                             sx={{
+                              width: "8%",
                               color: "#861F41",
                             }}
                             // onClick={() => handleClickOpenClient(client.id)}
@@ -375,7 +429,7 @@ function AdminRetailerView() {
                       </>
                     );
                   }
-                })}
+                )}
               </AccordionDetails>
             </Accordion>
           </div>
