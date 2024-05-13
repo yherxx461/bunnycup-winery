@@ -282,7 +282,7 @@ function AdminUserPage() {
                 </AccordionDetails>
               )}
             </Accordion>
-            <h2>ORDERS</h2>
+            {/* <h2>ORDERS</h2> */}
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -293,7 +293,7 @@ function AdminUserPage() {
                 }}
               >
                 <Typography sx={{ width: "40%", flexShrink: 0 }}>
-                  NEW
+                  ORDERS
                 </Typography>
                 <Typography
                   color="#861f41"
@@ -391,7 +391,7 @@ function AdminUserPage() {
                   color="pinot"
                   sx={{ width: "35%" }}
                 >
-                  {completedOrders.length} ORDERS
+                  {completedOrders.length}
                 </Typography>
                 <Typography>
                   ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -484,7 +484,7 @@ function AdminUserPage() {
                   color="#cccccc"
                   sx={{ width: "35%" }}
                 >
-                  {cancelledOrders.length} ORDERS
+                  {cancelledOrders.length}
                 </Typography>
                 <Typography color="#cccccc">
                   ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}

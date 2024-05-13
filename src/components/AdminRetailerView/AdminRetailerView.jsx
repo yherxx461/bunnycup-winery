@@ -54,6 +54,11 @@ function AdminRetailerView() {
     history.push(`/update/${id}`);
   };
 
+  const handleClickOpenOrder = (id) => {
+    history.push(`/adminOrderSummary/${id}`);
+  };
+
+
   // FILTER for NEW ORDERS
   let newOrders = orders.filter((orderItem) => {
     return orderItem.status.includes("Pending")
@@ -156,7 +161,7 @@ function AdminRetailerView() {
                 }}
               ></AccordionDetails>
             </Accordion>
-            <h2>ORDERS</h2>
+            {/* <h2>ORDERS</h2> */}
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -167,7 +172,7 @@ function AdminRetailerView() {
                 }}
               >
                 <Typography sx={{ width: "40%", flexShrink: 0 }}>
-                  NEW
+                  ORDERS
                 </Typography>
                 <Typography
                   color="#861f41"
@@ -237,7 +242,7 @@ function AdminRetailerView() {
                               width: "8%",
                               color: "#861F41",
                             }}
-                            // onClick={() => handleClickOpenClient(client.id)}
+                            onClick={() => handleClickOpenOrder(order.id)}
                           >
                             VIEW
                           </Button>
@@ -264,7 +269,7 @@ function AdminRetailerView() {
                   color="pinot"
                   sx={{ width: "35%" }}
                 >
-                  {completedOrders.length} ORDERS
+                  {completedOrders.length}
                 </Typography>
                 <Typography>
                   ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -357,7 +362,7 @@ function AdminRetailerView() {
                   color="#cccccc"
                   sx={{ width: "35%" }}
                 >
-                  {cancelledOrders.length} ORDERS
+                  {cancelledOrders.length}
                 </Typography>
                 <Typography color="#cccccc">
                   ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
