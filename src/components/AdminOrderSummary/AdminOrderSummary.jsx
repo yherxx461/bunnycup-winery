@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './AdminOrderSummary.css';
 import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // MUI Imports
 import { Button, Container } from '@mui/material';
@@ -9,6 +10,7 @@ import { Button, Container } from '@mui/material';
 function AdminOrderSummary() {
   //dispatch hook
   const dispatch = useDispatch();
+  const location = useLocation();
   const orders = useSelector((store) => store.orders);
   const user = useSelector((store) => store.user);
   console.log('user data', user);
@@ -76,7 +78,7 @@ function AdminOrderSummary() {
   const client = useSelector((store) => store.clients);
   console.log('client data', client);
   //getting client details information
-  const clientDetails = useSelector((store) => store.clientDetails);
+  const clientDetails = location.state;
   console.log('clientDetails data', clientDetails);
 
   //address information changed so need to adjust mapping
@@ -90,7 +92,7 @@ function AdminOrderSummary() {
   //Getting Client Email
   const clientEmail = clientDetails && clientDetails.email;
   //Extracting discount
-  const clientDiscount = clientDetails && clientDetails.discount;
+  const clientDiscount = filteredOrders[0].checkout_discount;
   console.log('clientDiscount', clientDiscount);
 
   // Convert discount to decimal
@@ -110,7 +112,7 @@ function AdminOrderSummary() {
   useEffect(() => {
     {
       dispatch({ type: 'FETCH_CLIENTS' });
-      dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
+      //dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
       dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientDetailsID });
     }
   }, [dispatch, clientID]);
@@ -179,7 +181,7 @@ function AdminOrderSummary() {
       </div>
 
       <div className="total">
-        <p>Total: ${discountedTotalCost.toFixed(2)}</p>
+        <p>Total With Discount: ${discountedTotalCost.toFixed(2)}</p>
       <Button
       variant='contained'
       sx={{marginRight: 1}}

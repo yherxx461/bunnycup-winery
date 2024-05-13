@@ -60,11 +60,14 @@ function AdminUserPage() {
   };
 
   const handleClickOpenOrder = (order) => {
-    console.log('clickOpenOrder:', order.id)
+    console.log('clickOpenOrder:', order.id);
+    const filteredClient = clients.filter((clientItem) => {
+      return clientItem.name.includes(order.name);
+    })
     // history.push(`/adminOrderSummary/${order.id}`);
     history.push({
       pathname: `/adminOrderSummary/${order.id}`,
-      state: { key1: order}
+      state: filteredClient
   });
   };
 
@@ -311,7 +314,7 @@ function AdminUserPage() {
                   {newOrders.length} NEW ORDERS
                 </Typography>
                 <Typography>
-                  ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                  ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0).toFixed(2)}
                 </Typography>
               </AccordionSummary>
 

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -15,6 +16,7 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const login = (event) => {
     event.preventDefault();
@@ -27,6 +29,7 @@ function LoginForm() {
           password: password,
         },
       });
+      history.push('/home');
     } else {
       dispatch({ type: "LOGIN_INPUT_ERROR" });
     }
