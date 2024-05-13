@@ -1,12 +1,9 @@
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
-  Button,
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -14,9 +11,6 @@ import './LandingPage.css';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { WidthWide } from '@mui/icons-material';
-
-// CUSTOM COMPONENTS
-// import LoginForm from '../LoginForm/LoginForm';
 
 function LandingPage() {
   const history = useHistory();
@@ -39,15 +33,7 @@ function LandingPage() {
         <h1 className="product-list-title" align="center">
           Product Inventory
         </h1>
-        {/* TO-DO: Create a table with the Product List */}
-        {/* Map the Product List  */}
-        {/* Will need to make sure API get request is set up in the server side route */}
-        {/* <TableContainer
-          component={Paper}
-          align="center"
-          style={{ fontFamily: 'Montserrat' }}
-          // justifyContent="center"
-        > */}
+        <h5>* Please login to place orders.</h5>
         <Table
           sx={{ maxWidth: 1350 }}
           arial-label="simple table"
