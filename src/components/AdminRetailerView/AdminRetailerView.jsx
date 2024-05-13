@@ -55,7 +55,7 @@ function AdminRetailerView() {
   };
 
   const handleClickOpenOrder = (id) => {
-    history.push(`/adminOrderSummary/${id}`);
+    history.push({pathname: `/adminOrderSummary/${id}`, state: clientDetails});
   };
 
 

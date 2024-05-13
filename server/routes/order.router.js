@@ -47,8 +47,8 @@ router.get('/:id', (req, res) => {
 //***ADMIN*** GET route to pull orders for specific client id. This is intended for use in AdminRetailerView
 router.get('/admin/:id', (req, res) => {
   const clientId = req.params.id;
-  const clientOrderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost",  string_agg("status"."name", ',') "status",
-                            "orders"."checkout_discount", "clients"."name"
+  const clientOrderQuery = `SELECT "orders"."id", "orders"."date", "orders"."total_cost", 
+                            string_agg("status"."name", ',') "status", "orders"."checkout_discount", "clients"."name"
 
                             FROM "orders"
                             JOIN "status" ON "status"."id" = "orders"."status_id"

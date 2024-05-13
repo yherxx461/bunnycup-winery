@@ -164,7 +164,7 @@ function OrderSummary() {
       </div>
 
       <div className="total">
-        <p>Total: ${discountedTotalCost.toFixed(2)}</p>
+        <p>Total With Discount: ${discountedTotalCost.toFixed(2)}</p>
       </div>
     </main>
   );
