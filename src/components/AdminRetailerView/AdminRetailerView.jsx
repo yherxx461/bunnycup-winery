@@ -201,17 +201,11 @@ function AdminRetailerView() {
                     borderRadius: 1,
                   }}
                 >
-                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                <Typography sx={{ width: "70%", fontSize: "12px", color: "#861F41"}}>
                 ORDER NUMBER
                 </Typography>
-                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
-                ORDER STATUS
-                </Typography>
-                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                <Typography sx={{ width: "30%", fontSize: "12px", color: "#861F41"}}>
                 ORDER TOTAL
-                </Typography>
-                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
-                VIEW
                 </Typography>
                 </Box>
                 {newOrders.map((order) => {
@@ -227,19 +221,16 @@ function AdminRetailerView() {
                             borderRadius: 1,
                           }}
                         >
-                          <Typography sx={{ width: "32%" }}>
+                          <Typography sx={{ width: "70%" }}>
                             {order.id}
                           </Typography>
-                          <Typography sx={{ width: "35%" }}>
-                            {order.status}
-                          </Typography>
-                          <Typography sx={{ width: "25%" }}>
+                          <Typography sx={{ width: "20%" }}>
                             $ {order.total_cost}
                           </Typography>
                           <Button
                             variant="text"
                             sx={{
-                              width: "8%",
+                              width: "10%",
                               color: "#861F41",
                             }}
                             onClick={() => handleClickOpenOrder(order.id)}
@@ -292,17 +283,11 @@ function AdminRetailerView() {
                     borderRadius: 1,
                   }}
                 >
-                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                <Typography sx={{ width: "70%", fontSize: "12px", color: "#861F41"}}>
                 ORDER NUMBER
                 </Typography>
-                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
-                ORDER STATUS
-                </Typography>
-                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                <Typography sx={{ width: "30%", fontSize: "12px", color: "#861F41"}}>
                 ORDER TOTAL
-                </Typography>
-                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
-                VIEW
                 </Typography>
                 </Box>
               {completedOrders.map((order) => {
@@ -319,19 +304,16 @@ function AdminRetailerView() {
                               borderRadius: 1,
                             }}
                           >
-                            <Typography sx={{ width: "32%" }}>
+                            <Typography sx={{ width: "70%" }}>
                               {order.id}
                             </Typography>
-                            <Typography sx={{ width: "35%" }}>
-                              {order.status}
-                            </Typography>
-                            <Typography sx={{ width: "25%" }}>
+                            <Typography sx={{ width: "20%" }}>
                               $ {order.total_cost}
                             </Typography>
                             <Button
                               variant="text"
                               sx={{
-                                width: "8%",
+                                width: "10%",
                                 color: "#861F41",
                               }}
                               // onClick={() => handleClickOpenClient(client.id)}
@@ -385,17 +367,11 @@ function AdminRetailerView() {
                     borderRadius: 1,
                   }}
                 >
-                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                <Typography sx={{ width: "70%", fontSize: "12px", color: "#861F41"}}>
                 ORDER NUMBER
                 </Typography>
-                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
-                ORDER STATUS
-                </Typography>
-                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                <Typography sx={{ width: "30%", fontSize: "12px", color: "#861F41"}}>
                 ORDER TOTAL
-                </Typography>
-                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
-                VIEW
                 </Typography>
                 </Box>
                 {cancelledOrders.map((order) => {
@@ -411,19 +387,16 @@ function AdminRetailerView() {
                             borderRadius: 1,
                           }}
                         >
-                          <Typography sx={{ width: "32%" }}>
+                          <Typography sx={{ width: "70%" }}>
                             {order.id}
                           </Typography>
-                          <Typography sx={{ width: "35%" }}>
-                            {order.status}
-                          </Typography>
-                          <Typography sx={{ width: "25%" }}>
+                          <Typography sx={{ width: "20%" }}>
                             $ {order.total_cost}
                           </Typography>
                           <Button
                             variant="text"
                             sx={{
-                              width: "8%",
+                              width: "10%",
                               color: "#861F41",
                             }}
                             // onClick={() => handleClickOpenClient(client.id)}

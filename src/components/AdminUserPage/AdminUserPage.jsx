@@ -59,6 +59,15 @@ function AdminUserPage() {
     history.push(`/retailer-info/${id}`);
   };
 
+  const handleClickOpenOrder = (order) => {
+    console.log('clickOpenOrder:', order.id)
+    // history.push(`/adminOrderSummary/${order.id}`);
+    history.push({
+      pathname: `/adminOrderSummary/${order.id}`,
+      state: { key1: order}
+  });
+  };
+
   const onSubmitSearch = async (e) => {
     e.preventDefault();
     try {
@@ -364,7 +373,7 @@ function AdminUserPage() {
                               width: "8%",
                               color: "#861F41",
                             }}
-                            // onClick={() => handleClickOpenClient(client.id)}
+                            onClick={() => handleClickOpenOrder(order)}
                           >
                             VIEW
                           </Button>
