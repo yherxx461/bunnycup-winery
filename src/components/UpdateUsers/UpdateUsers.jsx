@@ -28,6 +28,7 @@ function UpdateUsers() {
   const user = useSelector((store) => store.user);
   const [password, setPassword] = useState(user.password);
   const [retailer, setRetailer] = useState(clientDetails.name);
+  const [phone, setPhone] = useState(clientDetails.phone);
   const [street, setStreet] = useState(clientDetails.street);
   const [city, setCity] = useState(clientDetails.city);
   const [state, setState] = useState(clientDetails.state);
@@ -61,6 +62,7 @@ function UpdateUsers() {
         zip: zip,
         discount: discount,
         payment: paymentType,
+        phone: phone
       },
     });
     Swal.fire({
@@ -169,6 +171,16 @@ function UpdateUsers() {
               name="discount"
               defaultValue={discount}
               onChange={(event) => setDiscount(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Phone Number"
+              type="phone"
+              name="phone"
+              defaultValue={phone}
+              onChange={(event) => setPhone(event.target.value)}
             />
           </div>
           <div>
