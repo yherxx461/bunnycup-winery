@@ -84,41 +84,6 @@ function AdminRetailerView() {
       return cancelledOrders.length;
     }
 
-    const orderHolder = []
-    function orderArray() {
-      for (let order of orders) {
-        orderHolder.push(order.id)
-      }
-      return orderHolder;
-    };
-    console.log('ORDER HOLDER', orderArray());
-
-    // const orderObjHolder = []
-    // function orderObjArray() {
-    //   for (let order of orders) {
-    //     orderObjHolder.push(order)
-    //   }
-    //   return orderObjHolder;
-    // };
-    // console.log('ORDER OBJ HOLDER', orderObjArray());
-    // console.log('ORDERS', orders);
-
-    // const uniqueOrders = [];
-    // function uniqueOrders() {
-    //   for (let order of orders) {
-    //     if (!order.id)
-    //   }
-    // }
-
-    const uniqueArray = orderHolder.reduce((accumulator, currentValue) => {
-      if (!accumulator.includes(currentValue)) {
-        accumulator.push(currentValue);
-      }
-      return accumulator;
-    }, []);
-    console.log('FILTERED ORDERS', uniqueArray);
-
-
   // console.log("CLIENTS", clients);
   // console.log("CLIENT DETAILS", clientDetails);
   // console.log("CLIENT ORDERS", orders);
@@ -175,15 +140,15 @@ function AdminRetailerView() {
                   paddingLeft: 3,
                   paddingRight: 3,
                   paddingTop: 3,
-                  fontFamily: "George Sans Serif",
-                  fontSize: "20px",
+                  // fontFamily: "George Sans Serif",
+                  fontSize: "18px",
                   width: 800,
                 }}
               >
                 <p>Name: {clientDetails.name}</p>
                 <p>Email Address: {clientDetails.email}</p>
                 <p>
-                  Address: {clientDetails.street} {clientDetails.city},{" "}
+                  Address: {clientDetails.street}, {clientDetails.city},{" "}
                   {clientDetails.state} {clientDetails.zip}
                 </p>
                 <p>Discount: {clientDetails.discount}%</p>

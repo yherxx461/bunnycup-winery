@@ -23,9 +23,8 @@ router.get('/', (req, res) => {
 router.get('/:id', async (req, res) => {
   const query = `SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
   JOIN "client_address" ON "clients"."id" = "client_address"."client_id" 
-  WHERE "clients"."user_id" = $1;`;
+  WHERE "clients"."id" = $1;`;
   const clientId = req.params.id;
-
   try {
     const clientResult = await pool.query(query, [clientId]);
     const clientDetails = clientResult.rows[0];
@@ -39,10 +38,9 @@ router.get('/:id', async (req, res) => {
 
 router.get('/admin/:id', async (req, res) => {
   const query = `SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
-  JOIN "client_address" ON "clients"."id" = "client_address"."client_id" 
+  JOIN "client_address" ON "clients"."id" = "client_address"."client_id"
   WHERE "clients"."id" = $1;`;
   const clientId = req.params.id;
-
   try {
     const clientResult = await pool.query(query, [clientId]);
     const clientDetails = clientResult.rows[0];
