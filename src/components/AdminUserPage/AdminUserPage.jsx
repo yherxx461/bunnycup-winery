@@ -502,7 +502,7 @@ function AdminUserPage() {
                   {cancelledOrders.length}
                 </Typography>
                 <Typography color="#cccccc">
-                  ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                  ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0).toFixed(2)}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails
