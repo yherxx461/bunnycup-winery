@@ -137,6 +137,7 @@ function AdminRetailerView() {
               >
                 <p>Name: {clientDetails.name}</p>
                 <p>Email Address: {clientDetails.email}</p>
+                <p>Phone Number: {clientDetails.phone}</p>
                 <p>
                   Address: {clientDetails.street}, {clientDetails.city},{" "}
                   {clientDetails.state} {clientDetails.zip}

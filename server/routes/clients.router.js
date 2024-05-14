@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   console.log('GET /api/clients');
   pool
     .query(
-      `SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
+      `SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "clients"."phone", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
       JOIN "client_address" ON "clients"."id" = "client_address"."client_id" ORDER BY "clients"."name";`
     )
     .then((result) => {
@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const query = `SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
+  const query = `SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "clients"."phone", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
   JOIN "client_address" ON "clients"."id" = "client_address"."client_id"
   WHERE "clients"."user_id" = $1;`;
   const clientId = req.params.id;
@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/admin/:id', async (req, res) => {
-  const query = `SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
+  const query = `SELECT "clients"."id", "clients"."name", "clients"."email", "clients"."discount", "clients"."payment_type", "clients"."phone", "client_address"."street", "client_address"."city", "client_address"."state", "client_address"."zip" FROM "clients"
   JOIN "client_address" ON "clients"."id" = "client_address"."client_id"
   WHERE "clients"."id" = $1;`;
   const clientId = req.params.id;
@@ -64,6 +64,7 @@ router.post('/register', (req, res) => {
     zip: req.body.zip,
     discount: req.body.discount,
     payment: req.body.payment,
+    phone: req.body.phone
   };
   //In the above variables, we're storing all of the client data taken in from the registration form.
   const clientText = `WITH "ins1" as (
@@ -71,11 +72,11 @@ router.post('/register', (req, res) => {
     VALUES ($1, $2, $3)
     RETURNING "id"),
     "ins2" AS (
-    INSERT INTO "clients" ("user_id", "name", "email", "discount", "payment_type")
-    SELECT "id", $4, $5, $6, $7 FROM "ins1"
+    INSERT INTO "clients" ("user_id", "name", "email", "discount", "payment_type", "phone")
+    SELECT "id", $4, $5, $6, $7, $8 FROM "ins1"
     RETURNING "id")
   INSERT INTO "client_address" ("client_id", "street", "city", "state", "zip")
-  SELECT "id", $8, $9, $10, $11 FROM "ins2";`;
+  SELECT "id", $9, $10, $11, $12 FROM "ins2";`;
   //This query will input an email and password into the user table, then use that generated ID to fill in the clients and client_address tables
 
   pool
@@ -87,6 +88,7 @@ router.post('/register', (req, res) => {
       username,
       client.discount,
       client.payment,
+      client.phone,
       client.street,
       client.city,
       client.state,

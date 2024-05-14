@@ -59,6 +59,5 @@ function* clientsSaga() {
   yield takeEvery('FETCH_CLIENT_DETAILS', fetchClientDetails);
   yield takeEvery('FETCH_CLIENT_DETAILS_ADMIN', adminFetchClientDetails);
   yield takeLatest('UPDATE', updateClient);
-  // yield takeEvery('FETCH_CLIENT_DETAILS_ADMIN', adminFetchClientDetails);
 }
 export default clientsSaga;
