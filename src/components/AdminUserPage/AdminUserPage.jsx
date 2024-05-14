@@ -43,6 +43,7 @@ function AdminUserPage() {
   const user = useSelector((store) => store.user);
   const clients = useSelector((store) => store.clients);
   const orders = useSelector((store) => store.orders.orders);
+  const clientOrders = useSelector((store) => {store.orders.clientOrders})
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -57,6 +58,20 @@ function AdminUserPage() {
 
   const handleClickOpenClient = (id) => {
     history.push(`/retailer-info/${id}`);
+  };
+
+  const handleClickOpenOrder = async (order) => {
+    console.log('clickOpenOrder:', order.id);
+    const filteredClient = clients.filter((clientItem) => {
+      return clientItem.name.includes(order.name);
+    });
+    console.log('Client ID: ', filteredClient)
+    dispatch({ type: "GET_ADMIN_CLIENT_ORDERS", payload: filteredClient[0].id });
+    // history.push(`/adminOrderSummary/${order.id}`);
+    await history.push({
+      pathname: `/adminOrderSummary/${order.id}`,
+      state: filteredClient[0]
+    });
   };
 
   const onSubmitSearch = async (e) => {
@@ -282,7 +297,7 @@ function AdminUserPage() {
                 </AccordionDetails>
               )}
             </Accordion>
-            <h2>ORDERS</h2>
+            {/* <h2>ORDERS</h2> */}
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -293,7 +308,7 @@ function AdminUserPage() {
                 }}
               >
                 <Typography sx={{ width: "40%", flexShrink: 0 }}>
-                  NEW
+                  ORDERS
                 </Typography>
                 <Typography
                   color="#861f41"
@@ -302,7 +317,7 @@ function AdminUserPage() {
                   {newOrders.length} NEW ORDERS
                 </Typography>
                 <Typography>
-                  ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                  ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0).toFixed(2)}
                 </Typography>
               </AccordionSummary>
 
@@ -313,6 +328,29 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
+                                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    p: 0,
+                    m: 1,
+                    bgcolor: "background.paper",
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                ORDER NUMBER
+                </Typography>
+                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
+                RETAILER
+                </Typography>
+                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                ORDER TOTAL
+                </Typography>
+                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
+                VIEW
+                </Typography>
+                </Box>
                 {newOrders.map((order) => {
                     return (
                       <>
@@ -326,7 +364,7 @@ function AdminUserPage() {
                             borderRadius: 1,
                           }}
                         >
-                          <Typography sx={{ width: "40%" }}>
+                          <Typography sx={{ width: "32%" }}>
                             {order.id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
@@ -338,9 +376,10 @@ function AdminUserPage() {
                           <Button
                             variant="text"
                             sx={{
+                              width: "8%",
                               color: "#861F41",
                             }}
-                            // onClick={() => handleClickOpenClient(client.id)}
+                            onClick={() => handleClickOpenOrder(order)}
                           >
                             VIEW
                           </Button>
@@ -367,10 +406,10 @@ function AdminUserPage() {
                   color="pinot"
                   sx={{ width: "35%" }}
                 >
-                  {completedOrders.length} ORDERS
+                  {completedOrders.length}
                 </Typography>
                 <Typography>
-                  ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                  ${(completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)).toFixed(2)}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails
@@ -380,6 +419,29 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    p: 0,
+                    m: 1,
+                    bgcolor: "background.paper",
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                ORDER NUMBER
+                </Typography>
+                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
+                RETAILER
+                </Typography>
+                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                ORDER TOTAL
+                </Typography>
+                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
+                VIEW
+                </Typography>
+                </Box>
                 {completedOrders.map((order) => {
                     return (
                       <>
@@ -394,7 +456,7 @@ function AdminUserPage() {
                               borderRadius: 1,
                             }}
                           >
-                            <Typography sx={{ width: "40%" }}>
+                            <Typography sx={{ width: "32%" }}>
                               {order.id}
                             </Typography>
                             <Typography sx={{ width: "35%" }}>
@@ -406,6 +468,7 @@ function AdminUserPage() {
                             <Button
                               variant="text"
                               sx={{
+                                width: "8%",
                                 color: "#861F41",
                               }}
                               // onClick={() => handleClickOpenClient(client.id)}
@@ -436,7 +499,7 @@ function AdminUserPage() {
                   color="#cccccc"
                   sx={{ width: "35%" }}
                 >
-                  {cancelledOrders.length} ORDERS
+                  {cancelledOrders.length}
                 </Typography>
                 <Typography color="#cccccc">
                   ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
@@ -449,6 +512,29 @@ function AdminUserPage() {
                   overflowY: "scroll",
                 }}
               >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    p: 0,
+                    m: 1,
+                    bgcolor: "background.paper",
+                    borderRadius: 1,
+                  }}
+                >
+                <Typography sx={{ width: "32%", fontSize: "12px", color: "#861F41"}}>
+                ORDER NUMBER
+                </Typography>
+                <Typography sx={{ width: "35%", fontSize: "12px", color: "#861F41"}}>
+                RETAILER
+                </Typography>
+                <Typography sx={{ width: "25%", fontSize: "12px", color: "#861F41"}}>
+                ORDER TOTAL
+                </Typography>
+                <Typography sx={{ width: "8%", fontSize: "12px", color: "#861F41"}}>
+                VIEW
+                </Typography>
+                </Box>
                 {cancelledOrders.map((order) => {
                     return (
                       <>
@@ -462,7 +548,7 @@ function AdminUserPage() {
                             borderRadius: 1,
                           }}
                         >
-                          <Typography sx={{ width: "40%" }}>
+                          <Typography sx={{ width: "32%" }}>
                             {order.id}
                           </Typography>
                           <Typography sx={{ width: "35%" }}>
@@ -474,6 +560,7 @@ function AdminUserPage() {
                           <Button
                             variant="text"
                             sx={{
+                              width: "8%",
                               color: "#861F41",
                             }}
                             // onClick={() => handleClickOpenClient(client.id)}

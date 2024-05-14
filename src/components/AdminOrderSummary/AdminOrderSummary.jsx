@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './OrderSummary.css';
+import './AdminOrderSummary.css';
 import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
-function OrderSummary() {
+// MUI Imports
+import { Button, Container } from '@mui/material';
+
+function AdminOrderSummary() {
   //dispatch hook
   const dispatch = useDispatch();
+  const location = useLocation();
   const orders = useSelector((store) => store.orders);
   const user = useSelector((store) => store.user);
+  const [completed, setCompleted] = useState(false);
+  const [canceled, setCanceled] = useState(false);
   console.log('user data', user);
 
   console.log('orders data', orders);
@@ -73,8 +81,21 @@ function OrderSummary() {
   const client = useSelector((store) => store.clients);
   console.log('client data', client);
   //getting client details information
-  const clientDetails = useSelector((store) => store.clientDetails);
+  const clientDetails = location.state;
   console.log('clientDetails data', clientDetails);
+  const clientID = user.id;
+  console.log('clientID', clientID);
+  const clientDetailsID = clientDetails.id;
+  console.log('clientDetailsID', clientDetailsID);
+
+  // Fetch orders on component mount
+  useEffect(() => {
+    {
+      dispatch({ type: 'FETCH_CLIENTS' });
+      //dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
+      dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientDetailsID });
+    }
+  }, [dispatch, clientID]);
 
   //address information changed so need to adjust mapping
   const street = clientDetails && clientDetails.street;
@@ -87,9 +108,11 @@ function OrderSummary() {
   //Getting Client Email
   const clientEmail = clientDetails && clientDetails.email;
   //Extracting discount
-  const clientDiscount = clientDetails && clientDetails.discount;
-  console.log('clientDiscount', clientDiscount);
-
+  let clientDiscount = 0;
+  if (filteredOrders.length > 0) {
+    clientDiscount = filteredOrders[0].checkout_discount;
+    console.log('clientDiscount', clientDiscount);
+  }
   // Convert discount to decimal
   const discountPercentage = clientDiscount / 100;
 
@@ -98,19 +121,39 @@ function OrderSummary() {
 
   console.log('clients data', client);
   // const clientID = client && Number(client.map((clientItem) => clientItem.id));
-  const clientID = user.id;
-  console.log('clientID', clientID);
-  const clientDetailsID = clientDetails.id;
-  console.log('clientDetailsID', clientDetailsID);
 
-  // Fetch orders on component mount
-  useEffect(() => {
-    {
-      dispatch({ type: 'FETCH_CLIENTS' });
-      dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: clientID } });
-      dispatch({ type: 'GET_CLIENT_ORDERS', payload: clientDetailsID });
-    }
-  }, [dispatch, clientID]);
+  function handleCompleteOrder(orderId) {
+    Swal.fire({
+      title: 'Order marked as complete',
+      icon: 'success',
+      imageUrl:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi9izBD_yP5Xbe5LaZz7fiwh4VhxFoH5VoktIie4eEhQ&s',
+      imageWidth: 200,
+      imageHeight: 200,
+      imageAlt: 'Bunnycup logo image',
+    });
+    dispatch({ type: 'COMPLETE_ORDER', payload: orderId });
+    console.log('dispatching complete_order', orderId);
+    setCompleted(true);
+    setCanceled(false);
+  }
+
+  function handleCancelOrder(orderId) {
+    Swal.fire({
+      title: 'Order canceled!',
+      icon: 'success',
+      imageUrl:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi9izBD_yP5Xbe5LaZz7fiwh4VhxFoH5VoktIie4eEhQ&s',
+      imageWidth: 200,
+      imageHeight: 200,
+      imageAlt: 'Bunnycup logo image',
+    });
+    // alert(`CANCELLING ${orderId}`);
+    dispatch({ type: 'CANCEL_ORDER', payload: orderId });
+    console.log('dispatching CANCEL_ORDER', orderId);
+    setCanceled(true);
+    setCompleted(false);
+  }
 
   return (
     <main className="main">
@@ -136,7 +179,8 @@ function OrderSummary() {
               backgroundColor: '#861f41',
               color: '#FFFFFF',
               fontWeight: '575',
-            }}>
+            }}
+          >
             {/*To Do: Table headers needed are item, description, quantity, price, amount */}
             <tr>
               <td style={{ borderBottom: '3px solid black' }}>Item</td>
@@ -165,9 +209,26 @@ function OrderSummary() {
 
       <div className="total">
         <p>Total With Discount: ${discountedTotalCost.toFixed(2)}</p>
+        <Button
+          variant="contained"
+          sx={{ marginRight: 1 }}
+          onClick={() => handleCompleteOrder(orderId)}
+          disabled={completed}
+          style={{ backgroundColor: completed ? 'gray' : 'green' }}
+        >
+          MARK COMPLETE
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => handleCancelOrder(orderId)}
+          disabled={canceled}
+          style={{ backgroundColor: canceled ? 'gray' : 'red' }}
+        >
+          CANCEL
+        </Button>
       </div>
     </main>
   );
 }
 
-export default OrderSummary;
+export default AdminOrderSummary;

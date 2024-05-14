@@ -18,6 +18,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import AdminUserPage from '../AdminUserPage/AdminUserPage';
 import ClientInfoPage from '../ClientInfoPage/ClientInfoPage';
 import AdminRetailerView from '../AdminRetailerView/AdminRetailerView';
+import AdminOrderSummary from '../AdminOrderSummary/AdminOrderSummary';
 import OrderSummary from '../OrderSummary/OrderSummary';
 import OrderHistory from '../OrderHistory/OrderHistory';
 import UpdateUsers from '../UpdateUsers/UpdateUsers';
@@ -126,6 +127,13 @@ function App() {
             exact
             path="/orderSummary/:orderId">
             <OrderSummary />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // Order Summary page
+            exact
+            path="/adminOrderSummary/:orderId">
+            <AdminOrderSummary />
           </ProtectedRoute>
 
           <ProtectedRoute

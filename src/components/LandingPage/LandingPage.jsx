@@ -1,22 +1,16 @@
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
-  Button,
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { WidthWide } from '@mui/icons-material';
-
-// CUSTOM COMPONENTS
-// import LoginForm from '../LoginForm/LoginForm';
+// import { WidthWide } from '@mui/icons-material';
 
 function LandingPage() {
   const history = useHistory();
@@ -28,6 +22,7 @@ function LandingPage() {
   }, []);
   const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
+  const user = useSelector((store) => store.user);
 
   const onLogin = (event) => {
     history.push('/login');
@@ -37,17 +32,13 @@ function LandingPage() {
     <main className="main">
       <div className="inventory-list" key={inventory.id}>
         <h1 className="product-list-title" align="center">
-          Product Inventory
+          Current Products
         </h1>
-        {/* TO-DO: Create a table with the Product List */}
-        {/* Map the Product List  */}
-        {/* Will need to make sure API get request is set up in the server side route */}
-        {/* <TableContainer
-          component={Paper}
-          align="center"
-          style={{ fontFamily: 'Montserrat' }}
-          // justifyContent="center"
-        > */}
+        <p className="note">
+          {user.id
+            ? '* Click on Products to view Product Inventory and make purchase.'
+            : '* Please login to place order.'}
+        </p>
         <Table
           sx={{ maxWidth: 1350 }}
           arial-label="simple table"
