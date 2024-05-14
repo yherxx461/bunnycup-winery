@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 // install sweetalerts
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
-import Button from "@mui/material/Button";
-import { ThemeProvider } from "@mui/material/styles";
-import { primaryTheme } from "../App/App";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import Button from '@mui/material/Button';
+import { ThemeProvider } from '@mui/material/styles';
+import { primaryTheme } from '../App/App';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 function RegisterForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [retailer, setRetailer] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zip, setZip] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [paymentType, setPaymentType] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [retailer, setRetailer] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [zip, setZip] = useState('');
+  const [discount, setDiscount] = useState('');
+  const [paymentType, setPaymentType] = useState('');
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ function RegisterForm() {
     event.preventDefault();
 
     dispatch({
-      type: "REGISTER_CLIENT",
+      type: 'REGISTER_CLIENT',
       payload: {
         username: username,
         password: password,
@@ -42,8 +42,8 @@ function RegisterForm() {
       },
     });
     Swal.fire({
-      title: "Retailer registered successfully",
-      icon: "success",
+      title: 'Retailer registered successfully',
+      icon: 'success',
     });
   }; // end registerUser
 
@@ -52,7 +52,7 @@ function RegisterForm() {
       <Box
         component="form"
         sx={{
-          "& .MuiTextField-root": { m: 1, width: "45ch" },
+          '& .MuiTextField-root': { m: 1, width: '45ch' },
         }}
         autoComplete="on"
         onSubmit={registerUser}
@@ -67,7 +67,7 @@ function RegisterForm() {
           <div>
             <TextField
               variant="outlined"
-              label="Username"
+              label="Email"
               type="username"
               name="username"
               value={username}
