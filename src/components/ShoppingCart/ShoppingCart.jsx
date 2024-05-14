@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import {
   Table,
   TableBody,
@@ -25,21 +26,6 @@ function ShoppingCart() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [quantities, setQuantities] = useState({});
 
-  // console.log('THIS IS THE ITEMS ADDED TO CART', cart);
-  // console.log('THIS IS THE CLIENT INFO', clientInfo);
-  // console.log('THIS IS THE CLIENT', client);
-
-  // useEffect(() => {
-  //   console.log(
-  //     'Cart Items:',
-  //     cart.map((item) => ({
-  //       name: item.product_name,
-  //       quantity: parseInt(item.number_bottles),
-  //       retail_price: item.unit_price.replace('$', ''),
-  //     }))
-  //   );
-  // }, [cart]);
-
   useEffect(() => {
     dispatch({ type: 'FETCH_IMAGES' });
     dispatch({ type: 'FETCH_CLIENTS' });
@@ -50,26 +36,16 @@ function ShoppingCart() {
     });
   }, []);
 
-  // useEffect(
-  //   () => {
-  //     console.log('cart data', cart);
-  //     console.log('client data:', client);
-  //     console.log('clientInfo data:', clientInfo);
-  //   },
-  //   [client],
-  //   [clientInfo]
-  // );
-
   // Place Order function
   const placeOrder = async () => {
     console.log('Placing an order:', cart, clientInfo, client);
-    let count = orderCount + 1;
-    const orderId = `${new Date()
-      .toLocaleDateString()
-      .replaceAll('/', '')}${count}`;
-    await dispatch({
-      type: 'POST_ORDER',
-      payload: {
+    try {
+      let count = orderCount + 1;
+      const orderId = `${new Date()
+        .toLocaleDateString()
+        .replaceAll('/', '')}${count}`;
+
+      const orderPayload = {
         client_id: clientInfo.id,
         order_id: `${new Date()
           .toLocaleDateString()
@@ -86,29 +62,51 @@ function ShoppingCart() {
           quantity: quantities[item.wine_sku] || item.number_bottles,
           price: item.unit_price,
         })),
-      },
-    });
-    await dispatch({
-      type: 'SEND_EMAIL',
-      payload: {
-        client_name: clientInfo.name,
-        order_id: `${new Date()
-          .toLocaleDateString()
-          .replaceAll('/', '')}${count}`,
-        date: new Date().toLocaleDateString(),
-        cost: totalPrice,
-        discount: clientInfo.discount,
-        payment_type: clientInfo.payment_type,
-        wines: cart.map((item) => ({
-          sku: item.wine_sku,
-          quantity: quantities[item.wine_sku] || item.number_bottles,
-          price: item.unit_price,
-        })),
-      }
-    })
-    // navigate to the order summary page
-    history.push(`/orderSummary/${orderId}`);
-
+      };
+      // Dispatch POST_ORDER action
+      await dispatch({
+        type: 'POST_ORDER',
+        payload: orderPayload,
+      });
+      // Alert when order placed successfully
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        // timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        },
+      });
+      Toast.fire({
+        icon: 'success',
+        title: `Order placed successfully!`,
+      });
+      await dispatch({
+        type: 'SEND_EMAIL',
+        payload: {
+          client_name: clientInfo.name,
+          order_id: `${new Date()
+            .toLocaleDateString()
+            .replaceAll('/', '')}${count}`,
+          date: new Date().toLocaleDateString(),
+          cost: totalPrice,
+          discount: clientInfo.discount,
+          payment_type: clientInfo.payment_type,
+          wines: cart.map((item) => ({
+            sku: item.wine_sku,
+            quantity: quantities[item.wine_sku] || item.number_bottles,
+            price: item.unit_price,
+          })),
+        },
+      });
+      // Navigate to the Order Summary Page
+      history.push(`/orderSummary/${orderId}`);
+    } catch (error) {
+      console.error('Failed to place the order:', error);
+    }
     // Clears cart
     dispatch({ type: 'CLEAR_CART' });
   };
@@ -117,6 +115,21 @@ function ShoppingCart() {
   const handleRemoveItem = (skuToRemove) => {
     console.log('Removing item from Cart:', skuToRemove);
     dispatch({ type: 'REMOVE_ITEM_FROM_CART', payload: skuToRemove });
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      // timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+    Toast.fire({
+      icon: 'success',
+      title: `${skuToRemove} removed!`,
+    });
   };
 
   // Calculation Total Price
@@ -142,11 +155,6 @@ function ShoppingCart() {
       [sku]: quantity >= 0 ? quantity : 0,
     }));
   };
-
-  // const currentClient = client.find((item) => {
-  //   return item.user_id === user.id;
-  // });
-  // console.log('currentClient', currentClient);
 
   return (
     <main>
