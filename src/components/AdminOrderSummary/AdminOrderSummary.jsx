@@ -17,6 +17,8 @@ function AdminOrderSummary() {
   const history = useHistory();
   const orders = useSelector((store) => store.orders);
   const user = useSelector((store) => store.user);
+  const [completed, setCompleted] = useState(false);
+  const [canceled, setCanceled] = useState(false);
   // console.log('user data', user);
 
   // console.log('orders data', orders);
@@ -110,7 +112,7 @@ function AdminOrderSummary() {
   const clientEmail = clientDetails && clientDetails.email;
   //Extracting discount
   let clientDiscount = 0;
-  if( filteredOrders.length > 0 ) {
+  if (filteredOrders.length > 0) {
     clientDiscount = filteredOrders[0].checkout_discount;
     // console.log('clientDiscount', clientDiscount);
   };
@@ -130,19 +132,29 @@ function AdminOrderSummary() {
       imageUrl: bunnycup,
       imageWidth: 200,
       imageHeight: 200,
-      imageAlt: "Bunnycup logo image"
+      imageAlt: 'Bunnycup logo image',
     });
     dispatch({ type: 'COMPLETE_ORDER', payload: orderId });
-    // console.log('dispatching complete_order', orderId);
-      history.push(`/admin_user`);
+    console.log('dispatching complete_order', orderId);
+    setCompleted(true);
+    setCanceled(false);
+    history.push(`/admin_user`);
   }
 
   function handleCancelOrder(orderId) {
     Swal.fire({
-      title: "Cancelled Order",
-      icon: "error",
+      title: 'Order canceled!',
+      icon: 'success',
+      imageUrl: bunnycup,
+      imageWidth: 200,
+      imageHeight: 200,
+      imageAlt: 'Bunnycup logo image',
     });
+    // alert(`CANCELLING ${orderId}`);
     dispatch({ type: 'CANCEL_ORDER', payload: orderId });
+    console.log('dispatching CANCEL_ORDER', orderId);
+    setCanceled(true);
+    setCompleted(false);
     history.push(`/admin_user`);
   }
 
@@ -170,7 +182,8 @@ function AdminOrderSummary() {
               backgroundColor: '#861f41',
               color: '#FFFFFF',
               fontWeight: '575',
-            }}>
+            }}
+          >
             {/*To Do: Table headers needed are item, description, quantity, price, amount */}
             <tr>
               <td style={{ borderBottom: '3px solid black' }}>Item</td>
@@ -199,15 +212,23 @@ function AdminOrderSummary() {
 
       <div className="total">
         <p>Total With Discount: ${discountedTotalCost.toFixed(2)}</p>
-      <Button
-      variant='contained'
-      sx={{marginRight: 1}}
-      onClick={() => handleCompleteOrder(orderId)}
-      >MARK COMPLETE</Button>
-      <Button
-      variant='contained'
-      onClick={() => handleCancelOrder(orderId)}
-      >CANCEL</Button>
+        <Button
+          variant="contained"
+          sx={{ marginRight: 1 }}
+          onClick={() => handleCompleteOrder(orderId)}
+          disabled={completed}
+          style={{ backgroundColor: completed ? 'gray' : 'green' }}
+        >
+          MARK COMPLETE
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => handleCancelOrder(orderId)}
+          disabled={canceled}
+          style={{ backgroundColor: canceled ? 'gray' : 'red' }}
+        >
+          CANCEL
+        </Button>
       </div>
     </main>
   );
