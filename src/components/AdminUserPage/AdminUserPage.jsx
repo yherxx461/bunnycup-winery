@@ -409,7 +409,7 @@ function AdminUserPage() {
                   {completedOrders.length}
                 </Typography>
                 <Typography>
-                  ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                  ${(completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)).toFixed(2)}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails
