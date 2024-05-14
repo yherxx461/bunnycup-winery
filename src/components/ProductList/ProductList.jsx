@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import Swal from 'sweetalert2';
 import {
   Table,
   TableBody,
@@ -7,7 +7,6 @@ import {
   TableRow,
   Button,
   TextField,
-  IconButton,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -20,9 +19,6 @@ function ProductList() {
   const dispatch = useDispatch();
   const inventory = useSelector((store) => store.inventory.inventoryList);
   const imageList = useSelector((store) => store.inventory.imageList);
-  // console.log('THIS IS THE INVENTORY', inventory);
-  // console.log('THIS IS THE WINE LIST', imageList);
-
   const [quantities, setQuantities] = useState({});
 
   useEffect(() => {
@@ -34,7 +30,8 @@ function ProductList() {
   useEffect(() => {
     const initialQuantities = {};
     inventory.forEach((item) => {
-      initialQuantities[item.sku] = 12; // Default quantity set to 12
+      // Default quantity set to 12
+      initialQuantities[item.sku] = 12;
     });
     setQuantities(initialQuantities);
   }, [inventory]);
@@ -49,15 +46,8 @@ function ProductList() {
 
   // Add to Cart function
   const handleAddToCart = (item) => {
-    const quantity = quantities[item.sku]; // Retrieve quantity from state
-    // console.log(
-    //   'adding item to cart',
-    //   item.image,
-    //   item.name,
-    //   item.sku,
-    //   item.retail_price,
-    //   quantity
-    // );
+    //Retrieve quantity from state
+    const quantity = quantities[item.sku];
 
     // Find corresponding image URL from imageList
     const image = imageList.find(
@@ -77,6 +67,16 @@ function ProductList() {
     dispatch({
       type: 'ADD_TO_CART',
       payload: orderData,
+    });
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: `${item.name} added to cart!`,
+      showConfirmButton: false,
+      width: '400px',
+      height: '100px',
+      font: '12px',
+      timer: 1500,
     });
   };
 
