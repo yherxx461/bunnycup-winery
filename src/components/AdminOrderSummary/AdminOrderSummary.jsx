@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import './AdminOrderSummary.css';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import bunnycup from "/images/bunnycup.png";
 
 // MUI Imports
 import { Button, Container } from '@mui/material';
@@ -12,31 +14,32 @@ function AdminOrderSummary() {
   //dispatch hook
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
   const orders = useSelector((store) => store.orders);
   const user = useSelector((store) => store.user);
   const [completed, setCompleted] = useState(false);
   const [canceled, setCanceled] = useState(false);
-  console.log('user data', user);
+  // console.log('user data', user);
 
-  console.log('orders data', orders);
+  // console.log('orders data', orders);
   if (!orders.clientOrders) {
     // If clientOrders is not available yet, return a loading message
     return <div>Loading...</div>;
   }
   //setting up clientOrders data
   const clientOrders = orders.clientOrders;
-  console.log('clientOrders', clientOrders);
+  // console.log('clientOrders', clientOrders);
   //getting orderId from URL
   const { orderId } = useParams();
   // const orderId = 11223;
-  console.log('orderId', orderId);
+  // console.log('orderId', orderId);
   // Filter clientOrders based on the orderId
   const filteredOrders = clientOrders.filter(
     (order) => Number(order.id) === Number(orderId)
   );
-  console.log('filteredOrders', filteredOrders);
+  // console.log('filteredOrders', filteredOrders);
   //Extracting Date from clientOrders
-  console.log('client order first array', clientOrders[0]);
+  // console.log('client order first array', clientOrders[0]);
 
   let orderIdentification = null;
   let orderDate = null;
@@ -46,8 +49,8 @@ function AdminOrderSummary() {
     const options = { month: 'long', day: '2-digit', year: 'numeric' };
     orderDate = new Date(firstOrder.date).toLocaleDateString('en-US', options);
   }
-  console.log('Order Date:', orderDate);
-  console.log('order Identification for first array', orderIdentification);
+  // console.log('Order Date:', orderDate);
+  // console.log('order Identification for first array', orderIdentification);
 
   //making a customized order number
   // let orderNumber = null;
@@ -76,17 +79,17 @@ function AdminOrderSummary() {
         0
       )
     : 0;
-  console.log('total cost', totalCost);
+  // console.log('total cost', totalCost);
 
   const client = useSelector((store) => store.clients);
-  console.log('client data', client);
+  // console.log('client data', client);
   //getting client details information
   const clientDetails = location.state;
-  console.log('clientDetails data', clientDetails);
+  // console.log('clientDetails data', clientDetails);
   const clientID = user.id;
-  console.log('clientID', clientID);
+  // console.log('clientID', clientID);
   const clientDetailsID = clientDetails.id;
-  console.log('clientDetailsID', clientDetailsID);
+  // console.log('clientDetailsID', clientDetailsID);
 
   // Fetch orders on component mount
   useEffect(() => {
@@ -111,23 +114,22 @@ function AdminOrderSummary() {
   let clientDiscount = 0;
   if (filteredOrders.length > 0) {
     clientDiscount = filteredOrders[0].checkout_discount;
-    console.log('clientDiscount', clientDiscount);
-  }
+    // console.log('clientDiscount', clientDiscount);
+  };
   // Convert discount to decimal
   const discountPercentage = clientDiscount / 100;
 
   // Apply discount to total cost
   const discountedTotalCost = totalCost * (1 - discountPercentage);
 
-  console.log('clients data', client);
+  // console.log('clients data', client);
   // const clientID = client && Number(client.map((clientItem) => clientItem.id));
 
   function handleCompleteOrder(orderId) {
     Swal.fire({
-      title: 'Order marked as complete',
-      icon: 'success',
-      imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi9izBD_yP5Xbe5LaZz7fiwh4VhxFoH5VoktIie4eEhQ&s',
+      title: "Order marked as Complete",
+      icon: "success",
+      imageUrl: bunnycup,
       imageWidth: 200,
       imageHeight: 200,
       imageAlt: 'Bunnycup logo image',
@@ -136,14 +138,14 @@ function AdminOrderSummary() {
     console.log('dispatching complete_order', orderId);
     setCompleted(true);
     setCanceled(false);
+    history.push(`/admin_user`);
   }
 
   function handleCancelOrder(orderId) {
     Swal.fire({
       title: 'Order canceled!',
       icon: 'success',
-      imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi9izBD_yP5Xbe5LaZz7fiwh4VhxFoH5VoktIie4eEhQ&s',
+      imageUrl: bunnycup,
       imageWidth: 200,
       imageHeight: 200,
       imageAlt: 'Bunnycup logo image',
@@ -153,6 +155,7 @@ function AdminOrderSummary() {
     console.log('dispatching CANCEL_ORDER', orderId);
     setCanceled(true);
     setCompleted(false);
+    history.push(`/admin_user`);
   }
 
   return (
