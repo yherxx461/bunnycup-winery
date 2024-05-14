@@ -69,15 +69,20 @@ function ShoppingCart() {
         payload: orderPayload,
       });
       // Alert when order placed successfully
-      Swal.fire({
+      const Toast = Swal.mixin({
+        toast: true,
         position: 'top-end',
-        icon: 'success',
-        title: `Order placed!`,
         showConfirmButton: false,
-        width: '400px',
-        height: '100px',
-        font: '12px',
-        timer: 1500,
+        timer: 3000,
+        // timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        },
+      });
+      Toast.fire({
+        icon: 'success',
+        title: `Order placed successfully!`,
       });
       await dispatch({
         type: 'SEND_EMAIL',
@@ -110,15 +115,20 @@ function ShoppingCart() {
   const handleRemoveItem = (skuToRemove) => {
     console.log('Removing item from Cart:', skuToRemove);
     dispatch({ type: 'REMOVE_ITEM_FROM_CART', payload: skuToRemove });
-    Swal.fire({
+    const Toast = Swal.mixin({
+      toast: true,
       position: 'top-end',
-      icon: 'success',
-      title: `${skuToRemove} has been removed!`,
       showConfirmButton: false,
-      width: '400px',
-      height: '100px',
-      font: '12px',
-      timer: 1500,
+      timer: 2000,
+      // timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+    Toast.fire({
+      icon: 'success',
+      title: `${skuToRemove} removed!`,
     });
   };
 

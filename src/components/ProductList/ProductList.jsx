@@ -68,15 +68,20 @@ function ProductList() {
       type: 'ADD_TO_CART',
       payload: orderData,
     });
-    Swal.fire({
+    const Toast = Swal.mixin({
+      toast: true,
       position: 'top-end',
-      icon: 'success',
-      title: `${item.name} added to cart!`,
       showConfirmButton: false,
-      width: '400px',
-      height: '100px',
-      font: '12px',
-      timer: 1500,
+      timer: 2000,
+      // timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+    Toast.fire({
+      icon: 'success',
+      title: `${item.sku} added to cart!`,
     });
   };
 
