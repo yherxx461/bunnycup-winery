@@ -84,9 +84,11 @@ main {
   font-family: 'Montserrat', 'Helvetica', 'Arial', 'sans-serif';
 }
 
-h5 {
+.note {
+  display: block;
   position: absolute;
   top: 10%;
-  right: 10%;
+  right: 5%;
   text-align: left;
+  font-size: smaller;
 }
