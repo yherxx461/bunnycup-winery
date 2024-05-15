@@ -181,23 +181,21 @@ function Nav() {
           <h4 className="nav-title">Bunnycup Winery</h4>
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
-        {user.id && (
-          <Typography>
-            <IconButton
-              className="cart"
-              component={Link}
-              sx={{
-                textDecoration: 'none',
-                color: '#ffffff',
-                position: 'absolute',
-                right: '80px',
-                top: '23px',
-                fontSize: 'x-large',
-              }}
-            >
-              <ShoppingCartIconPage />
-            </IconButton>
-          </Typography>
+        {user.id && user.access_level !== 10 && (
+          <IconButton
+            className="cart"
+            component={Link}
+            sx={{
+              textDecoration: 'none',
+              color: '#ffffff',
+              position: 'absolute',
+              right: '80px',
+              top: '23px',
+              fontSize: 'x-large',
+            }}
+          >
+            <ShoppingCartIconPage />
+          </IconButton>
         )}
         <Drawer open={open} anchor="right" onClose={toggleDrawer(false)}>
           {DrawerList}
