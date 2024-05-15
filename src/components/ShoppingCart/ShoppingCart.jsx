@@ -261,8 +261,8 @@ function ShoppingCart() {
                     <img
                       // filter through the wine.sku images to match inventory.sku of the inventory table
                       src={
-                        imageList.filter((item) => {
-                          return item.sku === item.sku;
+                        imageList.filter((imageItem) => {
+                          return imageItem.sku === item.wine_sku;
                         })[0]?.image
                       }
                       alt={item.name}
