@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import './AdminOrderSummary.css';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import bunnycup from "/images/bunnycup.png";
+import bunnycup from '/images/bunnycup.png';
 
 // MUI Imports
 import { Button, Container } from '@mui/material';
@@ -115,7 +115,7 @@ function AdminOrderSummary() {
   if (filteredOrders.length > 0) {
     clientDiscount = filteredOrders[0].checkout_discount;
     // console.log('clientDiscount', clientDiscount);
-  };
+  }
   // Convert discount to decimal
   const discountPercentage = clientDiscount / 100;
 
@@ -127,15 +127,15 @@ function AdminOrderSummary() {
 
   function handleCompleteOrder(orderId) {
     Swal.fire({
-      title: "Order marked as Complete",
-      icon: "success",
+      title: 'Order marked as Complete',
+      icon: 'success',
       imageUrl: bunnycup,
       imageWidth: 200,
       imageHeight: 200,
       imageAlt: 'Bunnycup logo image',
     });
     dispatch({ type: 'COMPLETE_ORDER', payload: orderId });
-    console.log('dispatching complete_order', orderId);
+    // console.log('dispatching complete_order', orderId);
     setCompleted(true);
     setCanceled(false);
     history.push(`/admin_user`);
@@ -152,7 +152,7 @@ function AdminOrderSummary() {
     });
     // alert(`CANCELLING ${orderId}`);
     dispatch({ type: 'CANCEL_ORDER', payload: orderId });
-    console.log('dispatching CANCEL_ORDER', orderId);
+    // console.log('dispatching CANCEL_ORDER', orderId);
     setCanceled(true);
     setCompleted(false);
     history.push(`/admin_user`);

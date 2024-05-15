@@ -44,3 +44,7 @@
   display: flex;
   justify-content: center;
 }
+
+.order-history-title {
+  font-family: 'Montserrat';
+}

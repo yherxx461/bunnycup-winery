@@ -38,7 +38,7 @@ function ShoppingCart() {
 
   // Place Order function
   const placeOrder = async () => {
-    console.log('Placing an order:', cart, clientInfo, client);
+    // console.log('Placing an order:', cart, clientInfo, client);
     try {
       let count = orderCount + 1;
       const orderId = `${new Date()
@@ -105,7 +105,7 @@ function ShoppingCart() {
       // Navigate to the Order Summary Page
       history.push(`/orderSummary/${orderId}`);
     } catch (error) {
-      console.error('Failed to place the order:', error);
+      // console.error('Failed to place the order:', error);
     }
     // Clears cart
     dispatch({ type: 'CLEAR_CART' });
@@ -113,7 +113,7 @@ function ShoppingCart() {
 
   // Remove Item from Cart
   const handleRemoveItem = (skuToRemove) => {
-    console.log('Removing item from Cart:', skuToRemove);
+    // console.log('Removing item from Cart:', skuToRemove);
     dispatch({ type: 'REMOVE_ITEM_FROM_CART', payload: skuToRemove });
     const Toast = Swal.mixin({
       toast: true,
@@ -138,7 +138,7 @@ function ShoppingCart() {
       return acc + item.unit_price * item.number_bottles;
     }, 0);
     setTotalPrice(totalPrice);
-    console.log('totalPrice', totalPrice);
+    // console.log('totalPrice', totalPrice);
   }, [cart]);
 
   // Update quantity in the local state
@@ -237,7 +237,7 @@ function ShoppingCart() {
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody key={cart}>
             {/* Conditional rendering: If there's no items in the cart, show the 'Your cart is empty' message */}
             {cart.length === 0 ? (
               <TableRow>
