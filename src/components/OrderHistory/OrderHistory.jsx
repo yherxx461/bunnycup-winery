@@ -17,31 +17,31 @@ function OrderHistory() {
   const user = useSelector((store) => store.user);
   // Getting client details information
   const clientDetails = useSelector((store) => store.clientDetails);
-  console.log('clientDetails data', clientDetails);
-  console.log('orders data', orders);
+  // console.log('clientDetails data', clientDetails);
+  // console.log('orders data', orders);
   // Setting up clientOrders data
   const clientOrders = orders.clientOrders;
-  console.log('clientOrders', clientOrders);
+  // console.log('clientOrders', clientOrders);
   const clientID = clientDetails.id;
-  console.log('clientID', clientID);
+  // console.log('clientID', clientID);
   // Getting Client Name
   const clientName = clientDetails && clientDetails.name;
-  console.log('client name', clientName);
+  // console.log('client name', clientName);
   // Extracting discount
   const clientDiscount = clientDetails && clientDetails.discount;
-  console.log('clientDiscount', clientDiscount);
+  // console.log('clientDiscount', clientDiscount);
 
   // Convert discount to decimal
   const discountPercentage = clientDiscount / 100;
 
   //Functions for view and reorder button
   const viewHandle = (orderId) => {
-    console.log('In View Handle', orderId);
+    // console.log('In View Handle', orderId);
     history.push(`/orderSummary/${orderId}`);
   };
 
   const reorderHandle = (orders) => {
-    console.log('reorder data', orders);
+    // console.log('reorder data', orders);
     orders.forEach((order) => {
       dispatch({
         type: 'ADD_TO_CART',
@@ -62,7 +62,7 @@ function OrderHistory() {
     dispatch({ type: 'FETCH_CLIENTS' });
     if (user && user.id) {
       dispatch({ type: 'FETCH_CLIENT_DETAILS', payload: { id: user.id } });
-    } 
+    }
   }, [dispatch, user]);
 
   // Fetch orders on component mount
@@ -76,7 +76,7 @@ function OrderHistory() {
     <>
       <div className="header">
         <div>
-          <h1>Order History</h1>
+          <h1 className="order-history-title">Order History</h1>
         </div>
       </div>
       <main className="main">
@@ -115,7 +115,8 @@ function OrderHistory() {
                             spacing={2}
                             sx={{
                               textAlign: 'left',
-                            }}>
+                            }}
+                          >
                             <p>{clientName}</p>
                             <p>
                               Date:{' '}
@@ -136,7 +137,8 @@ function OrderHistory() {
                                 color: '#FFFFFF',
                                 fontWeight: '575',
                                 marginRight: '-50px',
-                              }}>
+                              }}
+                            >
                               View
                             </Button>
                           </Grid>
@@ -155,7 +157,8 @@ function OrderHistory() {
                                     (order) => order.id === uniqueOrder.id
                                   )
                                 )
-                              }>
+                              }
+                            >
                               Reorder
                             </Button>
                           </Grid>

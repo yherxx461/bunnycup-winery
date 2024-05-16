@@ -58,6 +58,9 @@ function AdminRetailerView() {
     history.push({pathname: `/adminOrderSummary/${id}`, state: clientDetails});
   };
 
+  function handleClickBack() {
+    history.push(`/admin_user`);
+  };
 
   // FILTER for NEW ORDERS
   let newOrders = orders.filter((orderItem) => {
@@ -76,7 +79,7 @@ function AdminRetailerView() {
 
   // console.log("CLIENTS", clients);
   // console.log("CLIENT DETAILS", clientDetails);
-  console.log("CLIENT ORDERS", orders);
+  // console.log("CLIENT ORDERS", orders);
 
   return (
     <Container maxWidth>
@@ -86,10 +89,16 @@ function AdminRetailerView() {
           <img src={bunnycup} width="150" height="150" />
         </center>
         <div className="container">
-          {/* {clients.map((client) => {
-          return (
-            <p>{client.name}</p>
-          )})} */}
+          <Stack spacing={2}>
+          <Button
+            color="pinot"
+            sx={{
+              width: "10%",
+            }}
+            onClick={() => handleClickBack()}
+            >
+              {`\< BACK`}
+          </Button>
           <div>
             <Accordion defaultExpanded>
               <AccordionSummary
@@ -182,7 +191,7 @@ function AdminRetailerView() {
                   {newOrders.length} NEW ORDERS
                 </Typography>
                 <Typography>
-                ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                ${newOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0).toFixed(2)}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails
@@ -264,7 +273,7 @@ function AdminRetailerView() {
                   {completedOrders.length}
                 </Typography>
                 <Typography>
-                  ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                  ${completedOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0).toFixed(2)}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails
@@ -348,7 +357,7 @@ function AdminRetailerView() {
                   {cancelledOrders.length}
                 </Typography>
                 <Typography color="#cccccc">
-                  ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0)}
+                  ${cancelledOrders.reduce((n, {total_cost}) => n + Number(total_cost), 0).toFixed(2)}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails
@@ -414,6 +423,7 @@ function AdminRetailerView() {
           </div>
           {/* <br/>
     <LogOutButton className="btn" /> */}
+    </Stack>
         </div>
       </ThemeProvider>
     </Container>

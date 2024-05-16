@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import LogOutButton from '../LogOutButton/LogOutButton';
 import ShoppingCartIconPage from '../ShoppingCartIcon/ShoppingCartIcon';
 import './Nav.css';
 import { useDispatch, useSelector } from 'react-redux';
-//npm install @fontsource/special-elite required
 import '@fontsource/special-elite';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -12,13 +10,11 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import Divider from '@mui/material/Divider';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import Typography from '@mui/material/Typography';
-import bunnycup from "/images/bunnycup.png";
+import { IconButton } from '@mui/material';
+import bunnycup from '/images/bunnycup.png';
 
 function Nav() {
   const user = useSelector((store) => store.user);
@@ -47,17 +43,19 @@ function Nav() {
         <>
           <ListItem disablePadding>
             <ListItemButton>
-            <Typography component={Link} to="/admin_user" sx={{ textDecoration: 'none', color: 'black'}}>
-              <ListItemText>HOME</ListItemText>
-            </Typography>
+              <Typography
+                component={Link}
+                to="/admin_user"
+                sx={{ textDecoration: 'none', color: 'black' }}
+              >
+                <ListItemText>HOME</ListItemText>
+              </Typography>
             </ListItemButton>
           </ListItem>
 
           <ListItem disablePadding>
             <ListItemButton onClick={() => dispatch({ type: 'LOGOUT' })}>
-              <Typography>
-                LOGOUT
-              </Typography>
+              <Typography>LOGOUT</Typography>
             </ListItemButton>
           </ListItem>
         </>
@@ -68,15 +66,11 @@ function Nav() {
         <>
           <ListItem disablePadding>
             <ListItemButton>
-              <Typography component={Link} sx={{ textDecoration: 'none', color: 'black'}}>
-                <ShoppingCartIconPage sx={{ textDecoration: 'none', color: 'black'}}/>
-              </Typography>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton>
-              <Typography component={Link} to="/products" sx={{ textDecoration: 'none', color: 'black'}}>
+              <Typography
+                component={Link}
+                to="/products"
+                sx={{ textDecoration: 'none', color: 'black' }}
+              >
                 <ListItemText>PRODUCTS</ListItemText>
               </Typography>
             </ListItemButton>
@@ -84,7 +78,11 @@ function Nav() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <Typography component={Link} to={`/orderSummary/${defaultOrderId}`} sx={{ textDecoration: 'none', color: 'black'}}>
+              <Typography
+                component={Link}
+                to={`/orderSummary/${defaultOrderId}`}
+                sx={{ textDecoration: 'none', color: 'black' }}
+              >
                 <ListItemText>ORDER SUMMARY</ListItemText>
               </Typography>
             </ListItemButton>
@@ -92,18 +90,19 @@ function Nav() {
 
           <ListItem disablePadding>
             <ListItemButton>
-              <Typography component={Link} to="/orderHistory" sx={{ textDecoration: 'none', color: 'black'}}>
+              <Typography
+                component={Link}
+                to="/orderHistory"
+                sx={{ textDecoration: 'none', color: 'black' }}
+              >
                 <ListItemText>ORDER HISTORY</ListItemText>
               </Typography>
             </ListItemButton>
           </ListItem>
 
-
           <ListItem disablePadding>
             <ListItemButton onClick={() => dispatch({ type: 'LOGOUT' })}>
-              <Typography>
-                LOGOUT
-              </Typography>
+              <Typography>LOGOUT</Typography>
             </ListItemButton>
           </ListItem>
         </>
@@ -113,15 +112,23 @@ function Nav() {
         <>
           <ListItem disablePadding>
             <ListItemButton>
-            <Typography component={Link} to="/home" sx={{ textDecoration: 'none', color: 'black'}}>
-              <ListItemText>HOME</ListItemText>
-            </Typography>
+              <Typography
+                component={Link}
+                to="/home"
+                sx={{ textDecoration: 'none', color: 'black' }}
+              >
+                <ListItemText>HOME</ListItemText>
+              </Typography>
             </ListItemButton>
           </ListItem>
 
           <ListItem disablePadding>
             <ListItemButton>
-              <Typography component={Link} to="/login" sx={{ textDecoration: 'none', color: 'black'}}>
+              <Typography
+                component={Link}
+                to="/login"
+                sx={{ textDecoration: 'none', color: 'black' }}
+              >
                 <ListItemText>LOG IN</ListItemText>
               </Typography>
             </ListItemButton>
@@ -140,15 +147,18 @@ function Nav() {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-          <ListItem >
-            <img src={bunnycup} width="100" height="100" alt="Bunnycup Winery Logo"/>
-          </ListItem>
+        <ListItem>
+          <img
+            src={bunnycup}
+            width="100"
+            height="100"
+            alt="Bunnycup Winery Logo"
+          />
+        </ListItem>
       </List>
       <Divider />
       <List>
-        <div>
-          {userType()}
-        </div>
+        <div>{userType()}</div>
       </List>
     </Box>
   );
@@ -156,13 +166,40 @@ function Nav() {
   return (
     <div className="nav">
       <div>
-        <MenuRoundedIcon onClick={toggleDrawer(true)} sx={{color: 'white', p: '25px', position: 'absolute', right: '10px'}} display='block' fontSize='large'/>
-          <Typography>
-            <h4 className='nav-title'>Bunnycup Winery</h4>
-          </Typography>
-          <Drawer open={open} anchor='right' onClose={toggleDrawer(false)}>
-            {DrawerList}
-          </Drawer>
+        <MenuRoundedIcon
+          onClick={toggleDrawer(true)}
+          sx={{
+            color: '#ffffff',
+            p: '25px',
+            position: 'absolute',
+            right: '10px',
+          }}
+          display="block"
+          fontSize="large"
+        />
+        <Typography>
+          <h4 className="nav-title">Bunnycup Winery</h4>
+        </Typography>
+        <Box sx={{ flexGrow: 1 }} />
+        {user.id && user.access_level !== 10 && (
+          <IconButton
+            className="cart"
+            component={Link}
+            sx={{
+              textDecoration: 'none',
+              color: '#ffffff',
+              position: 'absolute',
+              right: '80px',
+              top: '23px',
+              fontSize: 'x-large',
+            }}
+          >
+            <ShoppingCartIconPage />
+          </IconButton>
+        )}
+        <Drawer open={open} anchor="right" onClose={toggleDrawer(false)}>
+          {DrawerList}
+        </Drawer>
       </div>
     </div>
   );

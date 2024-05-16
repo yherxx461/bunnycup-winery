@@ -9,7 +9,7 @@ import { primaryTheme } from "../App/App";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function UpdateUsers() {
@@ -90,12 +90,11 @@ function UpdateUsers() {
           <Button
           color="pinot"
           sx={{
-            marginLeft: 1,
-            marginRight: "auto",
+            width: "10%",
           }}
           onClick={() => handleClickOpenClient(clientDetails.id)}
           >
-            BACK
+            {'\< BACK'}
           </Button>
           <div>
             <TextField
