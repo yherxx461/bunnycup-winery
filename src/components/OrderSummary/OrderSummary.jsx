@@ -86,6 +86,8 @@ function OrderSummary() {
   const clientName = clientDetails && clientDetails.name;
   //Getting Client Email
   const clientEmail = clientDetails && clientDetails.email;
+  //Getting Client Phone Number
+  const clientPhone = clientDetails && clientDetails.phone;
   //Extracting discount
   const clientDiscount = clientDetails && clientDetails.discount;
   console.log('clientDiscount', clientDiscount);
@@ -125,6 +127,7 @@ function OrderSummary() {
         {street} <br />
         {city}, {state}, {zip} <br />
         {clientEmail} <br />
+        {clientPhone} <br />
       </div>
 
       {/*To Do: set up Table with MUI */}
@@ -136,7 +139,8 @@ function OrderSummary() {
               backgroundColor: '#861f41',
               color: '#FFFFFF',
               fontWeight: '575',
-            }}>
+            }}
+          >
             {/*To Do: Table headers needed are item, description, quantity, price, amount */}
             <tr>
               <td style={{ borderBottom: '3px solid black' }}>Item</td>
